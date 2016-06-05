@@ -37,11 +37,11 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <Navigator 
+      <Navigator
         style={styles.container}
-        initialRoute={{name: 'eventShow'}}
+        initialRoute={{name: 'signin'}}
         renderScene={this.renderScene}
-        configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } } 
+        configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
         />
     );
   }
@@ -65,5 +65,3 @@ var styles = StyleSheet.create({
 // HorizontalSwipeJumpFromRight
 // VerticalUpSwipeJump
 // VerticalDownSwipeJump
-
-
