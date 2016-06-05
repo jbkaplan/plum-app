@@ -41,7 +41,7 @@ module.exports = React.createClass({
   },
   onPress: function() {
     // Rails api call to check user/password
-    this.props.navigator.immediatelyResetRouteStack([{name: 'groups'}]);
+    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   }
 });
 
