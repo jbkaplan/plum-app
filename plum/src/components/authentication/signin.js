@@ -15,18 +15,18 @@ module.exports = React.createClass({
     return (
       <View style={styles.container}>
         <Text>Sign In</Text>
-        
+
         <Text style={styles.label}>Username:</Text>
-        <TextInput 
+        <TextInput
           style={styles.input}
           value={this.state.username}
           onChangeText={(text) => this.setState({username: text})}
           />
-        
+
         <Text style={styles.label}>Password:</Text>
-        <TextInput 
-          secureTextEntry={true} 
-          style={styles.input} 
+        <TextInput
+          secureTextEntry={true}
+          style={styles.input}
           value={this.state.password}
           onChangeText={(text) => this.setState({password: text})}
           />
@@ -41,7 +41,7 @@ module.exports = React.createClass({
   },
   onPress: function() {
     // Rails api call to check user/password
-    this.props.navigator.immediatelyResetRouteStack([{name: 'groups'}]);
+    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   }
 });
 

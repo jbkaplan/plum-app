@@ -36,10 +36,23 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <View style={styles.container}>
-        <Text>New Group:</Text>
+      <View style={[styles.container, this.border('red')]}>
 
-        <View style={styles.inputs}>
+        <Text style={[styles.header , this.border('blue')]}>Create a Group</Text>
+
+        <View style={this.border('blue')}>
+          <Text style={styles.label}>Group Name:</Text>
+          <TextInput style={styles.groupNameInput} />
+
+          <TouchableHighlight
+          underlayColor='#6AAAA0'
+          onPress={this.onNewGroupNamePress}
+          style={styles.addNameButton}>
+            <Text>+</Text>
+          </TouchableHighlight>
+        </View>
+
+        <View style={[styles.inputs, this.border('blue')]}>
           <Text>Members:</Text>
           <AutoComplete
               onTyping={this.onTyping}
@@ -65,20 +78,25 @@ module.exports = React.createClass({
               autoCompleteBoldFontName='Helvetica Bold'
               autoCompleteTableCellTextColor={'black'}
           />
-          <TouchableHighlight 
+
+          <TouchableHighlight
             underlayColor='#6AAAA0'
-            onPress={this.onNewGroupPress}
-            style={styles.addNameButton}
-            >
+            style={styles.addNameButton}>
             <Text>+</Text>
           </TouchableHighlight>
         </View>
 
-        <TouchableHighlight 
+        <View style={this.border('green')}>
+          <Text>
+            This is where we will show the added users
+          </Text>
+        </View>
+
+        <TouchableHighlight
           underlayColor='#6AAAA0'
-          onPress={this.onNewGroupPress}
-          >
-          <Text style={styles.createGroupButton}>Create Group</Text>
+          onPress={this.onNewGroupPress}>
+
+          <Text style={[styles.createGroupButton, this.border('blue')]}>Create Group</Text>
         </TouchableHighlight>
       </View>
     )
@@ -99,21 +117,9 @@ module.exports = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1
   },
-  button: {
-    backgroundColor: '#6AAAA0',
-    borderWidth: 2,
-    height: 50,
-    width: 50,
-    borderRadius: 50,
-    borderColor: '#619089',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  createGroupButton:{ 
+  createGroupButton:{
     fontSize: 24,
     color: 'white',
     backgroundColor: '#6AAAA0',
@@ -122,38 +128,34 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   },
   autocomplete: {
-    flex: 1,
-    width: 150,
-    height: 50,
+    width: 200,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFF',
     borderColor: 'lightblue',
     borderWidth: 1
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginBottom: 10,
-    marginTop: 50,
-  },
   inputs: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+
   },
   addNameButton: {
-    flex: 1,
     height: 50,
-    flexDirection: 'row',
     width: 50,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#6AAAA0'
+  },
+  header: {
+    paddingTop: 20,
+  },
+  groupNameInput: {
+    padding: 4,
+    height: 40,
+    width: 200,
+    margin: 5,
+    borderWidth: 1,
+    borderRadius: 5
   }
 });
-
-
-
-
