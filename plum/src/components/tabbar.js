@@ -33,23 +33,31 @@ module.exports = React.createClass({
         <TabBarIOS.Item
           title="Groups"
           selected={this.state.selectedTab == 'Groups'}
-          onPress={() => this.setState({ selectedTab: 'Groups' })}>
-          <Groups navigator={navigator} />
+          onPress={this.onTabSelect.bind(this, 'Groups')}>
+          <Groups 
+            navigator={this.props.navigator} />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Events"
           selected={this.state.selectedTab == 'Events'}
-          onPress={() => this.setState({ selectedTab: 'Events' })}>
-          <Events navigator={navigator} />
+          onPress={this.onTabSelect.bind(this, 'Events')}>
+          <Events 
+            navigator={this.props.navigator} />
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Profile"
           selected={this.state.selectedTab == 'Profile'}
-          onPress={() => this.setState({ selectedTab: 'Profile' })}>
-          <UserProfile navigator={navigator}  />
+          onPress={this.onTabSelect.bind(this, 'Profile')}>
+          <UserProfile 
+            navigator={this.props.navigator}  />
         </TabBarIOS.Item>
       </TabBarIOS>
     );
+  },
+  onTabSelect(tab: Tab) {
+    if (this.props.tab !== tab) {
+      this.props.onTabSelect(tab);
+    }
   }
 });
 

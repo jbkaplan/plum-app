@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Navigator,
   TabBarIOS,
+  TouchableHighlight,
   View
 } from 'react-native';
 
@@ -47,14 +48,10 @@ module.exports = React.createClass({
   componentWillMount: function() {
     // RAILS API CALL
   },
-  onTabSelect(tab: Tab) {
-      if (this.props.tab !== tab) {
-        this.props.onTabSelect(tab);
-      }
-    },
   renderScene: function(route, navigator) {
     var Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} />;
+    return <Component route={route} navigator={navigator}
+      />;
   },
   render: function() {
     return (
@@ -87,13 +84,22 @@ module.exports = React.createClass({
             onPress={() => this.setState({ selectedTab: 'Profile' })}>
             <Navigator
               style={styles.container}
-              initialRoute={{name: 'userProfile'}}
+              initialRoute={{name: 'userProfile', index: 0}}
               renderScene={this.renderScene}
               configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
               />
           </TabBarIOS.Item>
         </TabBarIOS>
     );
+  },
+  onProfilePress: function() {
+    this.props.navigator.immediatelyResetRouteStack([{name: 'userProfile'}]);
+  },
+  onEventsPress: function() {
+    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
+  },
+  onGroupsPress: function() {
+    this.props.navigator.immediatelyResetRouteStack([{name: 'groups'}]);
   }
 });
 
