@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TouchableHighlight } from 'react-native';
 
-var events = [
+var NewEvents = [
   {name: "trip", total: "$500"},
   {name: "trip1", total: "$500"},
   {name: "trip2", total: "$500"},
@@ -12,19 +12,20 @@ var events = [
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null
+      user: null,
+      events: [
+        {name: "trip", groupName: "a"},
+        {name: "trip1", groupName: "b"},
+        {name: "trip2", groupName: "c"},
+        {name: "trip3", groupName: "d"},
+        {name: "trip4", groupName: "e"}
+      ]
     };
   },
   componentDidMount: function(){
     // Rails API call to get current user groups
   },
-  usersEvents: function(events) {
-    return events.map(function(event, i){
-      return
-    });
-  },
   render: function() {
-
     // if (!this.state.user) {
     //   return <View style={styles.container}>
     //       <Text>Events Page...</Text>
@@ -36,7 +37,7 @@ module.exports = React.createClass({
     return (
       <View style={[styles.container, this.border('red')]}>
 
-        <View style={[styles.nav, this.border('blue')]}>
+        <View style={[styles.nav, styles.header, this.border('blue')]}>
 
           <Text style={styles.navLinks}>UserName</Text>
 
@@ -48,12 +49,12 @@ module.exports = React.createClass({
         </View>
 
         <View style={[styles.eventContainer, this.border('green')]}>
-          <View>
-            <Text>This will be a list of event components</Text>
-          </View>
+          <ScrollView>
+            {this.usersEvents()}
+            </ScrollView>
         </View>
 
-        <View style={[styles.nav, this.border('blue')]}>
+        <View style={[styles.nav, styles.footer, this.border('blue')]}>
           <TouchableHighlight
           style={styles.footerButton}
           underlayColor='#6AAAA0'
@@ -82,7 +83,29 @@ module.exports = React.createClass({
   onGroupInfoPress: function() {
   },
   onNewEventPress: function() {
+  },
+  onEventItemPress: function() {
     this.props.navigator.push({name: 'eventShow'})
+  },
+  usersEvents: function() {
+    return this.state.events.map(function(event, i){
+      return (
+        <TouchableHighlight
+        key={i}
+        style={styles.footerButton}
+        underlayColor='#6AAAA0'
+        onPress={this.onEventItemPress}>
+        <View style={[this.border('blue')]}>
+          <View style={styles.tripAttributes}>
+            <Text>Event: </Text><Text>{event.name}</Text>
+          </View>
+          <View style={styles.tripAttributes}>
+            <Text>Group: </Text><Text>{event.groupName}</Text>
+          </View>
+        </View>
+        </TouchableHighlight>
+      );
+    }.bind(this));
   }
 });
 
@@ -91,18 +114,28 @@ var styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20
   },
+  header: {
+    backgroundColor: '#6AAAA0'
+  },
   nav: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   navLinks: {
+    width: 176,
     fontSize: 24
   },
   eventContainer: {
     flex: 18
   },
+  footer: {
+    backgroundColor: '#6AAAA0'
+  },
   footerButton: {
     justifyContent: 'center'
+  },
+  tripAttributes: {
+    flexDirection: 'row'
   }
 })
