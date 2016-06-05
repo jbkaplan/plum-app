@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
 
-var events = [
+var NewEvents = [
   {name: "trip", total: "$500"},
   {name: "trip1", total: "$500"},
   {name: "trip2", total: "$500"},
@@ -12,19 +12,20 @@ var events = [
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null
+      user: null,
+      events: [
+        {name: "trip", groupName: "a"},
+        {name: "trip1", groupName: "b"},
+        {name: "trip2", groupName: "c"},
+        {name: "trip3", groupName: "d"},
+        {name: "trip4", groupName: "e"}
+      ]
     };
   },
   componentDidMount: function(){
     // Rails API call to get current user groups
   },
-  usersEvents: function(events) {
-    return events.map(function(event, i){
-      return
-    });
-  },
   render: function() {
-
     // if (!this.state.user) {
     //   return <View style={styles.container}>
     //       <Text>Events Page...</Text>
@@ -48,9 +49,7 @@ module.exports = React.createClass({
         </View>
 
         <View style={[styles.eventContainer, this.border('green')]}>
-          <View>
-            <Text>This will be a list of event components</Text>
-          </View>
+            {this.usersEvents()}
         </View>
 
         <View style={[styles.nav, this.border('blue')]}>
@@ -83,6 +82,28 @@ module.exports = React.createClass({
   },
   onNewEventPress: function() {
     this.props.navigator.push({name: 'eventShow'})
+  },
+  onEventItemPress: function() {
+  },
+  usersEvents: function() {
+    return this.state.events.map(function(event, i){
+      return (
+        <TouchableHighlight
+        key={i}
+        style={styles.footerButton}
+        underlayColor='#6AAAA0'
+        onPress={this.onEventItemPress}>
+        <View style={[this.border('blue')]}>
+          <View style={styles.tripAttributes}>
+            <Text>Event:</Text><Text>{event.name}</Text>
+          </View>
+          <View style={styles.tripAttributes}>
+            <Text>Group:</Text><Text>{event.groupName}</Text>
+          </View>
+        </View>
+        </TouchableHighlight>
+      );
+    }.bind(this));
   }
 });
 
@@ -97,6 +118,7 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   navLinks: {
+    width: 176,
     fontSize: 24
   },
   eventContainer: {
@@ -104,5 +126,8 @@ var styles = StyleSheet.create({
   },
   footerButton: {
     justifyContent: 'center'
+  },
+  tripAttributes: {
+    flexDirection: 'row'
   }
 })
