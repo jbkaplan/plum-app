@@ -21,17 +21,20 @@ module.exports = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Text>Welcome back, !</Text>
-        <Text>Your Groups:</Text>
+        <View style={[styles.name]}>
+          <Text style={styles.title}>Welcome Back, !</Text>
+          <Text style={styles.title}>Your Groups</Text>
+        </View>
           {/* Insert new groups here*/}
-
-        <TouchableHighlight 
-          underlayColor='#6AAAA0'
-          style={styles.button}
-          onPress={this.handleNewGroup}
-          >
-          <Text style={styles.addButton}>+</Text>
-        </TouchableHighlight>
+        <View style={[styles.container]}>
+          <TouchableHighlight 
+            underlayColor='#6AAAA0'
+            style={styles.button}
+            onPress={this.handleNewGroup}
+            >
+            <Text style={styles.addButton}>+</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     )
   },
@@ -66,6 +69,17 @@ var styles = StyleSheet.create({
   addButton:{ 
     fontSize: 24,
     color: 'white'
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  name: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5
   }
 });
 
