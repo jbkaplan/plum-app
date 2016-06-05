@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableHighlight, Dimensions, View } from 'react-native';
 
 var Button = require('../common/button');
+var FloatingLabel = require('react-native-floating-labels');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -11,50 +12,74 @@ module.exports = React.createClass({
       email: '',
       phone: '',
       password: '',
-      errorMessage: ''
+      errorMessage: '',
+      pressStatus: false
     };
+  },
+  _onHideUnderlay(){
+    this.setState({ pressStatus: false });
+  },
+  _onShowUnderlay(){
+    this.setState({ pressStatus: true });
   },
   render: function() {
     return (
       <View style={styles.container}>
         <View style={styles.title}>
-          <Text>You can sign up here</Text>
+          <Text style={styles.headerText}>Sign up</Text>
         </View>
         <View style={styles.items}>
-          <Text style={styles.label}>First Name:</Text>
-          <TextInput value={this.state.firstName}
+          <FloatingLabel 
+            value={this.state.firstName}
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({firstName: text})}
-            style={styles.input}
-            />
-          <Text style={styles.label}>Last Name:</Text>
-          <TextInput value={this.state.lastName}
+            >First Name</FloatingLabel>
+          <FloatingLabel 
+            value={this.state.lastName}
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({lastName: text})}
-            style={styles.input}
-            />
+            >Last Name</FloatingLabel>
         </View>
         <View style={styles.items}>
-          <Text style={styles.label}>Email:</Text>
-          <TextInput value={this.state.email}
+          <FloatingLabel 
+            value={this.state.email}
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({email: text})}
-            style={styles.input}
-            />
-          <Text style={styles.label}>Phone:</Text>
-          <TextInput value={this.state.phone}
+            >Email</FloatingLabel>
+          <FloatingLabel 
+            value={this.state.phone}
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({phone: text})}
-            style={styles.input}
-            />
+            >Phone</FloatingLabel>
         </View>
         <View style={styles.items}>
-          <Text style={styles.label}>Password:</Text>
-          <TextInput
-            secureTextEntry={true}
-            value={this.state.password}
+          <FloatingLabel 
+            password={true}
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({password: text})}
-            style={styles.input}
-            />
+            >Password</FloatingLabel>
           <Text style={styles.label}>{this.state.errorMessage}</Text>
           <Button text={'Signup'} onPress={this.onSignupPress} />  
-          <Button text={'I have an account...'} onPress={this.onSigninPress} />
+          <TouchableHighlight
+            activeOpacity={1}
+            underlayColor={'#619089'}
+            style={ this.state.pressStatus ? styles.haveAccountButtonPress : styles.haveAccountButton }
+            onHideUnderlay={this._onHideUnderlay}
+            onShowUnderlay={this._onShowUnderlay}
+            onPress={this.onSigninPress}
+            >
+            <Text style={this.state.pressStatus ? styles.haveAccountPress : styles.haveAccount}>I have an account...</Text>
+          </TouchableHighlight>
         </View>
       </View>
     )
@@ -67,6 +92,8 @@ module.exports = React.createClass({
     this.props.navigator.pop();
   }
 });
+
+var width = Dimensions.get('window').width - 80;
 
 var styles = StyleSheet.create({
   container: {
@@ -97,6 +124,70 @@ var styles = StyleSheet.create({
   items: {
     margin: 10,
     alignItems: 'stretch'
+  },
+  haveAccount: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+    color: '#6AAAA0',
+    fontSize: 14
+  },
+  haveAccountButton: {
+    backgroundColor: 'white',
+    borderColor: '#6AAAA0',
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width,
+    height: 44,
+    padding: 5,
+    marginTop: 8
+  },
+  haveAccountButtonPress: {
+    backgroundColor: 'white',
+    borderColor: '#619089',
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width,
+    height: 44,
+    padding: 5,
+    marginTop: 8
+  },
+  haveAccountPress: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+    color: 'white',
+    fontSize: 14
+  },
+  floatingInput: {
+    padding: 5,
+    height: 40,
+    borderWidth: 0,
+    width: width,
+    alignSelf: 'center',
+    color: '#619089', 
+  },
+  floatingLabelInput: {
+    color: '#619089',
+  },
+  floatingFormInput: {
+    borderBottomWidth: 1.5, 
+    borderColor: '#619089',       
+  },
+  headerText: {
+    fontSize: 24,
+    color: '#6AAAA0',
+    fontWeight: '500'
   },
 });
 

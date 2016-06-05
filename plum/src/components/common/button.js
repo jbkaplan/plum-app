@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, Dimensions } from 'react-native';
 
 module.exports = React.createClass({
   render: function() {
     return (
       <TouchableHighlight 
         style={styles.button}
-        underlayColor={'gray'}
+        underlayColor='#619089'
         onPress={this.props.onPress}
         >
         <Text style={styles.buttonText}>{this.props.text}</Text>
@@ -15,19 +15,27 @@ module.exports = React.createClass({
   }
 });
 
+var width = Dimensions.get('window').width - 80; //full width
+
 var styles = StyleSheet.create({
   button: {
+    backgroundColor: '#6AAAA0',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
+    width: width,
+    height: 44,
     padding: 5,
-    borderColor: 'black',
     marginTop: 10
   },
   buttonText: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
     flex: 1,
-    alignSelf: 'center',
-    fontSize: 20
+    color: 'white',
+    fontSize: 14
   }
 });
