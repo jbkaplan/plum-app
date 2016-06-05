@@ -38,7 +38,7 @@ module.exports = React.createClass({
     return (
       <View style={styles.container}>
         <Text>New Group:</Text>
-
+        
         <View style={styles.inputs}>
           <Text>Members:</Text>
           <AutoComplete

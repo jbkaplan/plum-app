@@ -6,14 +6,16 @@ import {
 
 var Signin = require('./components/authentication/signin');
 var Signup = require('./components/authentication/signup');
-var Groups = require('./components/groups/groups')
-var NewGroup = require('./components/groups/new')
-var Events = require('./components/events/events')
+var Groups = require('./components/groups/groups');
+var NewGroup = require('./components/groups/new');
+var Events = require('./components/events/events');
+var EventShow = require('./components/events/show');
 
 ROUTES = {
   signin: Signin,
   signup: Signup,
   events: Events,
+  eventShow: EventShow,
   // profile: Profile,
   // accountInfo: AccountInfo,
   // expenses: Expenses,
@@ -37,7 +39,7 @@ module.exports = React.createClass({
     return (
       <Navigator 
         style={styles.container}
-        initialRoute={{name: 'signin'}}
+        initialRoute={{name: 'eventShow'}}
         renderScene={this.renderScene}
         configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } } 
         />

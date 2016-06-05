@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-
 module.exports = React.createClass({
   getInitialState: function() {
     return {
@@ -12,6 +11,7 @@ module.exports = React.createClass({
     // Rails API call to get current user groups
   },
   render: function() {
+
     // if (!this.state.user) {
     //   return <View style={styles.container}>
     //       <Text>Events Page...</Text>
