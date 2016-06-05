@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, TouchableHighlight } from 'react-native';
 
 var NewEvents = [
   {name: "trip", total: "$500"},
@@ -37,7 +37,7 @@ module.exports = React.createClass({
     return (
       <View style={[styles.container, this.border('red')]}>
 
-        <View style={[styles.nav, this.border('blue')]}>
+        <View style={[styles.nav, styles.header, this.border('blue')]}>
 
           <Text style={styles.navLinks}>UserName</Text>
 
@@ -49,10 +49,12 @@ module.exports = React.createClass({
         </View>
 
         <View style={[styles.eventContainer, this.border('green')]}>
+          <ScrollView>
             {this.usersEvents()}
+            </ScrollView>
         </View>
 
-        <View style={[styles.nav, this.border('blue')]}>
+        <View style={[styles.nav, styles.footer, this.border('blue')]}>
           <TouchableHighlight
           style={styles.footerButton}
           underlayColor='#6AAAA0'
@@ -81,9 +83,9 @@ module.exports = React.createClass({
   onGroupInfoPress: function() {
   },
   onNewEventPress: function() {
-    this.props.navigator.push({name: 'eventShow'})
   },
   onEventItemPress: function() {
+    this.props.navigator.push({name: 'eventShow'})
   },
   usersEvents: function() {
     return this.state.events.map(function(event, i){
@@ -95,10 +97,10 @@ module.exports = React.createClass({
         onPress={this.onEventItemPress}>
         <View style={[this.border('blue')]}>
           <View style={styles.tripAttributes}>
-            <Text>Event:</Text><Text>{event.name}</Text>
+            <Text>Event: </Text><Text>{event.name}</Text>
           </View>
           <View style={styles.tripAttributes}>
-            <Text>Group:</Text><Text>{event.groupName}</Text>
+            <Text>Group: </Text><Text>{event.groupName}</Text>
           </View>
         </View>
         </TouchableHighlight>
@@ -112,6 +114,9 @@ var styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20
   },
+  header: {
+    backgroundColor: '#6AAAA0'
+  },
   nav: {
     flex: 1,
     flexDirection: 'row',
@@ -123,6 +128,9 @@ var styles = StyleSheet.create({
   },
   eventContainer: {
     flex: 18
+  },
+  footer: {
+    backgroundColor: '#6AAAA0'
   },
   footerButton: {
     justifyContent: 'center'
