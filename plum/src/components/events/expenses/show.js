@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -14,34 +14,19 @@ module.exports = React.createClass({
     return (
       <View style={[styles.container]}>       
         <View style={[styles.name]}>
-          <Text style={styles.title}>Event Name</Text>
-        </View>
-        <View style={[styles.expenses]}>
-          <Text>Expenses:</Text>
-          <View style={[styles.expenseItems]}>
-            <TouchableHighlight
-              underlayColor='#6AAAA0'
-              onPress={this.onExpensePress}
-              style={[styles.expenseItemButton]}
-              >
-              <Text>Item 1</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-        <View style={[styles.expenses]}>
-          <Text>Your Expenses:</Text>
-          <View style={[styles.expenseItems]}>
-            <TouchableHighlight
-              underlayColor='#6AAAA0'
-              onPress={this.onExpensePress}
-              style={[styles.expenseItemButton]}
-              >
-              <Text>Item 1</Text>
-            </TouchableHighlight>
-          </View>
+          <Text style={styles.title}>Expense</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Your Balance = $</Text>
+          <Text>Description:</Text>
+        </View>
+        <View style={[styles.container]}>
+          <Text>Location:</Text>
+        </View>
+        <View style={[styles.container]}>
+          <Text>Photo:</Text>
+        </View>
+        <View style={[styles.container]}>
+          <Text>Amount: $</Text>
         </View>
       </View>
     )
@@ -57,8 +42,6 @@ module.exports = React.createClass({
   }
 });
 
-var width = Dimensions.get('window').width - 40;
-
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,7 +56,7 @@ var styles = StyleSheet.create({
     flex: 1,
     height: 50,
     flexDirection: 'row',
-    width: width,
+    width: 300,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#6AAAA0'

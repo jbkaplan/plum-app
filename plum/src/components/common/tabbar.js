@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Navigator
+  Navigator,
+  TabBarIOS
 } from 'react-native';
 
 var Signin = require('./components/authentication/signin');
@@ -40,7 +41,23 @@ module.exports = React.createClass({
   },
   renderScene: function(route, navigator) {
     var Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} />;
+    return <TabBarIOS>
+            <TabBarIOS.Item
+              title="Groups"
+              selected={this.state.selectedTab == 'Groups'}
+              onPress={() => this.setState({ selectedTab: 'Groups' })}>
+              <Component route={'groups'} navigator={this.props.navigator} />
+            </TabBarIOS.Item>
+            <TabBarIOS.Item
+              title="Events"
+              selected={this.state.selectedTab == 'Events'}
+              onPress={() => this.setState({ selectedTab: 'Events' })}>
+              <Component 
+                route={route} 
+                navigator={this.props.navigator} 
+                />;
+            </TabBarIOS.Item>
+          </TabBarIOS>
   },
   render: function() {
     return (
@@ -51,6 +68,10 @@ module.exports = React.createClass({
         configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
         />
     );
+  },
+  onEventPress: function() {
+    // Rails api call to check user/password
+    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   }
 });
 
@@ -58,7 +79,17 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E3DABB'
-  }
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
 });
 
 // SceneConfigs Options:

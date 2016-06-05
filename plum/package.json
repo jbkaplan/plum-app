@@ -10,6 +10,8 @@
     "moment": "^2.13.0",
     "react": "15.0.2",
     "react-native": "^0.26.3",
-    "react-native-autocomplete": "^0.1.4"
+    "react-native-autocomplete": "^0.1.4",
+    "react-native-floating-labels": "^1.0.0",
+    "react-native-image-picker": "^0.18.17"
   }
 }
