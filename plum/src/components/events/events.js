@@ -39,6 +39,7 @@ module.exports = React.createClass({
         <View style={[styles.nav, this.border('blue')]}>
 
           <Text style={styles.navLinks}>UserName</Text>
+
           <TouchableHighlight
           underlayColor='#6AAAA0'
           onPress={this.onNewEventPress}>
@@ -81,6 +82,7 @@ module.exports = React.createClass({
   onGroupInfoPress: function() {
   },
   onNewEventPress: function() {
+    this.props.navigator.push({name: 'eventShow'})
   }
 });
 
