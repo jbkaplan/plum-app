@@ -51,8 +51,7 @@ module.exports = React.createClass({
   },
   renderScene: function(route, navigator) {
     var Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator}
-      />;
+    return <Component route={route} navigator={navigator} />;
   },
 
   render: function() {
@@ -65,7 +64,7 @@ module.exports = React.createClass({
             onPress={() => this.setState({ selectedTab: 'Groups' })}>
             <Navigator
               style={styles.container}
-              initialRoute={{name: 'signin'}}
+              initialRoute={{name: 'groups'}}
               renderScene={this.renderScene}
               configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
               />
