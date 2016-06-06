@@ -17,13 +17,13 @@ module.exports = React.createClass({
           <Text style={styles.title}>User's Profile</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Email:</Text>
+          <Text style={styles.label}>Email:</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Phone:</Text>
+          <Text style={styles.label}>Phone:</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>PayPal Info: $</Text>
+          <Text style={styles.label}>PayPal Info: $</Text>
         </View>
       </View>
     )
@@ -47,6 +47,8 @@ var styles = StyleSheet.create({
     padding: 5
   },
   title: {
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
     fontSize: 32,
     fontWeight: 'bold',
   },
@@ -55,6 +57,11 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     padding: 5
+  },
+  label: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'AvenirNext-Medium',
   }
 });
 

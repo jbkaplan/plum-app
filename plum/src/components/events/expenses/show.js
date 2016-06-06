@@ -17,16 +17,16 @@ module.exports = React.createClass({
           <Text style={styles.title}>Expense</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Description:</Text>
+          <Text style={styles.label}>Description:</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Location:</Text>
+          <Text style={styles.label}>Location:</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Photo:</Text>
+          <Text style={styles.label}>Photo:</Text>
         </View>
         <View style={[styles.container]}>
-          <Text>Amount: $</Text>
+          <Text style={styles.label}>Amount: $</Text>
         </View>
       </View>
     )
@@ -64,15 +64,22 @@ var styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
   },
   name: {
     flex: 1,
     justifyContent: 'center',
     alignSelf: 'center',
     padding: 5
-  }
+  },
+  label: {
+    fontSize: 16,
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    marginBottom: 10,
+  },
 });
-
 
 
 

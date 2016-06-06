@@ -17,31 +17,31 @@ module.exports = React.createClass({
           <Text style={styles.title}>Event Name</Text>
         </View>
         <View style={[styles.expenses]}>
-          <Text>Expenses:</Text>
+          <Text style={styles.label}>Expenses:</Text>
           <View style={[styles.expenseItems]}>
             <TouchableHighlight
               underlayColor='#6AAAA0'
               onPress={this.onExpensePress}
               style={[styles.expenseItemButton]}
               >
-              <Text>Item 1</Text>
+              <Text style={styles.buttonText}>Item 1</Text>
             </TouchableHighlight>
           </View>
         </View>
         <View style={[styles.expenses]}>
-          <Text>Your Expenses:</Text>
+          <Text style={styles.label}>Your Expenses:</Text>
           <View style={[styles.expenseItems]}>
             <TouchableHighlight
               underlayColor='#6AAAA0'
               onPress={this.onExpensePress}
               style={[styles.expenseItemButton]}
               >
-              <Text>Item 1</Text>
+              <Text style={styles.buttonText}>Item 1</Text>
             </TouchableHighlight>
           </View>
         </View>
         <View style={[styles.container]}>
-          <Text>Your Balance = $</Text>
+          <Text style={styles.label}>Your Balance = $</Text>
         </View>
       </View>
     )
@@ -64,7 +64,8 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    padding: 5
+    padding: 5,
+    marginBottom: 8,
   },
   expenses: {
     flex: 2
@@ -80,13 +81,25 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
     fontWeight: 'bold',
+  },  
+  label: {
+    fontSize: 16,
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
   },
   name: {
     flex: 1,
     justifyContent: 'center',
     alignSelf: 'center',
     padding: 5
+  },
+  buttonText: {
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 18,
   }
 });
 
