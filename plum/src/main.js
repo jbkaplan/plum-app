@@ -41,7 +41,7 @@ ROUTES = {
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return { 
+    return {
       selectedTab: 'Groups',
     };
   },
@@ -109,4 +109,3 @@ var styles = StyleSheet.create({
     backgroundColor: 'white'
   }
 });
-

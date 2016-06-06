@@ -16,6 +16,8 @@ module.exports = React.createClass({
       groupName: '',
       errorMessage: '',
       query: '',
+      personName: '',
+      newGroupArray: [],
       personName: ''
     };
   },
@@ -58,7 +60,8 @@ module.exports = React.createClass({
           <Text>Members:</Text>
             <View style={[styles.flowRight, this.border('red')]}>
             <AutoComplete
-                onChangeText={(text) => this.setState({personName: text})}
+                value={this.state.personName}
+                handlePersonNameChange={this.handlePersonNameChange}
                 onTyping={this.onTyping}
                 suggestions={this.state.groupMembers}
                 style={styles.autocomplete}
@@ -84,7 +87,7 @@ module.exports = React.createClass({
             />
 
             <TouchableHighlight
-              onPress={this.onPersonAdd}
+              onPress={this.onMemberAdd}
               underlayColor='#6AAAA0'
               style={styles.button}>
               <Text style={styles.buttonText}>+</Text>
@@ -94,7 +97,6 @@ module.exports = React.createClass({
 
         <View style={[styles.groupNameContainer, this.border('green')]}>
           {this.displayGroupMembers()}
-          {this.onNewGroupNamePress()}
         </View>
 
         <TouchableHighlight
@@ -113,11 +115,28 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
+  handlePersonNameChange: function(e) {
+    this.setState({personName: e.target.value});
+  },
   onNewGroupPress: function() {
     // Call to Rails API to create new group - POST AJAX
   },
   onNewGroupNamePress: function() {
     return (
+        <Text>
+          {this.state.groupName}
+        </Text>
+    )
+  },
+  onMemberAdd: function() {
+    var member = {name: "hello"};
+
+    this.setState({
+      groupMembers: this.state.newGroupArray.concat([{name: "hello"}])
+    });
+  },
+  displayGroupMembers: function() {
+    return this.state.newGroupArray.map(function(member, i){
       <View>
         <Text>
           {this.state.groupName}
@@ -130,15 +149,6 @@ module.exports = React.createClass({
     console.log(member)
     this.setState({
       members: this.state.groupMembers.concat([member])
-    });
-  },
-  displayGroupMembers: function() {
-    return this.state.groupMembers.map(function(member, i){
-      return (
-        <Text key={i}>
-          {member.name}
-        </Text>
-      )
     });
   }
 });
