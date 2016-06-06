@@ -87,13 +87,13 @@ module.exports = React.createClass({
         <View style={[styles.name]}>
           <Text style={styles.title}>New Expense</Text>
         </View>
-        <View style={styles.items}>
+        <View style={[styles.item]}>
           <FloatingLabel 
-            value={this.state.firstName}
+            value={this.state.description}
             labelStyle={styles.floatingLabelInput}
             inputStyle={styles.floatingInput}              
             style={styles.floatingDescriptionInput}
-            onChangeText={(text) => this.setState({firstName: text})}
+            onChangeText={(text) => this.setState({description: text})}
             >Description</FloatingLabel>
           <FloatingLabel 
             value={this.state.location}
@@ -118,9 +118,20 @@ module.exports = React.createClass({
             style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({amount: text})}
             >Amount</FloatingLabel>
+            <TouchableHighlight
+              underlayColor={'#619089'}
+              style={ styles.addExpenseButton }
+              onPress={this.onExpensePress}
+              >
+              <Text style={styles.addExpense}>Add Expense</Text>
+            </TouchableHighlight>
         </View>
       </View>
     )
+  },
+  onExpensePress: function() {
+    // Rails api call to check user/password
+    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   },
   border: function(color) {
     return {
@@ -128,19 +139,15 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
-  onExpensePress: function() {
-
-  }
 });
 
-var width = Dimensions.get('window').width - 80;
+var width = Dimensions.get('window').width;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    padding: 5
+    padding: 15
   },
   title: {
     fontSize: 32,
@@ -153,14 +160,13 @@ var styles = StyleSheet.create({
     padding: 5
   },
   items: {
-    margin: 10,
-    alignItems: 'stretch'
+    flex: 1,
   },
   floatingInput: {
     padding: 5,
     height: 40,
     borderWidth: 0,
-    width: width,
+    width: width - 30,
     alignSelf: 'center',
     color: 'black', 
   },
@@ -186,9 +192,27 @@ var styles = StyleSheet.create({
   photo: {
     width: 100,
     height: 100
+  },
+  addExpenseButton: {
+    backgroundColor: '#6AAAA0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 44,
+    padding: 5,
+    marginTop: 10
+  },
+  addExpense: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+    color: 'white',
+    fontSize: 14
   }
 });
-
 
 
 
