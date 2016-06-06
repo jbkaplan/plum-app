@@ -8,7 +8,6 @@ var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}
 
 const API = ''; // Rails API
 
-
 module.exports = React.createClass({
   getInitialState: function() {
     return {
@@ -18,7 +17,8 @@ module.exports = React.createClass({
       errorMessage: '',
       query: '',
       personName: '',
-      newGroupArray: []
+      newGroupArray: [],
+      personName: ''
     };
   },
   componentWillMount: function(){
@@ -137,11 +137,18 @@ module.exports = React.createClass({
   },
   displayGroupMembers: function() {
     return this.state.newGroupArray.map(function(member, i){
-      return (
-        <Text key={i}>
-          {member.name}
+      <View>
+        <Text>
+          {this.state.groupName}
         </Text>
-      )
+      </View>
+    )
+  },
+  onPersonAdd: function() {
+    var member = this.state.personName;
+    console.log(member)
+    this.setState({
+      members: this.state.groupMembers.concat([member])
     });
   }
 });

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Navigator,
-  TabBarIOS,
-  View
+  TabBarIOS
 } from 'react-native';
 
 var Signin = require('./components/authentication/signin');
@@ -35,30 +34,34 @@ ROUTES = {
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return { selectedTab: 'Groups' };
+    return { activeTab: 'Groups' };
   },
   componentWillMount: function() {
     // RAILS API CALL
   },
   renderScene: function(route, navigator) {
     var Component = ROUTES[route.name];
-    return <TabBarIOS>
-            <TabBarIOS.Item
-              title="Groups"
-              selected={this.state.selectedTab == 'Groups'}
-              onPress={() => this.setState({ selectedTab: 'Groups' })}>
-              <Component route={'groups'} navigator={this.props.navigator} />
-            </TabBarIOS.Item>
-            <TabBarIOS.Item
-              title="Events"
-              selected={this.state.selectedTab == 'Events'}
-              onPress={() => this.setState({ selectedTab: 'Events' })}>
-              <Component 
-                route={route} 
-                navigator={this.props.navigator} 
-                />;
-            </TabBarIOS.Item>
-          </TabBarIOS>
+    return (
+      <TabBarIOS>
+        <TabBarIOS.Item
+          title="Groups"
+          selected={this.props.activeTab === 'groups'}
+          onPress={this.onTabSelect.bind(this, 'groups')}>
+          <Groups
+            navigator={this.props.navigator}
+          />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Events"
+          selected={this.props.activeTab === 'events'}
+          onPress={this.onTabSelect.bind(this, 'events')}>
+          <Events
+            navigator={this.props.navigator}
+            onJumpToEvents={() => this.props.onTabSelect('events')}
+          />
+        </TabBarIOS.Item>
+      </TabBarIOS>
+    );
   },
   render: function() {
     return (
