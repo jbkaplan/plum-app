@@ -4,6 +4,7 @@ import {
   Navigator,
   TabBarIOS,
   TouchableHighlight,
+  Image,
   View
 } from 'react-native';
 
@@ -53,8 +54,10 @@ module.exports = React.createClass({
     return <Component route={route} navigator={navigator}
       />;
   },
+
   render: function() {
     return (
+      <Image style={styles.backgroundImage} source={require('./img/background.jpg')}>
         <TabBarIOS style={styles.container}>
           <TabBarIOS.Item
             title="Groups"
@@ -62,7 +65,7 @@ module.exports = React.createClass({
             onPress={() => this.setState({ selectedTab: 'Groups' })}>
             <Navigator
               style={styles.container}
-              initialRoute={{name: 'groups'}}
+              initialRoute={{name: 'signin'}}
               renderScene={this.renderScene}
               configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
               />
@@ -90,6 +93,7 @@ module.exports = React.createClass({
               />
           </TabBarIOS.Item>
         </TabBarIOS>
+      </Image>
     );
   },
   onProfilePress: function() {
@@ -106,6 +110,12 @@ module.exports = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'stretch', // or 'stretch'
+    height: null,
+    width: null,
+    backgroundColor: 'rgba(0, 0, 0, 0)'
   }
 });

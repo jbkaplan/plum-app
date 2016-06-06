@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
 
+var Button = require('../common/button');
+
 module.exports = React.createClass({
   getInitialState: function() {
     return {
@@ -27,13 +29,7 @@ module.exports = React.createClass({
         </View>
           {/* Insert new groups here*/}
         <View style={[styles.container]}>
-          <TouchableHighlight 
-            underlayColor='#6AAAA0'
-            style={styles.button}
-            onPress={this.handleNewGroup}
-            >
-            <Text style={styles.addButton}>+</Text>
-          </TouchableHighlight>
+          <Button text={'New Group'} onPress={this.handleNewGroup} />  
         </View>
       </View>
     )
@@ -72,6 +68,8 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    fontFamily: 'AvenirNext-Medium',
+    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
   },

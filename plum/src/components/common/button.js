@@ -24,7 +24,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     width: width,
     height: 44,
-    padding: 5,
+    padding: 3,
     marginTop: 10
   },
   buttonText: {
@@ -36,6 +36,7 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flex: 1,
     color: 'white',
-    fontSize: 14
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 18,
   }
 });

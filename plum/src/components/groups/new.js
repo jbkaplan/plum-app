@@ -1,10 +1,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { AlertIOS, Text, TextInput, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { AlertIOS, Text, Dimensions, TextInput, View, StyleSheet, TouchableHighlight } from 'react-native';
 
 var AutoComplete = require('react-native-autocomplete');
 var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}];
+var Button = require('../common/button');
 
 const API = ''; // Rails API
 
@@ -30,80 +31,53 @@ module.exports = React.createClass({
     }).map(function (member) {
         return member.name;
     });
-
     this.setState({
-        groupMembers:  members
+        personName: members
     });
   },
   render: function() {
     return (
-      <View style={[styles.container, this.border('red')]}>
-
-        <Text style={[styles.header , this.border('blue')]}>Create a Group</Text>
-
-        <View style={this.border('blue')}>
+      <View style={[styles.container]}>
+        <Text style={[styles.header]}>Create a Group</Text>
+        <View>
           <Text style={styles.label}>Group Name:</Text>
-          <View style={[styles.flowRight, this.border('red')]}>
-            <TextInput style={styles.groupNameInput}
-            onChangeText={(text) => this.setState({groupName: text})}/>
-
-            <TouchableHighlight
-            underlayColor='#6AAAA0'
-            onPress={this.onNewGroupNamePress}
-            style={styles.button}>
-              <Text style={styles.buttonText}>+</Text>
-            </TouchableHighlight>
-          </View>
+            <View style={styles.flowRight}>
+                <TextInput style={styles.groupNameInput}
+                  value={this.state.query}
+                  onChangeText={(text) => this.setState({query: text})}/>
+                <TouchableHighlight
+                  underlayColor='#6AAAA0'
+                  onPress={this.handleGroupNameChange}
+                  style={styles.button}>
+                  <Text style={styles.buttonText}>+</Text>
+                </TouchableHighlight>
+            </View>
         </View>
-
-        <View style={[styles.inputs, this.border('blue')]}>
-          <Text>Members:</Text>
-            <View style={[styles.flowRight, this.border('red')]}>
-            <AutoComplete
-                value={this.state.personName}
-                handlePersonNameChange={this.handlePersonNameChange}
-                onTyping={this.onTyping}
-                suggestions={this.state.groupMembers}
-                style={styles.autocomplete}
-                placeholder='Name or Email'
-                autoCorrect={false}
-                clearButtonMode='always'
-                returnKeyType='go'
-                textAlign='center'
-                clearTextOnFocus={false}
-                maximumNumberOfAutoCompleteRows={10}
-                applyBoldEffectToAutoCompleteSuggestions={true}
-                reverseAutoCompleteSuggestionsBoldEffect={true}
-                showTextFieldDropShadowWhenAutoCompleteTableIsOpen={false}
-                autoCompleteTableViewHidden={false}
-                autoCompleteTableBorderColor='lightblue'
-                autoCompleteTableBackgroundColor='white'
-                autoCompleteTableBorderWidth={1}
-                autoCompleteRowHeight={35}
-                autoCompleteFontSize={15}
-                autoCompleteRegularFontName='Helvetica Neue'
-                autoCompleteBoldFontName='Helvetica Bold'
-                autoCompleteTableCellTextColor={'black'}
-            />
-
+        <View style={styles.inputs}>
+          <Text style={styles.label}>Members:</Text>
+            <View style={styles.flowRight}>
+            <TextInput style={styles.groupNameInput}
+              value={this.state.personName}
+              onChangeText={(text) => this.setState({personName: text})}
+              />
             <TouchableHighlight
-              onPress={this.onMemberAdd}
               underlayColor='#6AAAA0'
+              onPress={this.handlePersonNameChange}
               style={styles.button}>
               <Text style={styles.buttonText}>+</Text>
             </TouchableHighlight>
           </View>
         </View>
 
-        <View style={[styles.groupNameContainer, this.border('green')]}>
+        <View style={styles.groupNameContainer}>
+          <Text style={styles.groupNameTitle}>{this.state.groupName}</Text>
           {this.displayGroupMembers()}
         </View>
 
         <TouchableHighlight
-          style={[styles.createGroupButton, this.border('blue')]}
+          style={styles.createGroupButton}
           underlayColor='#6AAAA0'
-          onPress={this.onNewGroupPress}>
-
+          onPress={this.onNewGroupPress }>
           <Text style={styles.buttonText}>Create Group</Text>
         </TouchableHighlight>
       </View>
@@ -115,56 +89,60 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
-  handlePersonNameChange: function(e) {
-    this.setState({personName: e.target.value});
+  handlePersonNameChange: function() {
+    console.log(this.state.personName)
+    this.setState({
+      newGroupArray: this.state.newGroupArray.concat([this.state.personName]),
+      personName: ''
+    });
+    console.log(this.state.newGroupArray)
   },
   onNewGroupPress: function() {
     // Call to Rails API to create new group - POST AJAX
   },
-  onNewGroupNamePress: function() {
-    return (
-        <Text>
-          {this.state.groupName}
-        </Text>
-    )
-  },
-  onMemberAdd: function() {
-    var member = {name: "hello"};
-
+  handleGroupNameChange: function() {
     this.setState({
-      groupMembers: this.state.newGroupArray.concat([{name: "hello"}])
+      groupName: this.state.query,
+      query: ''
     });
   },
-  displayGroupMembers: function() {
-    return this.state.newGroupArray.map(function(member, i){
-      <View>
-        <Text>
-          {this.state.groupName}
+  displayGroupMembers: function(){
+    return this.state.newGroupArray.map(function(member, index) {
+      return <View>
+        <Text style={styles.groupMembers}>
+          Member #{index + 1}: {member}
         </Text>
       </View>
-    )
-  },
-  onPersonAdd: function() {
-    var member = this.state.personName;
-    console.log(member)
-    this.setState({
-      members: this.state.groupMembers.concat([member])
     });
-  }
+  },
 });
+
+var width = Dimensions.get('window').width - 80;
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    margin: 20,
   },
-  createGroupButton:{
+  createGroupButton: {
     backgroundColor: '#6AAAA0',
-    borderRadius: 8,
-    borderWidth: 1,
-    alignSelf: 'stretch',
     justifyContent: 'center',
-    marginBottom: 10,
-    height: 44
+    alignSelf: 'stretch',
+    height: 44,
+    padding: 3,
+    marginBottom: 50
+  },
+  buttonText: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    marginTop: 8,
+    flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 18,
   },
   autocomplete: {
     width: 200,
@@ -188,29 +166,27 @@ var styles = StyleSheet.create({
     backgroundColor: '#6AAAA0'
   },
   header: {
-    paddingTop: 20,
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontWeight: 'bold',
+    paddingTop: 30,
+    fontSize: 32,
   },
   groupNameInput: {
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
     padding: 4,
+    borderColor: 'white',
     height: 44,
     width: 200,
     margin: 5,
     borderWidth: 1,
-    borderRadius: 5
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
   },
   button: {
     height: 44,
     width: 44,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
+    backgroundColor: '#6AAAA0',
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
@@ -223,5 +199,23 @@ var styles = StyleSheet.create({
   },
   groupNameContainer: {
     flex: 1
+  },
+  groupNameTitle: {
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  groupMembers: {
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 16,
+  },
+  label: {
+    marginTop: 10,
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 18,
+
   }
 });

@@ -1,5 +1,8 @@
+'use strict';
+
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View, Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var Button = require('../common/button');
 var FloatingLabel = require('react-native-floating-labels');
@@ -22,28 +25,37 @@ module.exports = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
+        <View style={styles.logoText}>
+          <Text style={styles.logo}>plum</Text>
+        </View>
         <Text style={styles.title}>Sign in</Text>
-        <FloatingLabel 
-          labelStyle={styles.floatingLabelInput}
-          inputStyle={styles.floatingInput}              
-          style={styles.floatingFormInput}
-          value={this.state.email}
-          onChangeText={(text) => this.setState({email: text})}
-          >Email</FloatingLabel>
-        <FloatingLabel 
-          password={true}
-          labelStyle={styles.floatingLabelInput}
-          inputStyle={styles.floatingInput}              
-          style={styles.floatingFormInput}
-          value={this.state.password}
-          onChangeText={(text) => this.setState({password: text})}
-          >Password</FloatingLabel>
+        <View style={styles.row}>
+          <Icon style={styles.icon} name="envelope" size={17} color="#619089" />
+          <FloatingLabel 
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
+            value={this.state.email}
+            onChangeText={(text) => this.setState({email: text})}
+            >Email</FloatingLabel>
+        </View>
+        <View style={styles.row}>
+          <Icon style={styles.icon} name="lock" size={22} color="#619089" />
+          <FloatingLabel 
+            password={true}
+            labelStyle={styles.floatingLabelInput}
+            inputStyle={styles.floatingInput}              
+            style={styles.floatingFormInput}
+            value={this.state.password}
+            onChangeText={(text) => this.setState({password: text})}
+            >Password</FloatingLabel>
+        </View>
         <Text style={styles.label}>{this.state.errorMessage}</Text>
         <View style={styles.buttons}>
           <Button text={'Sign In'} onPress={this.onPress} />
           <TouchableHighlight
             activeOpacity={1}
-            underlayColor={'#619089'}
+            underlayColor={'#6AAAA0'}
             style={ this.state.pressStatus ? styles.needAccountButtonPress : styles.needAccountButton }
             onHideUnderlay={this._onHideUnderlay}
             onShowUnderlay={this._onShowUnderlay}
@@ -66,6 +78,7 @@ module.exports = React.createClass({
   },
   onPress: function() {
     // Rails api call to check user/password
+    // if successfull > Log In
     this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   }
 });
@@ -76,12 +89,12 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
-    color: '#6AAAA0',
-    fontWeight: '500'
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium'
   },
   needAccount: {
     flex: 1,
@@ -90,6 +103,7 @@ var styles = StyleSheet.create({
     marginTop: 8,
     flexDirection: 'row',
     color: '#6AAAA0',
+    fontFamily: 'AvenirNext-Medium',
     fontSize: 14
   },
   needAccountPress: {
@@ -99,12 +113,11 @@ var styles = StyleSheet.create({
     marginTop: 8,
     flexDirection: 'row',
     color: 'white',
+    fontFamily: 'AvenirNext-Medium',
     fontSize: 14
   },
   needAccountButton: {
     backgroundColor: 'white',
-    borderColor: '#6AAAA0',
-    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
@@ -114,8 +127,6 @@ var styles = StyleSheet.create({
   },
   needAccountButtonPress: {
     backgroundColor: 'white',
-    borderColor: '#619089',
-    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
@@ -129,15 +140,45 @@ var styles = StyleSheet.create({
     borderWidth: 0,
     width: width,
     alignSelf: 'center',
-    color: '#619089', 
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium' 
   },
   floatingLabelInput: {
-    color: '#619089',
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium'
   },
   floatingFormInput: {
+    fontFamily: 'AvenirNext-Medium',
     borderBottomWidth: 1.5, 
     borderColor: '#619089',       
   },
+  lockIcon: {
+    flex: 1,
+    width: 40,
+    height: 40
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon: {
+    color: 'white',
+    marginTop: 17,
+    marginRight: 5,
+    marginLeft: -20
+  },
+  logo: {
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+    fontFamily: 'Lobster 1.3',
+    color: 'white',
+    fontSize: 90,
+  },
+  logoText: {
+    width: width,
+    marginBottom: 135
+  }
 });
 
 
