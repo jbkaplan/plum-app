@@ -33,6 +33,7 @@ module.exports = React.createClass({
     // Rails API call to get current user groups
   },
   componentDidMount: function(){
+    this.getGroups();
   },
   render: function() {
     // if (!this.state.user) {
@@ -60,7 +61,7 @@ module.exports = React.createClass({
           </ScrollView>
         </View>
         <View style={styles.newGroupButton}>
-          <Button text={'New Group'} onPress={this.handleNewGroup} />  
+          <Button text={'New Group'} onPress={this.handleNewGroup} />
         </View>
       </View>
     )
@@ -72,22 +73,13 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
-    // fetch('http://localhost:3000/users/3/groups', {
-    //   method: 'GET'
-    // })
-    // .then((response) => response.json())
-    // .then((responseData) => 
-    //   console.log(responseData.data[0].relationships)    )
-    // .done();
-    CookieManager.get('http://localhost:3000/users/3/groups', (err, res) => {
-      console.log('Got cookies for url', res);
-      // Outputs 'user_session=abcdefg; path=/;'
-    });
-    CookieManager.getAll((err, res) => {
-      console.log('cookies!');
-      console.log(err);
-      console.log(res);
-    });
+    fetch('http://localhost:3000/users/3/groups', {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) =>
+      console.log(responseData.data[0].relationships))
+    .done();
   },
   showGroups: function(){
     return this.state.groups.map(function(group, index) {
@@ -118,7 +110,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  addButton:{ 
+  addButton:{
     fontSize: 24,
     color: 'white'
   },
@@ -127,7 +119,7 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Heavy',
     color: 'white',
     textAlign: 'center',
-  },  
+  },
   welcomeTitle: {
     fontSize: 24,
     fontFamily: 'Avenir-Book',
@@ -151,9 +143,3 @@ var styles = StyleSheet.create({
     marginBottom: 70
   }
 });
-
-
-
-
-
-

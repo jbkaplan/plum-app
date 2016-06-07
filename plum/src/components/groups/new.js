@@ -6,7 +6,7 @@ import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 var AutoComplete = require('react-native-autocomplete');
-var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}];
+// var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}];
 var Button = require('../common/button');
 
 const API = ''; // Rails API
@@ -21,7 +21,8 @@ module.exports = React.createClass({
       query: '',
       personName: '',
       newGroupArray: [],
-      personName: ''
+      personName: '',
+      group: {}
     };
   },
   componentWillMount: function(){
@@ -90,7 +91,7 @@ module.exports = React.createClass({
               />
             <TouchableHighlight
               underlayColor='#6AAAA0'
-              onPress={this.handlePersonNameChange}
+              onPress={this.addPersonToGroup}
               style={styles.button}>
               <Text style={styles.plusText}>+</Text>
             </TouchableHighlight>
@@ -118,16 +119,15 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
-  handlePersonNameChange: function() {
-    console.log(this.state.personName)
+  addPersonToGroup: function() {
+    var newMember = {email: this.state.personName}
     this.setState({
-      newGroupArray: this.state.newGroupArray.concat([this.state.personName]),
+      newGroupArray: this.state.newGroupArray.concat([newMember]),
       personName: ''
     });
   },
   onNewGroupPress: function() {
-    // Call to Rails API to create new group - POST AJAX
-    fetch('http://localhost:3000/groups/', {
+    fetch('http://localhost:3000/groups', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -154,7 +154,7 @@ module.exports = React.createClass({
     return this.state.newGroupArray.map(function(member, index) {
       return (
         <Text style={styles.groupMembers} key={index}>
-          Member #{index + 1}: {member}
+          Member #{index + 1}: {member.email}
         </Text>
       )
     });
