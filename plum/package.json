@@ -13,6 +13,8 @@
     "react-native-autocomplete": "^0.1.4",
     "react-native-floating-labels": "^1.0.0",
     "react-native-image-picker": "^0.18.17",
+    "react-native-navbar": "^1.5.0",
+    "react-native-tab-navigator": "^0.3.2",
     "react-native-tabbar": "^0.3.6",
     "react-native-vector-icons": "^2.0.3"
   }

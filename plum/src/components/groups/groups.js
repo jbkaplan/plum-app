@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
 
 var Button = require('../common/button');
+var GroupItem = require('../common/groupItem');
+var groupMembers: [
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']}
+            ]
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null
+      user: null,
+      groups:[]
+
     };
   },
   componentWillMount: function(){
@@ -23,12 +35,24 @@ module.exports = React.createClass({
 
     return (
       <View style={styles.container}>
+        <StatusBar
+          translucent={true}
+          backgroundColor="rgba(0, 0, 0, 0.2)"
+          barStyle="light-content"
+         />
         <View style={[styles.name]}>
-          <Text style={styles.title}>Welcome Back, !</Text>
+          <Text style={styles.welcomeTitle}>Welcome Back, !</Text>
           <Text style={styles.title}>Your Groups</Text>
         </View>
-          {/* Insert new groups here*/}
-        <View style={[styles.container]}>
+        <View style={styles.groupList}>
+          <ScrollView style={styles.scroller}>
+              {this.showGroups()}
+          </ScrollView>
+        </View>
+        <View style={styles.newGroupButton}>
+          <Button text={'Get Groups'} onPress={this.getGroups} />  
+        </View>
+        <View style={styles.newGroupButton}>
           <Button text={'New Group'} onPress={this.handleNewGroup} />  
         </View>
       </View>
@@ -39,6 +63,22 @@ module.exports = React.createClass({
       borderColor: color,
       borderWidth: 4
     }
+  },
+  getGroups: function() {
+    fetch('http://localhost:3000/users/3/groups', {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) => 
+      console.log(responseData.data[0].relationships)    )
+    .done();
+  },
+  showGroups: function(){
+    return this.state.groups.map(function(group, index) {
+        return (
+          <GroupItem group={group} />
+        );
+    });
   },
   handleNewGroup: function() {
     // Goto New Group Screen => pass current user variable
@@ -68,16 +108,31 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Heavy',
     color: 'white',
-    fontWeight: 'bold',
+    textAlign: 'center',
+  },  
+  welcomeTitle: {
+    fontSize: 24,
+    fontFamily: 'Avenir-Book',
+    color: 'white',
     textAlign: 'center',
   },
   name: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5
+    padding: 5,
+    marginTop: 30
+  },
+  groupList: {
+    flex: 3
+  },
+  newGroupButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 70
   }
 });
 

@@ -15,7 +15,7 @@ module.exports = React.createClass({
   }
 });
 
-var width = Dimensions.get('window').width - 80; //full width
+var width = Dimensions.get('window').width - 60; //full width
 
 var styles = StyleSheet.create({
   button: {
@@ -23,20 +23,18 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
-    height: 44,
+    height: 55,
     padding: 3,
     marginTop: 10
   },
   buttonText: {
-    alignSelf: 'stretch',
     textAlign: 'center',
-    marginTop: 8,
+    alignItems: 'center',
     flexDirection: 'row',
     textAlign: 'center',
     justifyContent: 'flex-end',
-    flex: 1,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontSize: 18,
+    fontFamily: 'Avenir-Book',
+    fontSize: 16,
   }
 });

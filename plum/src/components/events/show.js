@@ -82,13 +82,12 @@ var styles = StyleSheet.create({
   title: {
     fontSize: 32,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontWeight: 'bold',
+    fontFamily: 'Avenir-Heavy',
   },  
   label: {
     fontSize: 16,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
   },
   name: {
     flex: 1,
@@ -98,8 +97,8 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontSize: 18,
+    fontFamily: 'Avenir-Book',
+    fontSize: 16,
   }
 });
 

@@ -1,11 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, Text, TextInput, TouchableHighlight, Navigator, TouchableOpacity, View, Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 var Button = require('../common/button');
 var FloatingLabel = require('react-native-floating-labels');
+var MainNavigation = require('./../../mainNavigation');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -28,31 +29,32 @@ module.exports = React.createClass({
         <View style={styles.logoText}>
           <Text style={styles.logo}>plum</Text>
         </View>
-        <Text style={styles.title}>Sign in</Text>
-        <View style={styles.row}>
-          <Icon style={styles.icon} name="envelope" size={17} color="#619089" />
-          <FloatingLabel 
-            labelStyle={styles.floatingLabelInput}
-            inputStyle={styles.floatingInput}              
-            style={styles.floatingFormInput}
-            value={this.state.email}
-            onChangeText={(text) => this.setState({email: text})}
-            >Email</FloatingLabel>
-        </View>
-        <View style={styles.row}>
-          <Icon style={styles.icon} name="lock" size={22} color="#619089" />
-          <FloatingLabel 
-            password={true}
-            labelStyle={styles.floatingLabelInput}
-            inputStyle={styles.floatingInput}              
-            style={styles.floatingFormInput}
-            value={this.state.password}
-            onChangeText={(text) => this.setState({password: text})}
-            >Password</FloatingLabel>
+        <View style={[styles.formInput]}>
+          <View style={styles.emailRow}>
+            <Icon style={styles.icon} name="envelope" size={23} color="#619089" />
+            <FloatingLabel 
+              labelStyle={styles.floatingLabelInput}
+              inputStyle={styles.floatingInput}              
+              style={styles.floatingFormInput}
+              value={this.state.email}
+              onChangeText={(text) => this.setState({email: text})}
+              >Email</FloatingLabel>
+          </View>
+          <View style={styles.row}>
+            <Icon style={styles.icon} name="lock" size={25} color="#619089" />
+            <FloatingLabel 
+              password={true}
+              labelStyle={styles.floatingLabelInput}
+              inputStyle={styles.floatingInput}              
+              style={styles.floatingFormInput}
+              value={this.state.password}
+              onChangeText={(text) => this.setState({password: text})}
+              >Password</FloatingLabel>
+          </View>
         </View>
         <Text style={styles.label}>{this.state.errorMessage}</Text>
         <View style={styles.buttons}>
-          <Button text={'Sign In'} onPress={this.onPress} />
+          <Button text={'Sign In'} onPress={this.onSignInPress} />
           <TouchableHighlight
             activeOpacity={1}
             underlayColor={'#6AAAA0'}
@@ -67,6 +69,12 @@ module.exports = React.createClass({
       </View>
     );
   },
+  border: function(color) {
+    return {
+      borderColor: color,
+      borderWidth: 4
+    }
+  },
   myFocusFunction: function(){
 
   },
@@ -76,14 +84,15 @@ module.exports = React.createClass({
   onSignupPress: function(){
     this.props.navigator.push({name: 'signup'});
   },
-  onPress: function() {
+  onSignInPress: function() {
     // Rails api call to check user/password
     // if successfull > Log In
-    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
+    this.props.navigator.immediatelyResetRouteStack([{name: 'mainNavigation'}]);
+    // return <MainNavigation email={this.props.email} />
   }
 });
 
-var width = Dimensions.get('window').width - 80;
+var width = Dimensions.get('window').width - 60;
 
 var styles = StyleSheet.create({
   container: {
@@ -94,44 +103,42 @@ var styles = StyleSheet.create({
   title: {
     fontSize: 24,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium'
+    fontFamily: 'Avenir-Book'
   },
   needAccount: {
-    flex: 1,
     alignSelf: 'stretch',
     textAlign: 'center',
-    marginTop: 8,
-    flexDirection: 'row',
-    color: '#6AAAA0',
-    fontFamily: 'AvenirNext-Medium',
-    fontSize: 14
-  },
-  needAccountPress: {
-    flex: 1,
-    alignSelf: 'stretch',
-    textAlign: 'center',
-    marginTop: 8,
     flexDirection: 'row',
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontSize: 14
+    fontFamily: 'Avenir-Book',
+    fontSize: 16
+  },
+  needAccountPress: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    flexDirection: 'row',
+    color: '#6AAAA0',
+    fontFamily: 'Avenir-Book',
+    fontSize: 16
   },
   needAccountButton: {
-    backgroundColor: 'white',
+    borderColor: '#6AAAA0',
+    borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
-    height: 44,
-    padding: 5,
+    height: 55,
+    padding: 3,
     marginTop: 8
   },
+
   needAccountButtonPress: {
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     width: width,
-    height: 44,
-    padding: 5,
+    height: 55,
+    padding: 3,
     marginTop: 8
   },
   floatingInput: {
@@ -141,16 +148,17 @@ var styles = StyleSheet.create({
     width: width,
     alignSelf: 'center',
     color: 'white',
-    fontFamily: 'AvenirNext-Medium' 
+    fontFamily: 'Avenir-Book' 
   },
   floatingLabelInput: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium'
+    fontFamily: 'Avenir-Book',
+    fontSize: 18
   },
   floatingFormInput: {
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5, 
-    borderColor: '#619089',       
+    borderColor: 'rgba(255,255,255,.1)',       
   },
   lockIcon: {
     flex: 1,
@@ -159,11 +167,18 @@ var styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingLeft: 20,
+  },
+  emailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 2,
+    paddingLeft: 20,
   },
   icon: {
-    color: 'white',
-    marginTop: 17,
+    color: 'rgba(255,255,255,.5)',
+    marginTop: 19,
     marginRight: 5,
     marginLeft: -20
   },
@@ -174,10 +189,23 @@ var styles = StyleSheet.create({
     fontFamily: 'Lobster 1.3',
     color: 'white',
     fontSize: 90,
+    padding: 15
   },
   logoText: {
+    flex: 2,
     width: width,
-    marginBottom: 135
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 25
+  },
+  formInput: {
+    marginBottom: 100,
+    marginHorizontal: 50,
+  },
+  buttons: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    marginBottom: 35
   }
 });
 

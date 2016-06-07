@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
+import { Text, View, StatusBar, StyleSheet, Dimensions, TouchableHighlight } from 'react-native';
 
 var events = [
   {name: "trip", total: "$500"},
@@ -76,7 +76,7 @@ module.exports = React.createClass({
   onGroupInfoPress: function() {
   },
   onNewEventPress: function() {
-    this.props.navigator.push({name: 'eventShow'})
+    this.props.navigator.push({name: 'newEvent'})
   }
 });
 var width = Dimensions.get('window').width - 80; //full width
@@ -95,12 +95,12 @@ var styles = StyleSheet.create({
   navLinks: {
     fontSize: 24,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
   },  
   bottomNavLinks: {
     fontSize: 24,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
   },
   eventContainer: {
     marginTop: 20,
@@ -112,7 +112,7 @@ var styles = StyleSheet.create({
   },
   eventList: {
     fontSize: 16,
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
     color: 'white',
   },
   bottomNav: {
