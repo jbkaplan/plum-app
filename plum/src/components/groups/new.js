@@ -136,6 +136,7 @@ module.exports = React.createClass({
       body: JSON.stringify({
         name: this.state.groupName,
         members: this.state.newGroupArray,
+        userId: this.props.userId
       })
     }).then((response) => response.text()).then((responseText) => {
     console.log(responseText); });

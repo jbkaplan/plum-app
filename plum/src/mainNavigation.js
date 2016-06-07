@@ -63,10 +63,11 @@ module.exports = React.createClass({
     // Access component for route name
     var Component = ROUTES[route.name];
     // return our component
-    // 
-    return <Component 
-      route={route} 
-      navigator={navigator} 
+    //
+    return <Component
+      route={route}
+      navigator={navigator}
+      userId={this.props.user}
       userName={this.props.userName}
       userEmail={this.props.userEmail}
       userPhone={this.props.userPhone}
@@ -81,7 +82,7 @@ module.exports = React.createClass({
           backgroundColor="rgba(0, 0, 0, 0.2)"
           barStyle="light-content"
          />
-        <TabBarIOS 
+        <TabBarIOS
           translucent={true}
           tintColor="#6AAAA0"
           unselectedTintColor='#905a90'
