@@ -10,12 +10,10 @@ import {
 
 var Groups = require('./groups');
 var NewGroup = require('./new');
-var NewGroupTwo = require('./new2');
 
 ROUTES = {
   groups: Groups,
   newGroup: NewGroup,
-  newGroupTwo: NewGroupTwo,
 };
 
 module.exports = React.createClass({

@@ -18,7 +18,6 @@ var Signup = require('./components/authentication/signup');
 var Groups = require('./components/groups/groups');
 var GroupView = require('./components/groups/groupView');
 var NewGroup = require('./components/groups/new');
-var NewGroupTwo = require('./components/groups/new2');
 var Events = require('./components/events/events');
 var EventShow = require('./components/events/show');
 var ExpenseShow = require('./components/events/expenses/show');
@@ -26,7 +25,6 @@ var Invoices = require('./components/invoices/show');
 var NewExpense = require('./components/events/expenses/new');
 var NewEvent = require('./components/events/new');
 var UserProfile = require('./components/users/show');
-var TabBar = require('./components/tabbar');
 
 ROUTES = {
   signin: Signin,
@@ -34,7 +32,6 @@ ROUTES = {
   events: Events,
   eventShow: EventShow,
   userProfile: UserProfile,
-  tabBar: TabBar,
   // accountInfo: AccountInfo,
   // expenses: Expenses,
   expenseShow: ExpenseShow,
@@ -43,7 +40,6 @@ ROUTES = {
   invoices: Invoices,
   // splash: Splash,
   newGroup: NewGroup,
-  newGroupTwo: NewGroupTwo,
   newEvent: NewEvent,
   newExpense: NewExpense,
 };
