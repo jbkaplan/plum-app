@@ -1,6 +1,7 @@
 import React, { Component, Prototypes } from 'react';
 import { 
   StyleSheet, 
+  AlertIOS,
   Text, 
   TextInput, 
   TouchableHighlight, 
@@ -14,6 +15,7 @@ import {
 var Button = require('../common/button');
 var FloatingLabel = require('react-native-floating-labels');
 var today = new Date();
+var alertMessage = 'Event Created'
 
 module.exports = React.createClass({
   getDefaultProps: function () {
@@ -28,6 +30,7 @@ module.exports = React.createClass({
       user: null,
       name: '',
       group: '',
+      newEvent: [],
       startDatePickerMode: 'hidden',
       endDatePickerMode: 'hidden',
       startDate: this.props.startDate,
@@ -107,10 +110,10 @@ module.exports = React.createClass({
             >Group</FloatingLabel>
             <View style={styles.dateContainer}>
               <View style={{ marginTop: 10, marginBottom: -15 }}>
-                <Text>Start Date</Text>
+                <Text style={styles.dateLabel}>Start Date</Text>
                 <TouchableWithoutFeedback onPress={ this.toggleStartDatePicker.bind(this) }>
                   <View style={ styles.input }>
-                    <Text>{ this.state.startDate.getMonth() + 1 }/{ this.state.startDate.getDate() }/{ this.state.startDate.getFullYear() }</Text>
+                    <Text style={styles.dateInput}>{ this.state.startDate.getMonth() + 1 }/{ this.state.startDate.getDate() }/{ this.state.startDate.getFullYear() }</Text>
                   </View>
                 </TouchableWithoutFeedback>
               </View>
@@ -118,10 +121,10 @@ module.exports = React.createClass({
             </View>
             <View style={styles.dateContainer}>
               <View style={{ marginTop: 10, marginBottom: -15 }}>
-                <Text>End Date</Text>
+                <Text style={styles.dateLabel}>End Date</Text>
                 <TouchableWithoutFeedback onPress={ this.toggleEndDatePicker.bind(this) }>
                   <View style={ styles.input }>
-                    <Text>{ this.state.endDate.getMonth() + 1 }/{ this.state.endDate.getDate() }/{ this.state.endDate.getFullYear() }</Text>
+                    <Text style={styles.dateInput}>{ this.state.endDate.getMonth() + 1 }/{ this.state.endDate.getDate() }/{ this.state.endDate.getFullYear() }</Text>
                   </View>
                 </TouchableWithoutFeedback>
               </View>
@@ -140,7 +143,15 @@ module.exports = React.createClass({
   },
   onEventPress: function() {
     // Rails api call to check user/password
-    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
+    this.setState({
+      newEvent: this.state.newEvent.concat([{'name': this.state.name}]),
+      group: '',
+      name: '',
+      startDate: new Date(),
+      endDate: new Date(),
+    });
+    AlertIOS.alert('Event:' + this.state.newEvent, alertMessage, [ {text: 'OK', onPress: () => console.log('OK Pressed!')},])
+    // this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   },
   border: function(color) {
     return {
@@ -160,7 +171,8 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    color: 'white',
+    fontFamily: 'Avenir-Heavy'
   },
   name: {
     flex: 1,
@@ -173,47 +185,51 @@ var styles = StyleSheet.create({
   },
   floatingInput: {
     padding: 5,
+    paddingLeft: 20,
     height: 40,
     borderWidth: 0,
-    width: width - 30,
+    width: width,
     alignSelf: 'center',
-    color: 'black', 
+    color: 'white',
+    fontFamily: 'Avenir-Book' 
   },
   floatingLabelInput: {
-    color: 'black',
+    color: 'white',
+    fontFamily: 'Avenir-Book',
+    fontSize: 18
   },
   floatingFormInput: {
+    fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5, 
-    borderColor: '#619089',       
+    borderColor: 'white',       
   },
   floatingDescriptionInput: {
     borderBottomWidth: 1.5, 
-    borderColor: '#619089',       
+    borderColor: 'white',       
   },
   addEventButton: {
     backgroundColor: '#6AAAA0',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 44,
+    height: 55,
     padding: 5,
-    marginTop: 10
+    marginTop: 15,
+    marginBottom: 50
   },
   addEvent: {
     alignSelf: 'stretch',
     textAlign: 'center',
-    marginTop: 8,
     flexDirection: 'row',
     textAlign: 'center',
     justifyContent: 'flex-end',
-    flex: 1,
     color: 'white',
-    fontSize: 14
+    fontSize: 16
   },
   textinput: {
     height: 26,
     width: 50,
     borderWidth: 0.5,
-    borderColor: '#0f0f0f',
+    borderColor: 'white',
     padding: 4,
     fontSize: 13,
   },
@@ -231,7 +247,7 @@ var styles = StyleSheet.create({
   },
   headingContainer: {
     padding: 4,
-    backgroundColor: '#f6f7f8',
+    backgroundColor: 'white',
   },
   heading: {
     fontWeight: '500',
@@ -242,8 +258,9 @@ var styles = StyleSheet.create({
     padding: 5,
     justifyContent: 'center', 
     marginVertical: 10,
-    borderColor: 'gray', 
+    borderColor: 'white', 
     borderWidth: 1,
+    color: 'white'
   },
   datePicker: {
     borderTopWidth: 1, 
@@ -252,11 +269,20 @@ var styles = StyleSheet.create({
     right: 0, 
     left: 0,  
     height: 220, 
-    borderColor: '#CCC', 
+    borderColor: 'white', 
     backgroundColor: '#FFF',    
   },
   dateContainer: {
     padding: 5,
+  },
+  dateLabel: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Avenir-Book',
+  },
+  dateInput: {
+    color: 'white',
+    fontFamily: 'Avenir-Book',
   }
 });
 

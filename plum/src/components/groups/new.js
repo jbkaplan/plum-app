@@ -1,7 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { AlertIOS, Text, Dimensions, TextInput, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { AlertIOS, Text, Dimensions, TextInput, ScrollView, StatusBar, View, StyleSheet, TouchableHighlight } from 'react-native';
+import NavigationBar from 'react-native-navbar';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 var AutoComplete = require('react-native-autocomplete');
 var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}];
@@ -36,8 +38,34 @@ module.exports = React.createClass({
     });
   },
   render: function() {
+    const rightButtonConfig = {
+      title: 'Next',
+      handler: () => alert('hello!'),
+    };
+
+    const myIcon = (<Icon name="chevron-left" size={50} color="white" />)
+
+    const leftButtonConfig = {
+      title: 'Back',
+      tintColor: 'rgba(255,255,255,.9)',
+      handler: () => this.props.navigator.pop(),
+    };
+    const titleConfig = {
+        title: 'Create Group',
+      };
+
     return (
       <View style={[styles.container]}>
+        <View style={styles.navBar}>
+          <StatusBar
+            barStyle="default"
+            style="default"
+           />
+          <NavigationBar
+            tintColor='rgba(255,255,255,.1)'
+
+            leftButton={leftButtonConfig} />
+          </View>
         <Text style={[styles.header]}>Create a Group</Text>
         <View>
           <Text style={styles.label}>Group Name:</Text>
@@ -49,7 +77,7 @@ module.exports = React.createClass({
                   underlayColor='#6AAAA0'
                   onPress={this.handleGroupNameChange}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>+</Text>
+                  <Text style={styles.plusText}>+</Text>
                 </TouchableHighlight>
             </View>
         </View>
@@ -64,15 +92,16 @@ module.exports = React.createClass({
               underlayColor='#6AAAA0'
               onPress={this.handlePersonNameChange}
               style={styles.button}>
-              <Text style={styles.buttonText}>+</Text>
+              <Text style={styles.plusText}>+</Text>
             </TouchableHighlight>
           </View>
         </View>
-
-        <View style={styles.groupNameContainer}>
-          <Text style={styles.groupNameTitle}>{this.state.groupName}</Text>
-          {this.displayGroupMembers()}
-        </View>
+        <ScrollView>
+          <View style={styles.groupNameContainer}>
+            <Text style={styles.groupNameTitle}>{this.state.groupName}</Text>
+            {this.displayGroupMembers()}
+          </View>
+        </ScrollView>
 
         <TouchableHighlight
           style={styles.createGroupButton}
@@ -95,31 +124,25 @@ module.exports = React.createClass({
       newGroupArray: this.state.newGroupArray.concat([this.state.personName]),
       personName: ''
     });
-    console.log(this.state.newGroupArray)
   },
   onNewGroupPress: function() {
     // Call to Rails API to create new group - POST AJAX
-    // console.log(this.state.newGroupArray);
-
-    fetch("http://plumpayments.herokuapp.com/users", {
-      method: "POST",
-      headers: {'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    fetch('http://localhost:3000/groups/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
-        body: JSON.stringify({first_name: "dfg", last_name: "L", email: "e@mfffgdfgail.com", password:"secret"})
-    })
-    // .then((response) => {
-    //   console.log('*********', response.json());
-    // })
-    // .then((responseData) => {
-    //   console.log('$$$$$$$$$$$', JSON.stringify(responseData.body));
-    //   AlertIOS.alert(
-    //       "POST Response",
-    //       "Response Body -> " + JSON.stringify(responseData.body)
-    //   )
-    //   console.log(JSON.stringify(responseData.body));
-    // })
-    .done();
+      body: JSON.stringify({
+        name: this.state.groupName,
+        members: this.state.newGroupArray,
+      })
+    }).then((response) => response.text()).then((responseText) => {
+    console.log(responseText); });
+    this.setState({
+      newGroupArray: [],
+      groupName: ''
+    });
   },
   handleGroupNameChange: function() {
     this.setState({
@@ -149,21 +172,31 @@ var styles = StyleSheet.create({
     backgroundColor: '#6AAAA0',
     justifyContent: 'center',
     alignSelf: 'stretch',
-    height: 44,
+    height: 55,
     padding: 3,
+    marginTop: 15,
     marginBottom: 50
   },
   buttonText: {
     alignSelf: 'stretch',
     textAlign: 'center',
-    marginTop: 8,
     flexDirection: 'row',
     textAlign: 'center',
     justifyContent: 'flex-end',
-    flex: 1,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontSize: 18,
+    fontFamily: 'Avenir-Book',
+    fontSize: 16,
+  },
+  plusText: {
+    alignSelf: 'stretch',
+    textAlign: 'center',
+    flexDirection: 'row',
+    textAlign: 'center',
+    marginTop: 8,
+    justifyContent: 'flex-end',
+    color: 'white',
+    fontFamily: 'Avenir-Book',
+    fontSize: 16,
   },
   autocomplete: {
     width: 200,
@@ -188,18 +221,17 @@ var styles = StyleSheet.create({
   },
   header: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontWeight: 'bold',
+    fontFamily: 'Avenir-Heavy',
     paddingTop: 30,
     fontSize: 32,
   },
   groupNameInput: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
     padding: 4,
-    borderColor: 'white',
+    borderColor: 'rgba(255,255,255,.1)',
     height: 44,
-    width: 200,
+    width: 275,
     margin: 5,
     borderWidth: 1,
   },
@@ -216,27 +248,31 @@ var styles = StyleSheet.create({
   },
   flowRight: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignSelf: 'stretch'
   },
   groupNameContainer: {
     flex: 1
   },
   groupNameTitle: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Heavy',
     fontSize: 24,
-    fontWeight: 'bold'
   },
   groupMembers: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
     fontSize: 16,
   },
   label: {
+    marginLeft: 7,
     marginTop: 10,
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
-    fontSize: 18,
-
+    fontFamily: 'Avenir-Book',
+    fontSize: 16,
+  },
+  navBar: {
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    margin: -20,
   }
 });
