@@ -5,21 +5,26 @@ import {
   TabBarIOS,
   TouchableHighlight,
   Image,
+  StatusBar,
   View
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/Foundation';
+
+var IconTwo = require('react-native-vector-icons/EvilIcons');
 var Signin = require('./components/authentication/signin');
 var Signup = require('./components/authentication/signup');
 var Groups = require('./components/groups/groups');
+var GroupView = require('./components/groups/groupView');
 var NewGroup = require('./components/groups/new');
-var NewGroupTwo = require('./components/groups/new2');
 var Events = require('./components/events/events');
 var EventShow = require('./components/events/show');
+var Invoices = require('./components/invoices/show');
 var ExpenseShow = require('./components/events/expenses/show');
 var NewExpense = require('./components/events/expenses/new');
 var NewEvent = require('./components/events/new');
 var UserProfile = require('./components/users/show');
-var TabBar = require('./components/tabbar');
+var MainNavigation = require('./mainNavigation');
 
 ROUTES = {
   signin: Signin,
@@ -27,23 +32,23 @@ ROUTES = {
   events: Events,
   eventShow: EventShow,
   userProfile: UserProfile,
-  tabBar: TabBar,
   // accountInfo: AccountInfo,
   // expenses: Expenses,
   expenseShow: ExpenseShow,
   groups: Groups,
-  // invoices: Invoices,
+  groupView: GroupView,
+  invoices: Invoices,
   // splash: Splash,
   newGroup: NewGroup,
-  newGroupTwo: NewGroupTwo,
   newEvent: NewEvent,
   newExpense: NewExpense,
+  mainNavigation: MainNavigation,
 };
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      selectedTab: 'Groups',
+      user: null,
     };
   },
   componentWillMount: function() {
@@ -57,52 +62,20 @@ module.exports = React.createClass({
   render: function() {
     return (
       <Image style={styles.backgroundImage} source={require('./img/background.jpg')}>
-        <TabBarIOS style={styles.container}>
-          <TabBarIOS.Item
-            title="Groups"
-            selected={this.state.selectedTab == 'Groups'}
-            onPress={() => this.setState({ selectedTab: 'Groups' })}>
-            <Navigator
-              style={styles.container}
-              initialRoute={{name: 'groups'}}
-              renderScene={this.renderScene}
-              configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
-              />
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            title="Events"
-            selected={this.state.selectedTab == 'Events'}
-            onPress={() => this.setState({ selectedTab: 'Events' })}>
-            <Navigator
-              style={styles.container}
-              initialRoute={{name: 'events'}}
-              renderScene={this.renderScene}
-              configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
-              />
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            title="Profile"
-            selected={this.state.selectedTab == 'Profile'}
-            onPress={() => this.setState({ selectedTab: 'Profile' })}>
-            <Navigator
-              style={styles.container}
-              initialRoute={{name: 'userProfile', index: 0}}
-              renderScene={this.renderScene}
-              configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
-              />
-          </TabBarIOS.Item>
-        </TabBarIOS>
+        <StatusBar
+          translucent={true}
+          backgroundColor="rgba(0, 0, 0, 0.2)"
+          barStyle="light-content"
+         />
+        <Navigator
+          style={styles.container}
+          ref='profile'
+          initialRoute={{name: 'signin'}}
+          renderScene={this.renderScene}
+          configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; } }
+          />
       </Image>
     );
-  },
-  onProfilePress: function() {
-    this.props.navigator.immediatelyResetRouteStack([{name: 'userProfile'}]);
-  },
-  onEventsPress: function() {
-    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
-  },
-  onGroupsPress: function() {
-    this.props.navigator.immediatelyResetRouteStack([{name: 'groups'}]);
   }
 });
 
@@ -116,5 +89,5 @@ var styles = StyleSheet.create({
     height: null,
     width: null,
     backgroundColor: 'rgba(0, 0, 0, 0)'
-  }
+  },
 });

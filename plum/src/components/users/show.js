@@ -48,9 +48,8 @@ var styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Heavy',
     fontSize: 32,
-    fontWeight: 'bold',
   },
   name: {
     flex: 1,
@@ -61,7 +60,7 @@ var styles = StyleSheet.create({
   label: {
     color: 'white',
     fontSize: 16,
-    fontFamily: 'AvenirNext-Medium',
+    fontFamily: 'Avenir-Book',
   }
 });
 

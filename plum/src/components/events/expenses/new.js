@@ -12,6 +12,7 @@ import {
   PixelRatio,
   NativeModules,
   requireNativeComponent,
+  ScrollView
   } from 'react-native';
 
 var Button = require('../../common/button');
@@ -46,7 +47,6 @@ module.exports = React.createClass({
 
     ImagePickerManager.showImagePicker(options, (response) => {
       console.log('Response = ', response);
-
       if (response.didCancel) {
         console.log('User cancelled photo picker');
       }
@@ -65,7 +65,6 @@ module.exports = React.createClass({
         } else {
           source = {uri: response.uri.replace('file://', ''), isStatic: true};
         }
-
         this.setState({
           photoSource: source
         });
@@ -83,7 +82,7 @@ module.exports = React.createClass({
   },
   render: function() {    
     return (
-      <View style={[styles.container]}>     
+      <View style={[styles.container]}>    
         <View style={[styles.name]}>
           <Text style={styles.title}>New Expense</Text>
         </View>
@@ -92,7 +91,7 @@ module.exports = React.createClass({
             value={this.state.description}
             labelStyle={styles.floatingLabelInput}
             inputStyle={styles.floatingInput}              
-            style={styles.floatingDescriptionInput}
+            style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({description: text})}
             >Description</FloatingLabel>
           <FloatingLabel 
@@ -116,6 +115,7 @@ module.exports = React.createClass({
             labelStyle={styles.floatingLabelInput}
             inputStyle={styles.floatingInput}              
             style={styles.floatingFormInput}
+            keyboardType={'numeric'}
             onChangeText={(text) => this.setState({amount: text})}
             >Amount</FloatingLabel>
             <TouchableHighlight
@@ -151,7 +151,8 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    color: 'white',
+    fontFamily: 'Avenir-Heavy'
   },
   name: {
     flex: 1,
@@ -168,22 +169,30 @@ var styles = StyleSheet.create({
     borderWidth: 0,
     width: width - 30,
     alignSelf: 'center',
-    color: 'black', 
+    color: 'white', 
+  },
+  floatingInput: {
+    padding: 5,
+    paddingLeft: 20,
+    height: 40,
+    borderWidth: 0,
+    width: width,
+    alignSelf: 'center',
+    color: 'white',
+    fontFamily: 'Avenir-Book' 
   },
   floatingLabelInput: {
-    color: 'black',
+    color: 'white',
+    fontFamily: 'Avenir-Book'
   },
   floatingFormInput: {
+    fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5, 
-    borderColor: '#619089',       
-  },
-  floatingDescriptionInput: {
-    borderBottomWidth: 1.5, 
-    borderColor: '#619089',       
+    borderColor: 'white',       
   },
   photoContainer: {
     marginTop: 10,
-    borderColor: '#9B9B9B',
+    borderColor: 'white',
     borderWidth: 1 / PixelRatio.get(),
     justifyContent: 'center',
     alignItems: 'center',
@@ -199,7 +208,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     height: 44,
     padding: 5,
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 44
   },
   addExpense: {
     alignSelf: 'stretch',
