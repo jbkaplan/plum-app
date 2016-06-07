@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
-
+var CookieManager = require('react-native-cookies');
 var Button = require('../common/button');
 var GroupItem = require('../common/groupItem');
 var groupMembers: [
@@ -17,12 +17,22 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       user: null,
-      groups:[]
+      groups:[
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']}
+            ]
 
     };
   },
   componentWillMount: function(){
     // Rails API call to get current user groups
+  },
+  componentDidMount: function(){
   },
   render: function() {
     // if (!this.state.user) {
@@ -41,16 +51,13 @@ module.exports = React.createClass({
           barStyle="light-content"
          />
         <View style={[styles.name]}>
-          <Text style={styles.welcomeTitle}>Welcome Back, !</Text>
+          <Text style={styles.welcomeTitle}>Welcome Back, {this.props.userName}!</Text>
           <Text style={styles.title}>Your Groups</Text>
         </View>
         <View style={styles.groupList}>
           <ScrollView style={styles.scroller}>
               {this.showGroups()}
           </ScrollView>
-        </View>
-        <View style={styles.newGroupButton}>
-          <Button text={'Get Groups'} onPress={this.getGroups} />  
         </View>
         <View style={styles.newGroupButton}>
           <Button text={'New Group'} onPress={this.handleNewGroup} />  
@@ -65,13 +72,22 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
-    fetch('http://localhost:3000/users/3/groups', {
-      method: 'GET'
-    })
-    .then((response) => response.json())
-    .then((responseData) => 
-      console.log(responseData.data[0].relationships)    )
-    .done();
+    // fetch('http://localhost:3000/users/3/groups', {
+    //   method: 'GET'
+    // })
+    // .then((response) => response.json())
+    // .then((responseData) => 
+    //   console.log(responseData.data[0].relationships)    )
+    // .done();
+    CookieManager.get('http://localhost:3000/users/3/groups', (err, res) => {
+      console.log('Got cookies for url', res);
+      // Outputs 'user_session=abcdefg; path=/;'
+    });
+    CookieManager.getAll((err, res) => {
+      console.log('cookies!');
+      console.log(err);
+      console.log(res);
+    });
   },
   showGroups: function(){
     return this.state.groups.map(function(group, index) {

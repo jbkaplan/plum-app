@@ -66,7 +66,7 @@ module.exports = React.createClass({
 
             leftButton={leftButtonConfig} />
           </View>
-        <Text style={[styles.header]}>Create a Group</Text>
+        <Text style={[styles.header]}>{this.props.userName} Create a Group</Text>
         <View>
           <Text style={styles.label}>Group Name:</Text>
             <View style={styles.flowRight}>

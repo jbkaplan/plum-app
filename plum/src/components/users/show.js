@@ -15,7 +15,7 @@ module.exports = React.createClass({
     return (
       <View style={[styles.container]}>
         <View style={[styles.name]}>
-          <Text style={styles.title}>{this.state.user} Profile</Text>
+          <Text style={styles.title}>{this.props.userName} Profile</Text>
         </View>
         <View style={[styles.container]}>
           <Text style={styles.label}>Email:</Text>
