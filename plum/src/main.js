@@ -11,6 +11,8 @@ import {
 
 import Icon from 'react-native-vector-icons/Foundation';
 
+var CookieManager = require('react-native-cookies');
+
 var IconTwo = require('react-native-vector-icons/EvilIcons');
 var Signin = require('./components/authentication/signin');
 var Signup = require('./components/authentication/signup');
@@ -44,6 +46,21 @@ ROUTES = {
   newExpense: NewExpense,
   mainNavigation: MainNavigation,
 };
+
+// set a cookie (IOS ONLY)
+CookieManager.set({
+  name: 'userCookie',
+  value: '1',
+  domain: 'some domain',
+  origin: 'some origin',
+  path: '/',
+  version: '1',
+  expiration: '2015-05-30T12:30:00.00-05:00'
+}, (err, res) => {
+  console.log('cookie set!');
+  console.log(err);
+  console.log(res);
+});
 
 module.exports = React.createClass({
   getInitialState: function() {

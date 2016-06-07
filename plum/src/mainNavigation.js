@@ -62,7 +62,10 @@ module.exports = React.createClass({
     var Component = ROUTES[route.name];
     // return our component
     // 
-    return <Component route={route} navigator={navigator} />;
+    return <Component 
+      route={route} 
+      navigator={navigator} 
+      userName={this.props.userName}/>;
   },
 
   render: function() {

@@ -24,6 +24,7 @@
 		69C5F4B31D03896200AF11A1 /* react-native-autocomplete in Resources */ = {isa = PBXBuildFile; fileRef = 69C5F4B21D03896200AF11A1 /* react-native-autocomplete */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AB6013641D0375E20024E399 /* libRCTAutoComplete.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB60135A1D0375AF0024E399 /* libRCTAutoComplete.a */; };
+		AB925CD11D070CAD00C338AB /* RNCookieManagerIOS.m in Sources */ = {isa = PBXBuildFile; fileRef = AB925CD01D070CAD00C338AB /* RNCookieManagerIOS.m */; };
 		AB94C8211D04113E002356E5 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB94C8171D0410FE002356E5 /* libRCTCameraRoll.a */; };
 		AB94C8281D04141D002356E5 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB94C8271D041411002356E5 /* libRNImagePicker.a */; };
 		ABB56F221D05351F0036061C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABB56F1A1D05351F0036061C /* Entypo.ttf */; };
@@ -170,6 +171,8 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		AB6013541D0375AF0024E399 /* RCTAutoComplete.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAutoComplete.xcodeproj; path = "../node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj"; sourceTree = "<group>"; };
+		AB925CCF1D070CAD00C338AB /* RNCookieManagerIOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCookieManagerIOS.h; sourceTree = "<group>"; };
+		AB925CD01D070CAD00C338AB /* RNCookieManagerIOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCookieManagerIOS.m; sourceTree = "<group>"; };
 		AB94C8101D0410FE002356E5 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		AB94C8221D041411002356E5 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		ABB56F1A1D05351F0036061C /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
@@ -352,6 +355,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AB925CCE1D070CAD00C338AB /* RNCookieManagerIOS */,
 				ABB56F191D05351F0036061C /* Fonts */,
 				13B07FAE1A68108700A75B9A /* plum */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -377,6 +381,16 @@
 				AB60135A1D0375AF0024E399 /* libRCTAutoComplete.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB925CCE1D070CAD00C338AB /* RNCookieManagerIOS */ = {
+			isa = PBXGroup;
+			children = (
+				AB925CCF1D070CAD00C338AB /* RNCookieManagerIOS.h */,
+				AB925CD01D070CAD00C338AB /* RNCookieManagerIOS.m */,
+			);
+			name = RNCookieManagerIOS;
+			path = "../node_modules/react-native-cookies/RNCookieManagerIOS";
 			sourceTree = "<group>";
 		};
 		AB94C8111D0410FE002356E5 /* Products */ = {
@@ -712,6 +726,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				AB925CD11D070CAD00C338AB /* RNCookieManagerIOS.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

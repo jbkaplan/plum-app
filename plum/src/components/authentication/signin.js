@@ -10,6 +10,9 @@ var MainNavigation = require('./../../mainNavigation');
 module.exports = React.createClass({
   getInitialState: function() {
     return {
+      user: null,
+      userEmail: null,
+      userName: null,
       email: '',
       password: '',
       errorMessage: '',
@@ -29,6 +32,9 @@ module.exports = React.createClass({
           <Text style={styles.logo}>plum</Text>
         </View>
         <View style={[styles.formInput]}>
+          <View style={styles.errorView}>
+            <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+          </View>
           <View style={styles.emailRow}>
             <Icon style={styles.icon} name="envelope" size={23} color="#619089" />
             <FloatingLabel
@@ -51,7 +57,6 @@ module.exports = React.createClass({
               >Password</FloatingLabel>
           </View>
         </View>
-        <Text style={styles.label}>{this.state.errorMessage}</Text>
         <View style={styles.buttons}>
           <Button text={'Sign In'} onPress={this.onSignInPress} />
           <TouchableHighlight
@@ -86,15 +91,29 @@ module.exports = React.createClass({
     // if successfull > Log In
     fetch("http://localhost:3000/login", {method: "POST",
       headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify({email: "tom@t.com", password: "tom"})
+        body: JSON.stringify({
+          email: this.state.email,
+          password: this.state.password,
+        })
     })
     .then((response) => response.json())
     .then((responseText) => {
-      // this.props.navigator({user: responseText.data.attributes});
-      // this.props.navigator.push({
-      //   name: 'userProfile', passProps: {...responseText.data.attributes}
-      // })
+      this.props.navigator.push({
+        name: 'mainNavigation',
+        passProps: {
+          user: responseText.data.id,
+          userEmail: responseText.data.attributes.email,
+          userName: responseText.data.attributes.name
+          }
+      })
     })
+    .catch((error) => {
+      this.setState({
+        email: '',
+        password: '',
+        errorMessage: 'Invalid Credentials'
+      })
+    });
     // this.props.navigator.immediatelyResetRouteStack([{name: 'mainNavigation'}]);
   }
 });
@@ -195,7 +214,7 @@ var styles = StyleSheet.create({
     fontFamily: 'Lobster 1.3',
     color: 'white',
     fontSize: 90,
-    padding: 15
+    padding: 15,
   },
   logoText: {
     flex: 2,
@@ -212,5 +231,12 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     marginBottom: 35
-  }
+  },
+  errorMessage: {
+    position: 'absolute',
+    top: -30,
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 16,
+    color: 'white',
+  },
 });

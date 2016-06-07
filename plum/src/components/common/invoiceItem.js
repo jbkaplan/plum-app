@@ -17,7 +17,6 @@ module.exports = React.createClass({
               onPress={this._onPressPayPalButton}
               >
             <View style={styles.payButton}>
-              <Text style={styles.payWithPayPal}><Icon style={styles.icon} name="paypal" size={15} color="white" /> Pay</Text>
               <IconTwo name="chevron-right" size={50} color="white" />
             </View>
           </TouchableHighlight>
