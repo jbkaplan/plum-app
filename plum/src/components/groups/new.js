@@ -65,7 +65,7 @@ module.exports = React.createClass({
             tintColor='rgba(255,255,255,.1)'
 
             leftButton={leftButtonConfig} />
-          </View>
+        </View>
         <Text style={[styles.header]}>{this.props.userName} Create a Group</Text>
         <View>
           <Text style={styles.label}>Group Name:</Text>
@@ -119,7 +119,6 @@ module.exports = React.createClass({
     }
   },
   handlePersonNameChange: function() {
-    console.log(this.state.personName)
     this.setState({
       newGroupArray: this.state.newGroupArray.concat([this.state.personName]),
       personName: ''

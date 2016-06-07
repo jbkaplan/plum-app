@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/EvilIcons';
+import Icon from 'react-native-vector-icons/Entypo';
 
-module.exports = React.createClass({
+var GroupItem = React.createClass({
   render: function() {
-    console.log(this.props.group.members);
     return (
         <View style={[styles.groupItem]}>
           <View>
@@ -17,7 +16,7 @@ module.exports = React.createClass({
                 style={styles.arrowButton}
                 onPress={this._onPressArrow}
                 >
-                <Text style={styles.arrow}><Icon name="chevron-right" size={50} color="white" /></Text>
+                <Text style={styles.arrow}><Icon name="chevron-right" size={40} color="white" /></Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -66,12 +65,12 @@ var styles = StyleSheet.create({
   arrowButton: {
     backgroundColor: 'rgba(0,0,0,0)',
     position: 'absolute',
-    right: 30,
-    top: -23,
+    right: 35,
+    top: -27,
   },
 });
 
-
+module.exports = GroupItem;
 
 
 

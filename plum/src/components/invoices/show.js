@@ -1,40 +1,66 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, Dimensions, StatusBar, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
+import NavigationBar from 'react-native-navbar';
 
-var invoices = [{event: 'Roadtrip', group: 'Roomates'}, {event: 'Cubs Game', group: 'Cubs Infield'}, {event: 'Rent Payment', group: 'Roomates'}, {event: 'Dinners', group: 'Friends'}]
 var InvoiceItem = require('../common/invoiceItem');
 var Button = require('../common/button');
 
 module.exports = React.createClass({
   getInitialState: function() {
+    console.log(this.props.price)
     return {
       user: null,
-      invoices: [
-        {event: 'Roadtrip', group: 'Roomates', price: 55}, 
-        {event: 'Cubs Game', group: 'Cubs Infield', price: 55}, 
-        {event: 'Rent Payment', group: 'Roomates', price: 55}, 
-        {event: 'Rent Payment', group: 'Roomates', price: 55}, 
-        {event: 'Rent Payment', group: 'Roomates', price: 55}, 
-        {event: 'Dinners', group: 'Friends', price: 55}
-      ],
     };
   },
   componentWillMount: function(){
     // Rails API call to get current user
   },
-  render: function() {    
+  componentDidMount: function(){
+    console.log(this.props.events)
+  },
+  render: function() { 
+    var eventName = this.props.event;
+
+    const rightButtonConfig = {
+      title: 'Next',
+      handler: () => alert('hello!'),
+    };
+    
+    const leftButtonConfig = {
+      title: 'Back',
+      tintColor: 'rgba(255,255,255,.9)',
+      handler: () => this.props.navigator.pop(),
+    };
+
+    const titleConfig = {
+        title: 'Create Group',
+      };
+
+    const textIcon = <Text><Icon style={styles.icon} name="paypal" size={15} color="white" /> Pay with PayPal</Text>
     return (
-      <View style={styles.container}>       
-        <View style={[styles.name]}>
-          <Text style={styles.title}>Invoices</Text>
+      <View style={styles.container}>
+        <View style={styles.navBar}>
+          <StatusBar
+            barStyle="default"
+            style="default"
+           />
+          <NavigationBar
+            tintColor='rgba(255,255,255,.1)'
+            leftButton={leftButtonConfig} />
         </View>
-        <View style={styles.eventList}>
-          <ScrollView style={styles.scroller}>
-              {this.showInvoices()}
-          </ScrollView>
+        <View style={styles.logoText}>
+          <Text style={styles.logo}>plum</Text>
         </View>
-        <View style={styles.empty}>
-          <Text></Text>
+        <View style={[styles.nameContainer]}>
+          <Text style={styles.invoiceTitle}>Invoice: {eventName}</Text>
+          <Text style={styles.title}>Group: {this.props.group}</Text>
+        </View>
+        <View style={[styles.priceContainer]}>
+          <Text style={styles.priceTitle}>${this.props.price}</Text>
+        </View>
+        <View style={styles.button}>
+          <Button text={textIcon} onPress={this._onPressButton} />
         </View>
       </View>
     )
@@ -45,19 +71,11 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
-  showInvoices: function(){
-    return this.state.invoices.map(function(invoice, index) {
-        return (
-          <InvoiceItem invoice={invoice} />
-        );
-    });
-  },
   getInvoices: function() {
     // Get invoices from API CALL
   },
   _onPressButton: function() {
     console.log('pressed')
-    
   },
 });
 
@@ -66,22 +84,33 @@ var width = Dimensions.get('window').width;
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    padding: 5,
+    margin: 20
   },
   title: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'white',
+    fontFamily: 'Avenir-Book',
+  },
+  invoiceTitle: {
+    textAlign: 'center',
     fontSize: 32,
     color: 'white',
     fontFamily: 'Avenir-Heavy',
   },
-  name: {    
+  nameContainer: {    
     flex: 2,
     justifyContent: 'center',
     alignSelf: 'center',
-    padding: 5
+    padding: 5,
+    marginTop: 20
   },
-  eventList: {
+  priceContainer: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    flex: 2
+  },
+  button: {
     width: width,
     flex: 7,
     marginBottom: 50,
@@ -90,7 +119,36 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     flexDirection: 'row',
     alignSelf: 'center'
-  }
+  },
+  navBar: {
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    margin: -20,
+  },
+  priceTitle: {
+    textAlign: 'center',
+    fontSize: 50,
+    color: 'white',
+    fontFamily: 'Avenir-Heavy',
+  },
+  logo: {
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+    fontFamily: 'Lobster 1.3',
+    color: 'white',
+    fontSize: 90,
+    padding: 15,
+  },
+  logoText: {
+    marginTop: 50,
+    
+    flex: 2,
+    width: width - 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20
+  },
 });
 
 

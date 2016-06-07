@@ -98,12 +98,14 @@ module.exports = React.createClass({
     })
     .then((response) => response.json())
     .then((responseText) => {
+      console.log(responseText)
       this.props.navigator.push({
         name: 'mainNavigation',
         passProps: {
           user: responseText.data.id,
           userEmail: responseText.data.attributes.email,
-          userName: responseText.data.attributes.name
+          userName: responseText.data.attributes.name,
+          userPhone: responseText.data.attributes.phone,
           }
       })
     })

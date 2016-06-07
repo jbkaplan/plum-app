@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null
+      user: null,
+      navigator: this.props.navigator,
+      expenses: [        
+        {event: 'Roadtrip', group: 'Roomates'}, 
+        {event: 'Cubs Game', group: 'Cubs Infield'}, ]
     };
   },
   componentWillMount: function(){
@@ -14,34 +18,19 @@ module.exports = React.createClass({
     return (
       <View style={[styles.container]}>       
         <View style={[styles.name]}>
-          <Text style={styles.title}>Event Name</Text>
+          <Text style={styles.title}>{this.props.event}</Text>
+          <Text style={styles.groupTitle}>Group: {this.props.group}</Text>
         </View>
         <View style={[styles.expenses]}>
           <Text style={styles.label}>Expenses:</Text>
           <View style={[styles.expenseItems]}>
-            <TouchableHighlight
-              underlayColor='#6AAAA0'
-              onPress={this.onExpensePress}
-              style={[styles.expenseItemButton]}
-              >
-              <Text style={styles.buttonText}>Item 1</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-        <View style={[styles.expenses]}>
-          <Text style={styles.label}>Your Expenses:</Text>
-          <View style={[styles.expenseItems]}>
-            <TouchableHighlight
-              underlayColor='#6AAAA0'
-              onPress={this.onExpensePress}
-              style={[styles.expenseItemButton]}
-              >
-              <Text style={styles.buttonText}>Item 1</Text>
-            </TouchableHighlight>
+            <ScrollView style={styles.scroller}>
+              {this.showExpenses()}
+            </ScrollView>
           </View>
         </View>
         <View style={[styles.container]}>
-          <Text style={styles.label}>Your Balance = $</Text>
+          <Text style={styles.label}>Your Tentative Balance = $</Text>
         </View>
       </View>
     )
@@ -51,6 +40,14 @@ module.exports = React.createClass({
       borderColor: color,
       borderWidth: 4
     }
+  },
+  showExpenses: function(){
+    var navigator = this.props.navigator
+    return this.state.expenses.map(function(expense, index) {
+        return (
+          <ExpenseItem expense={event} navigator={navigator} />
+        );
+    });
   },
   onExpensePress: function() {
 
@@ -79,11 +76,18 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#6AAAA0'
   },
+  groupTitle: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: 'white',
+    fontFamily: 'Avenir-Book',
+  },
   title: {
+    textAlign: 'center',
     fontSize: 32,
     color: 'white',
     fontFamily: 'Avenir-Heavy',
-  },  
+  }, 
   label: {
     fontSize: 16,
     color: 'white',
