@@ -48,6 +48,7 @@ ROUTES = {
 module.exports = React.createClass({
   getInitialState: function() {
     return {
+      selectedTab: 'Groups',
       user: null,
     };
   },
@@ -56,7 +57,8 @@ module.exports = React.createClass({
   },
   renderScene: function(route, navigator) {
     var Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator} />;
+    // return <Component route={route} navigator={navigator} user={this.state.user}/>;
+    return <Component navigator={navigator} {...route.passProps}/>;
   },
 
   render: function() {

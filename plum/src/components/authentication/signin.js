@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, TouchableHighlight, Navigator, TouchableOpacity, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/EvilIcons';
-
 var Button = require('../common/button');
 var FloatingLabel = require('react-native-floating-labels');
 var MainNavigation = require('./../../mainNavigation');
@@ -32,9 +31,9 @@ module.exports = React.createClass({
         <View style={[styles.formInput]}>
           <View style={styles.emailRow}>
             <Icon style={styles.icon} name="envelope" size={23} color="#619089" />
-            <FloatingLabel 
+            <FloatingLabel
               labelStyle={styles.floatingLabelInput}
-              inputStyle={styles.floatingInput}              
+              inputStyle={styles.floatingInput}
               style={styles.floatingFormInput}
               value={this.state.email}
               onChangeText={(text) => this.setState({email: text})}
@@ -42,10 +41,10 @@ module.exports = React.createClass({
           </View>
           <View style={styles.row}>
             <Icon style={styles.icon} name="lock" size={25} color="#619089" />
-            <FloatingLabel 
+            <FloatingLabel
               password={true}
               labelStyle={styles.floatingLabelInput}
-              inputStyle={styles.floatingInput}              
+              inputStyle={styles.floatingInput}
               style={styles.floatingFormInput}
               value={this.state.password}
               onChangeText={(text) => this.setState({password: text})}
@@ -76,10 +75,8 @@ module.exports = React.createClass({
     }
   },
   myFocusFunction: function(){
-
   },
   onBlurFunction: function(){
-
   },
   onSignupPress: function(){
     this.props.navigator.push({name: 'signup'});
@@ -87,8 +84,18 @@ module.exports = React.createClass({
   onSignInPress: function() {
     // Rails api call to check user/password
     // if successfull > Log In
-    this.props.navigator.immediatelyResetRouteStack([{name: 'mainNavigation'}]);
-    // return <MainNavigation email={this.props.email} />
+    fetch("http://localhost:3000/login", {method: "POST",
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify({email: "tom@t.com", password: "tom"})
+    })
+    .then((response) => response.json())
+    .then((responseText) => {
+      // this.props.navigator({user: responseText.data.attributes});
+      // this.props.navigator.push({
+      //   name: 'userProfile', passProps: {...responseText.data.attributes}
+      // })
+    })
+    // this.props.navigator.immediatelyResetRouteStack([{name: 'mainNavigation'}]);
   }
 });
 
@@ -131,7 +138,6 @@ var styles = StyleSheet.create({
     padding: 3,
     marginTop: 8
   },
-
   needAccountButtonPress: {
     backgroundColor: 'white',
     justifyContent: 'center',
@@ -148,7 +154,7 @@ var styles = StyleSheet.create({
     width: width,
     alignSelf: 'center',
     color: 'white',
-    fontFamily: 'Avenir-Book' 
+    fontFamily: 'Avenir-Book'
   },
   floatingLabelInput: {
     color: 'white',
@@ -157,8 +163,8 @@ var styles = StyleSheet.create({
   },
   floatingFormInput: {
     fontFamily: 'Avenir-Book',
-    borderBottomWidth: 1.5, 
-    borderColor: 'rgba(255,255,255,.1)',       
+    borderBottomWidth: 1.5,
+    borderColor: 'rgba(255,255,255,.1)',
   },
   lockIcon: {
     flex: 1,
@@ -208,11 +214,3 @@ var styles = StyleSheet.create({
     marginBottom: 35
   }
 });
-
-
-
-
-
-
-
-

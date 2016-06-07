@@ -4,17 +4,18 @@ import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null
+      user: this.props.user
     };
   },
-  componentWillMount: function(){
+  componentDidMount: function(){
     // Rails API call to get current user
+    console.log(this.state.user)
   },
-  render: function() {    
+  render: function() {
     return (
-      <View style={[styles.container]}>       
+      <View style={[styles.container]}>
         <View style={[styles.name]}>
-          <Text style={styles.title}>User's Profile</Text>
+          <Text style={styles.title}>{this.state.user} Profile</Text>
         </View>
         <View style={[styles.container]}>
           <Text style={styles.label}>Email:</Text>
@@ -63,7 +64,3 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Book',
   }
 });
-
-
-
-

@@ -63,7 +63,7 @@ module.exports = React.createClass({
            />
           <NavigationBar
             tintColor='rgba(255,255,255,.1)'
-            
+
             leftButton={leftButtonConfig} />
           </View>
         <Text style={[styles.header]}>Create a Group</Text>
@@ -152,11 +152,11 @@ module.exports = React.createClass({
   },
   displayGroupMembers: function(){
     return this.state.newGroupArray.map(function(member, index) {
-      return <View>
-        <Text style={styles.groupMembers}>
+      return (
+        <Text style={styles.groupMembers} key={index}>
           Member #{index + 1}: {member}
         </Text>
-      </View>
+      )
     });
   },
 });
