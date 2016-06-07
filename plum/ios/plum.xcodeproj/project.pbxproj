@@ -181,7 +181,7 @@
 		ABB56F201D05351F0036061C /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		ABB56F211D05351F0036061C /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 		ABB56F371D0536B00036061C /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
-		ABB56F3E1D053F840036061C /* Lobster.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Lobster.otf; path = ../../../../../../../../Resource/Lobster/Lobster.otf; sourceTree = "<group>"; };
+		ABB56F3E1D053F840036061C /* Lobster.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Lobster.otf; path = ../../../src/fonts/Lobster.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

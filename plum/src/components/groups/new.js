@@ -77,7 +77,7 @@ module.exports = React.createClass({
         <TouchableHighlight
           style={styles.createGroupButton}
           underlayColor='#6AAAA0'
-          onPress={this.onNewGroupPress }>
+          onPress={this.onNewGroupPress}>
           <Text style={styles.buttonText}>Create Group</Text>
         </TouchableHighlight>
       </View>
@@ -99,6 +99,27 @@ module.exports = React.createClass({
   },
   onNewGroupPress: function() {
     // Call to Rails API to create new group - POST AJAX
+    // console.log(this.state.newGroupArray);
+
+    fetch("http://plumpayments.herokuapp.com/users", {
+      method: "POST",
+      headers: {'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({first_name: "dfg", last_name: "L", email: "e@mfffgdfgail.com", password:"secret"})
+    })
+    // .then((response) => {
+    //   console.log('*********', response.json());
+    // })
+    // .then((responseData) => {
+    //   console.log('$$$$$$$$$$$', JSON.stringify(responseData.body));
+    //   AlertIOS.alert(
+    //       "POST Response",
+    //       "Response Body -> " + JSON.stringify(responseData.body)
+    //   )
+    //   console.log(JSON.stringify(responseData.body));
+    // })
+    .done();
   },
   handleGroupNameChange: function() {
     this.setState({
@@ -108,11 +129,11 @@ module.exports = React.createClass({
   },
   displayGroupMembers: function(){
     return this.state.newGroupArray.map(function(member, index) {
-      return <View>
-        <Text style={styles.groupMembers}>
+      return (
+        <Text style={styles.groupMembers} key={index}>
           Member #{index + 1}: {member}
         </Text>
-      </View>
+      )
     });
   },
 });

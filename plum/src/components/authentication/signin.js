@@ -31,9 +31,9 @@ module.exports = React.createClass({
         <Text style={styles.title}>Sign in</Text>
         <View style={styles.row}>
           <Icon style={styles.icon} name="envelope" size={17} color="#619089" />
-          <FloatingLabel 
+          <FloatingLabel
             labelStyle={styles.floatingLabelInput}
-            inputStyle={styles.floatingInput}              
+            inputStyle={styles.floatingInput}
             style={styles.floatingFormInput}
             value={this.state.email}
             onChangeText={(text) => this.setState({email: text})}
@@ -41,10 +41,10 @@ module.exports = React.createClass({
         </View>
         <View style={styles.row}>
           <Icon style={styles.icon} name="lock" size={22} color="#619089" />
-          <FloatingLabel 
+          <FloatingLabel
             password={true}
             labelStyle={styles.floatingLabelInput}
-            inputStyle={styles.floatingInput}              
+            inputStyle={styles.floatingInput}
             style={styles.floatingFormInput}
             value={this.state.password}
             onChangeText={(text) => this.setState({password: text})}
@@ -52,7 +52,7 @@ module.exports = React.createClass({
         </View>
         <Text style={styles.label}>{this.state.errorMessage}</Text>
         <View style={styles.buttons}>
-          <Button text={'Sign In'} onPress={this.onPress} />
+          <Button text={'Sign In'} onPress={this.onSignIn} />
           <TouchableHighlight
             activeOpacity={1}
             underlayColor={'#6AAAA0'}
@@ -68,18 +68,25 @@ module.exports = React.createClass({
     );
   },
   myFocusFunction: function(){
-
   },
   onBlurFunction: function(){
-
   },
   onSignupPress: function(){
     this.props.navigator.push({name: 'signup'});
   },
-  onPress: function() {
+  onSignIn: function() {
     // Rails api call to check user/password
     // if successfull > Log In
-    this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
+    // this.props.navigator.immediatelyResetRouteStack([{name: 'userProfile'}]);
+    fetch("http://localhost:3000/login", {method: "POST",
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+        body: JSON.stringify({email: "tom@t.com", password: "tom"})
+    })
+    .then((response) => response.json())
+    .then((responseText) => {
+      // this.props.navigator({user: responseText.data.attributes});
+      this.props.navigator.push({name: 'userProfile', user: {responseText.data.attributes}})
+    })
   }
 });
 
@@ -141,7 +148,7 @@ var styles = StyleSheet.create({
     width: width,
     alignSelf: 'center',
     color: 'white',
-    fontFamily: 'AvenirNext-Medium' 
+    fontFamily: 'AvenirNext-Medium'
   },
   floatingLabelInput: {
     color: 'white',
@@ -149,8 +156,8 @@ var styles = StyleSheet.create({
   },
   floatingFormInput: {
     fontFamily: 'AvenirNext-Medium',
-    borderBottomWidth: 1.5, 
-    borderColor: '#619089',       
+    borderBottomWidth: 1.5,
+    borderColor: '#619089',
   },
   lockIcon: {
     flex: 1,
@@ -180,11 +187,3 @@ var styles = StyleSheet.create({
     marginBottom: 135
   }
 });
-
-
-
-
-
-
-
-
