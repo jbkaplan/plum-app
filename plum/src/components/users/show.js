@@ -9,19 +9,18 @@ module.exports = React.createClass({
   },
   componentDidMount: function(){
     // Rails API call to get current user
-    console.log(this.state.user)
   },
   render: function() {
     return (
       <View style={[styles.container]}>
         <View style={[styles.name]}>
-          <Text style={styles.title}>{this.props.userName} Profile</Text>
+          <Text style={styles.title}>{this.props.userName}</Text>
         </View>
         <View style={[styles.container]}>
-          <Text style={styles.label}>Email:</Text>
+          <Text style={styles.label}>Email: {this.props.userEmail}</Text>
         </View>
         <View style={[styles.container]}>
-          <Text style={styles.label}>Phone:</Text>
+          <Text style={styles.label}>Phone: {this.props.userPhone}</Text>
         </View>
         <View style={[styles.container]}>
           <Text style={styles.label}>PayPal Info: $</Text>
@@ -35,9 +34,6 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
-  onExpensePress: function() {
-
-  }
 });
 
 var styles = StyleSheet.create({

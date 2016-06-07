@@ -3,20 +3,20 @@ import { StyleSheet, Text, View, TouchableHighlight, Navigator, TouchableOpacity
 import Icon from 'react-native-vector-icons/Entypo';
 import IconTwo from 'react-native-vector-icons/EvilIcons';
 
-var InvoiceItem = React.createClass({
+var EventItem = React.createClass({
   render: function() {
     return (
-        <View style={[styles.invoiceItem]}>
+        <View style={[styles.eventItem]}>
           <View>
-            <Text style={styles.invoiceGroupName}>{this.props.invoice.group}</Text>
-            <Text style={styles.invoiceEventName}>{this.props.invoice.event}</Text>
+            <Text style={styles.eventName}>{this.props.event.event}</Text>
+            <Text style={styles.eventGroupName}>{this.props.event.group}</Text>
           </View>
           <TouchableHighlight
               underlayColor='rgba(255,255,255,0)'
-              style={styles.payPalButton}
+              style={styles.arrowButton}
               onPress={this.onPress}
               >
-            <View style={styles.payButton}>
+            <View style={styles.arrowView}>
               <Icon name="chevron-right" size={40} color="white" />
             </View>
           </TouchableHighlight>
@@ -25,11 +25,10 @@ var InvoiceItem = React.createClass({
   },
   onPress: function(){
     this.props.navigator.push({
-      name: 'invoiceShow',
+      name: 'eventShow',
       passProps: {
-          event: this.props.invoice.event,
-          group: this.props.invoice.group,
-          price: this.props.invoice.price
+          event: this.props.event.event,
+          group: this.props.event.group,
         }
       })
   }
@@ -38,7 +37,7 @@ var InvoiceItem = React.createClass({
 var width = Dimensions.get('window').width; //full width
 
 var styles = StyleSheet.create({
-  invoiceItem: {
+  eventItem: {
     flexDirection: 'row',
     marginBottom: 10,
     width: width,
@@ -47,17 +46,17 @@ var styles = StyleSheet.create({
     borderLeftWidth: 5,
     backgroundColor: 'rgba(255,255,255,.1)'
   },
-  invoiceGroupName: {
+  eventGroupName: {
     fontFamily: 'Avenir-book',
     fontSize: 16,
     color: 'white'
   },
-  invoiceEventName: {
+  eventName: {
     fontFamily: 'Avenir-Heavy',
     fontSize: 24,
     color: 'white'
   },
-  payPalButton: {
+  arrowButton: {
     backgroundColor: 'rgba(0,0,0,0)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -90,14 +89,10 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Heavy',
     fontSize: 24,
   },
-  payButton: {
+  arrowView: {
     flexDirection: 'row'
   }
 });
 
-
-module.exports = InvoiceItem;
-
-
-
+module.exports = EventItem;
 

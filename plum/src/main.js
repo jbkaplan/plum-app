@@ -19,9 +19,10 @@ var Signup = require('./components/authentication/signup');
 var Groups = require('./components/groups/groups');
 var GroupView = require('./components/groups/groupView');
 var NewGroup = require('./components/groups/new');
-var Events = require('./components/events/events');
+var Events = require('./components/events/index');
 var EventShow = require('./components/events/show');
-var Invoices = require('./components/invoices/show');
+var Invoices = require('./components/invoices/index');
+var InvoiceShow = require('./components/invoices/show');
 var ExpenseShow = require('./components/events/expenses/show');
 var NewExpense = require('./components/events/expenses/new');
 var NewEvent = require('./components/events/new');
@@ -40,6 +41,7 @@ ROUTES = {
   groups: Groups,
   groupView: GroupView,
   invoices: Invoices,
+  invoiceShow: InvoiceShow,
   // splash: Splash,
   newGroup: NewGroup,
   newEvent: NewEvent,
@@ -75,7 +77,7 @@ module.exports = React.createClass({
   renderScene: function(route, navigator) {
     var Component = ROUTES[route.name];
     // return <Component route={route} navigator={navigator} user={this.state.user}/>;
-    return <Component navigator={navigator} {...route.passProps}/>;
+    return <Component navigator={navigator} {...route.passProps} />;
   },
 
   render: function() {
