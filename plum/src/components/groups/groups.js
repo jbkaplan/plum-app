@@ -57,7 +57,7 @@ module.exports = React.createClass({
         </View>
         <View style={styles.groupList}>
           <ScrollView style={styles.scroller}>
-              {this.showGroups()}
+              {this.getGroups()}
           </ScrollView>
         </View>
         <View style={styles.newGroupButton}>
@@ -78,7 +78,7 @@ module.exports = React.createClass({
     })
     .then((response) => response.json())
     .then((responseData) =>
-      console.log(responseData.data[0].relationships))
+      console.log(responseData.data))
     .done();
   },
   showGroups: function(){

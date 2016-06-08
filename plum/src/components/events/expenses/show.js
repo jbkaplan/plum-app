@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, StatusBar, TouchableHighlight } from 'react-native';
+import NavigationBar from 'react-native-navbar';
+
+var InvoiceItem = require('../../common/invoiceItem');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -10,23 +13,46 @@ module.exports = React.createClass({
   componentWillMount: function(){
     // Rails API call to get current user
   },
-  render: function() {    
+  render: function() {  
+    const rightButtonConfig = {
+      title: 'Next',
+      handler: () => alert('hello!'),
+    };
+    
+    const leftButtonConfig = {
+      title: 'Back',
+      tintColor: 'rgba(255,255,255,.9)',
+      handler: () => this.props.navigator.pop(),
+    };
+
+    const titleConfig = {
+        title: 'Create Group',
+      };  
     return (
-      <View style={[styles.container]}>       
+      <View style={[styles.container]}>  
+        <View style={styles.navBar}>
+          <StatusBar
+            barStyle="default"
+            style="default"
+           />
+          <NavigationBar
+            tintColor='rgba(255,255,255,.1)'
+            leftButton={leftButtonConfig} />
+        </View>     
         <View style={[styles.name]}>
-          <Text style={styles.title}>Expense</Text>
+          <Text style={styles.title}>{this.props.event}</Text>
         </View>
-        <View style={[styles.container]}>
-          <Text style={styles.label}>Description:</Text>
+        <View style={[styles.expenseContainer]}>
+          <Text style={styles.label}>Description: {this.props.expenseDescription}</Text>
         </View>
-        <View style={[styles.container]}>
-          <Text style={styles.label}>Location:</Text>
+        <View style={[styles.expenseContainer]}>
+          <Text style={styles.label}>Location: {this.props.expenseLocation}</Text>
         </View>
-        <View style={[styles.container]}>
+        <View style={[styles.expenseContainer]}>
           <Text style={styles.label}>Photo:</Text>
         </View>
-        <View style={[styles.container]}>
-          <Text style={styles.label}>Amount: $</Text>
+        <View style={[styles.expenseContainer]}>
+          <Text style={styles.label}>Amount: ${this.props.expenseAmount}</Text>
         </View>
       </View>
     )
@@ -45,9 +71,7 @@ module.exports = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    padding: 5
+    margin: 20
   },
   expenses: {
     flex: 2
@@ -78,6 +102,14 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Book',
     marginBottom: 10,
   },
+  navBar: {
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    margin: -20,
+  },
+  expenseContainer: {
+    flex: 1
+  }
 });
 
 
