@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Dimensions, StatusBar, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, Dimensions, StatusBar, Linking, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import NavigationBar from 'react-native-navbar';
 
@@ -75,7 +75,8 @@ module.exports = React.createClass({
     // Get invoices from API CALL
   },
   _onPressButton: function() {
-    console.log('pressed')
+    var url = 'https://www.sandbox.paypal.com/us/cgi_bin/webscr?cmd=_pay-inv&id=INV2-MTJR-D2UY-QTGZ-XZE5'
+    Linking.openURL(url)
   },
 });
 
