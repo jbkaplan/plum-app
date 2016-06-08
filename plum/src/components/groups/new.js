@@ -6,6 +6,7 @@ import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 var AutoComplete = require('react-native-autocomplete');
+// var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}];
 var Button = require('../common/button');
 
 const API = ''; // Rails API
@@ -24,8 +25,10 @@ module.exports = React.createClass({
       group: {}
     };
   },
-  componentWillMount: function(){
+  componentDidMount: function(){
     // Call to Rails API to have current user
+    // console.log("****************", this.props.refreshGroups);
+    // this.props.refreshGroups();
   },
   onTyping: function (text) {
     var members = GroupMembers.filter(function (member) {
@@ -51,8 +54,7 @@ module.exports = React.createClass({
       handler: () => this.props.navigator.pop(),
     };
     const titleConfig = {
-        title: 'New Group',
-        tintColor: 'rgba(255,255,255,.9)',
+        title: 'Create Group',
       };
 
     return (
@@ -64,7 +66,7 @@ module.exports = React.createClass({
            />
           <NavigationBar
             tintColor='rgba(255,255,255,.1)'
-            title={titleConfig}
+
             leftButton={leftButtonConfig} />
         </View>
         <Text style={[styles.header]}>{this.props.userName} Create a Group</Text>
@@ -104,6 +106,10 @@ module.exports = React.createClass({
           </View>
         </ScrollView>
 
+        <View style={styles.errorView}>
+          <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+        </View>
+
         <TouchableHighlight
           style={styles.createGroupButton}
           underlayColor='#6AAAA0'
@@ -138,12 +144,17 @@ module.exports = React.createClass({
         members: this.state.newGroupArray,
         userId: this.props.userId
       })
-    }).then((response) => response.text()).then((responseText) => {
-    console.log(responseText); });
-    this.setState({
-      newGroupArray: [],
-      groupName: ''
-    });
+    })
+    .then((response) => response.json())
+    .then((responseText) => {
+      this.props.refreshGroups();
+      this.props.navigator.pop()
+    })
+    .catch((error) => {
+      this.setState({
+        errorMessage: 'Not a valid group'
+      })
+    })
   },
   handleGroupNameChange: function() {
     this.setState({
