@@ -8,8 +8,8 @@ var InvoiceItem = React.createClass({
     return (
         <View style={[styles.invoiceItem]}>
           <View>
-            <Text style={styles.invoiceGroupName}>{this.props.invoice.group}</Text>
-            <Text style={styles.invoiceEventName}>{this.props.invoice.event}</Text>
+            <Text style={styles.invoiceGroupName}>{this.props.invoice.attributes.event}</Text>
+            <Text style={styles.invoiceEventName}>${this.props.invoice.attributes.amount}</Text>
           </View>
           <TouchableHighlight
               underlayColor='rgba(255,255,255,0)'
@@ -24,12 +24,14 @@ var InvoiceItem = React.createClass({
     );
   },
   onPress: function(){
+    console.log(this.props.invoice)
     this.props.navigator.push({
       name: 'invoiceShow',
       passProps: {
-          event: this.props.invoice.event,
-          group: this.props.invoice.group,
-          price: this.props.invoice.price
+          event: this.props.invoice.attributes.event,
+          group: this.props.invoice.attributes.groupname,
+          price: this.props.invoice.attributes.amount,
+          payPalUrl: this.props.invoice.attributes.paypalurl
         }
       })
   }

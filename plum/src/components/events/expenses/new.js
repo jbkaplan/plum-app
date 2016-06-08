@@ -113,15 +113,6 @@ module.exports = React.createClass({
             style={styles.floatingFormInput}
             onChangeText={(text) => this.setState({location: text})}
             >Location</FloatingLabel>
-          <TouchableOpacity 
-            value={this.state.photo}
-            onPress={this.selectPhotoTapped}>
-            <View style={[styles.photo, styles.photoContainer, {marginBottom: 20}]}>
-            { this.state.photoSource === null ? <Text>Select a Photo</Text> :
-              <Image style={styles.photo} source={this.state.photoSource} />
-            }
-            </View>
-          </TouchableOpacity>
           <FloatingLabel 
             value={this.state.amount}
             labelStyle={styles.floatingLabelInput}

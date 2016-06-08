@@ -64,7 +64,7 @@ module.exports = React.createClass({
           </View>
         </View>
         <View style={[styles.balanceContainer]}>
-          <Text style={styles.priceLabel}>Your Tentative Balance = ${this.props.balance}</Text>
+          <Text style={styles.priceLabel}>Your Tentative Balance = ${this.props.eventBalance}</Text>
         </View>
         <View style={styles.expenseButton}>
           <Button text={'Add Expense'} onPress={this.handleAddExpense} />  

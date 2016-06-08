@@ -137,7 +137,7 @@ var styles = StyleSheet.create({
   scrollContainer: {    
     flex: 2,
     padding: 5,
-    marginTop: 20,
+    marginTop: 30,
     marginBottom: 50
   },
   button: {
@@ -188,8 +188,7 @@ var styles = StyleSheet.create({
   memberTitle: {
     justifyContent: 'flex-start',
     alignSelf: 'flex-start',
-
-
+    marginBottom: 20,
   }
 });
 

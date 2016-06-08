@@ -17,7 +17,7 @@ module.exports = React.createClass({
     // Rails API call to get current user
   },
   componentDidMount: function(){
-    console.log(this.props.events)
+    console.log(this.props.payPalUrl)
   },
   render: function() { 
     var eventName = this.props.event;
@@ -33,12 +33,16 @@ module.exports = React.createClass({
       handler: () => this.props.navigator.pop(),
     };
 
+    const title = this.props.event + ' Invoice'
+
     const titleConfig = {
-        title: 'Your Invoice',
+        title: title,
         tintColor: 'rgba(255,255,255,.9)',
       };
 
     const textIcon = <Text><Icon style={styles.icon} name="paypal" size={15} color="white" /> Pay with PayPal</Text>
+    console.log("HERE")
+    console.log(this.props.payPalUrl)
     return (
       <View style={styles.container}>
         <View style={styles.navBar}>

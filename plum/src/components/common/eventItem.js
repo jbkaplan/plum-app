@@ -8,16 +8,20 @@ var EventItem = React.createClass({
       if (this.props.group) {
         return { 
           group: this.props.group,
-          event: this.props.event.attributes.name
+          event: this.props.event.attributes.name,
+          balance: 0
         }
       } else {
         return { 
           event: this.props.event.relationships.events.data[0][1].name,
-          group: this.props.event.attributes.name
+          group: this.props.event.attributes.name,
+          balance: this.props.event.relationships.events.data[0][3].tentativebalance
         }
      }
   },
   render: function() {
+    console.log(this.props.group)
+    console.log(this.props.event)
     return (
         <View style={[styles.eventItem]}>
           <View>
@@ -41,6 +45,7 @@ var EventItem = React.createClass({
       name: 'eventShow',
       passProps: {
           eventId: this.props.event.id,
+          eventBalance: this.state.balance,
           event: this.state.event,
           group: this.state.group,
         }
