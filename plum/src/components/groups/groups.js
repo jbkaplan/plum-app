@@ -49,19 +49,18 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
-    fetch("http://localhost:3000/users/3/groups", {
-      method: 'GET'
-    })
-    .then((response) => response.json())
-    .then((responseData) =>
-      console.log(responseData.data))
-      this.setState({
-        groups: this.state.groups.concat(responseData.data)
+     fetch("http://localhost:3000/users/3/groups", {
+        method: 'GET'
       })
-      // console.log(responseData.data)
-    )
-    .done();
-  },
+      .then((response) => response.json())
+      .then((responseData) =>
+        this.setState({
+          groups: this.state.groups.concat(responseData.data)
+        })
+        // console.log(responseData.data)
+      )
+      .done();
+    },
   showGroups: function(){
     return this.state.groups.map(function(group, index) {
         return (
