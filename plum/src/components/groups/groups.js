@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 import React, { Component } from 'react';
 import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
-
+var CookieManager = require('react-native-cookies');
 var Button = require('../common/button');
 var GroupItem = require('../common/groupItem');
 
@@ -9,14 +9,16 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       user: this.props.userId,
-      navigator: this.props.navigator,
-      groups: []
+      groups: [],
+      errorMessage: ''
     };
   },
-  componentWillMount: function(){
+  componentDidMount: function(){
+    // console.log(this.state.user);
     this.getGroups();
   },
   render: function() {
+
     return (
       <View style={styles.container}>
         <StatusBar
@@ -24,6 +26,9 @@ module.exports = React.createClass({
           backgroundColor="rgba(0, 0, 0, 0.2)"
           barStyle="light-content"
          />
+         <View style={styles.errorView}>
+           <Text style={styles.errorMessage}>{this.state.errorMessage}</Text>
+         </View>
         <View style={[styles.name]}>
           <Text style={styles.welcomeTitle}>Welcome Back, {this.props.userName}!</Text>
           <Text style={styles.title}>Your Groups</Text>
@@ -46,30 +51,35 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
-    var id = this.state.user
-    fetch(`http://localhost:3000/users/${id}/groups`, {
-      method: 'GET'
-    })
-    .then((response) => response.json())
-    .then((responseData) =>
-      this.setState({
-        groups: this.state.groups.concat(responseData.data),
-      }),
-    )
-    .done();
-  },
+     fetch(`http://localhost:3000/users/${this.state.user}/groups`, {
+        method: 'GET'
+      })
+      .then((response) => response.json())
+      .then((responseData) =>
+        this.setState({
+          groups: this.state.groups.concat(responseData.data)
+        })
+      )
+      .done();
+    },
   showGroups: function(){
-    var navigator = this.props.navigator
-    var user = this.props.userId
     return this.state.groups.map(function(group, index) {
         return (
-          <GroupItem group={group} user={user} navigator={navigator} />
+          <GroupItem group={group} key={index} />
         );
     });
   },
   handleNewGroup: function() {
     // Goto New Group Screen => pass current user variable
-   this.props.navigator.push({name: 'newGroup'});
+    this.setState({
+      groups: []
+    })
+    this.props.navigator.push({
+     name: 'newGroup',
+     passProps: {
+       refreshGroups: this.getGroups
+     },
+   })
   }
 });
 
