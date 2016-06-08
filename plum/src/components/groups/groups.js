@@ -1,49 +1,34 @@
+'use strict'
 import React, { Component } from 'react';
 import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
 var CookieManager = require('react-native-cookies');
 var Button = require('../common/button');
 var GroupItem = require('../common/groupItem');
-var groupMembers: [
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']}
-            ]
+// var groupMembers: [
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
+//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']}
+//             ]
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null,
-      groups:[
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-              {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']}
-            ]
-
+      user: this.props.userId,
+      groups: []
     };
   },
   componentWillMount: function(){
     // Rails API call to get current user groups
   },
   componentDidMount: function(){
+    // console.log(this.state.user);
     this.getGroups();
   },
   render: function() {
-    // if (!this.state.user) {
-    //   return <View style={styles.container}>
-    //       <Text>Groups Page...</Text>
-    //     </View>
-    // }
-
-    // var username = this.state.user.get('username');
-
     return (
       <View style={styles.container}>
         <StatusBar
@@ -57,7 +42,7 @@ module.exports = React.createClass({
         </View>
         <View style={styles.groupList}>
           <ScrollView style={styles.scroller}>
-              {this.showGroups()}
+            {this.showGroups()}
           </ScrollView>
         </View>
         <View style={styles.newGroupButton}>
@@ -73,12 +58,16 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
-    fetch('http://localhost:3000/users/3/groups', {
+    fetch("http://localhost:3000/users/3/groups", {
       method: 'GET'
     })
     .then((response) => response.json())
     .then((responseData) =>
-      console.log(responseData.data[0].relationships))
+      this.setState({
+        groups: this.state.groups.concat(responseData.data)
+      })
+      // console.log(responseData.data)
+    )
     .done();
   },
   showGroups: function(){

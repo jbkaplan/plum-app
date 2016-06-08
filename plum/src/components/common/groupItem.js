@@ -7,10 +7,10 @@ var GroupItem = React.createClass({
     return (
         <View style={[styles.groupItem]}>
           <View>
-            <Text style={styles.groupName}>{this.props.group.name}</Text>
+            <Text style={styles.groupName}>{this.props.group.attributes.name}</Text>
             <View style={styles.members}>
               <Text style={styles.groupMembers}>Members: </Text>
-              <Text style={styles.groupMembers}>{this.props.group.members.join(', ')}</Text>
+              <Text style={styles.groupMembers}>{this.props.group.members}</Text>
               <TouchableHighlight
                 underlayColor='rgba(255,255,255,0)'
                 style={styles.arrowButton}
@@ -71,8 +71,3 @@ var styles = StyleSheet.create({
 });
 
 module.exports = GroupItem;
-
-
-
-
-
