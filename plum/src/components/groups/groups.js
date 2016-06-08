@@ -4,15 +4,6 @@ import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHigh
 var CookieManager = require('react-native-cookies');
 var Button = require('../common/button');
 var GroupItem = require('../common/groupItem');
-// var groupMembers: [
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']},
-//               {name: 'Group Members', members: ['Tom', 'Brad', 'Lisa', 'Jon']}
-//             ]
 
 module.exports = React.createClass({
   getInitialState: function() {
