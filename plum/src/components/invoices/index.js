@@ -11,12 +11,12 @@ module.exports = React.createClass({
       user: null,
       navigator: this.props.navigator,
       invoices: [
-        {event: 'Roadtrip', group: 'Roomates', price: 55}, 
-        {event: 'Cubs Game', group: 'Cubs Infield', price: 55}, 
-        {event: 'Rent Payment', group: 'Roomates', price: 55}, 
-        {event: 'Rent Payment', group: 'Roomates', price: 55}, 
-        {event: 'Rent Payment', group: 'Roomates', price: 55}, 
-        {event: 'Dinners', group: 'Friends', price: 55}
+        // {event: 'Roadtrip', group: 'Roomates', price: 55}, 
+        // {event: 'Cubs Game', group: 'Cubs Infield', price: 55}, 
+        // {event: 'Rent Payment', group: 'Roomates', price: 55}, 
+        // {event: 'Rent Payment', group: 'Roomates', price: 55}, 
+        // {event: 'Rent Payment', group: 'Roomates', price: 55}, 
+        // {event: 'Dinners', group: 'Friends', price: 55}
       ],
     };
   },
@@ -24,6 +24,7 @@ module.exports = React.createClass({
     // Rails API call to get current user
   },
   componentDidMount: function(){
+    this.getUserInvoices()
   },
   render: function() {
     return (
@@ -53,8 +54,19 @@ module.exports = React.createClass({
         );
     });
   },
-  getInvoices: function() {
+  getUserInvoices: function() {
     // Get invoices from API CALL
+    var id = this.props.userId
+    fetch(`http://localhost:3000/users/${id}/bills`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) => 
+      this.setState({
+        invoices: this.state.invoices.concat(responseData.data),
+      }),
+    )
+    .done();
   },
   onPressNewButton: function() {
     this.props.navigator.push({name: 'invoiceShow'});
@@ -73,6 +85,7 @@ var styles = StyleSheet.create({
   title: {
     fontSize: 32,
     color: 'white',
+    textAlign: 'center',
     fontFamily: 'Avenir-Heavy',
   },
   name: {    

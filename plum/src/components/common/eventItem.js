@@ -4,12 +4,29 @@ import Icon from 'react-native-vector-icons/Entypo';
 import IconTwo from 'react-native-vector-icons/EvilIcons';
 
 var EventItem = React.createClass({
+  getInitialState: function(){
+      if (this.props.group) {
+        return { 
+          group: this.props.group,
+          event: this.props.event.attributes.name,
+          balance: 0
+        }
+      } else {
+        return { 
+          event: this.props.event.relationships.events.data[0][1].name,
+          group: this.props.event.attributes.name,
+          balance: this.props.event.relationships.events.data[0][3].tentativebalance
+        }
+     }
+  },
   render: function() {
+    console.log(this.props.group)
+    console.log(this.props.event)
     return (
         <View style={[styles.eventItem]}>
           <View>
-            <Text style={styles.eventName}>{this.props.event.event}</Text>
-            <Text style={styles.eventGroupName}>{this.props.event.group}</Text>
+            <Text style={styles.eventGroupName}>{this.state.group}</Text>
+            <Text style={styles.eventName}>{this.state.event}</Text>
           </View>
           <TouchableHighlight
               underlayColor='rgba(255,255,255,0)'
@@ -27,8 +44,10 @@ var EventItem = React.createClass({
     this.props.navigator.push({
       name: 'eventShow',
       passProps: {
-          event: this.props.event.event,
-          group: this.props.event.group,
+          eventId: this.props.event.id,
+          eventBalance: this.state.balance,
+          event: this.state.event,
+          group: this.state.group,
         }
       })
   }

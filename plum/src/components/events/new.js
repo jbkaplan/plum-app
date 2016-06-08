@@ -2,6 +2,7 @@ import React, { Component, Prototypes } from 'react';
 import { 
   StyleSheet, 
   AlertIOS,
+  StatusBar,
   Text, 
   TextInput, 
   TouchableHighlight, 
@@ -11,6 +12,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   } from 'react-native';
+import NavigationBar from 'react-native-navbar';
+import Icon from 'react-native-vector-icons/Entypo';
 
 var Button = require('../common/button');
 var FloatingLabel = require('react-native-floating-labels');
@@ -63,7 +66,25 @@ module.exports = React.createClass({
   componentWillMount: function(){
     // Rails API call to get current user
   },
-  render: function() {    
+  render: function() {  
+    var eventName = this.props.event;
+
+    const rightButtonConfig = {
+      title: 'Next',
+      handler: () => alert('hello!'),
+    };
+    
+    const leftButtonConfig = {
+      title: 'Back',
+      tintColor: 'rgba(255,255,255,.9)',
+      handler: () => this.props.navigator.pop(),
+    };
+
+    const titleConfig = {
+        title: 'New Event',
+        tintColor: 'rgba(255,255,255,.9)',
+      };
+
     var startDatePicker = (
       <View style={ styles.datePicker }>
         <TouchableOpacity onPress={ this.toggleStartDatePicker.bind(this) } style={{ padding: 5, alignItems: 'flex-end' }}>
@@ -89,7 +110,17 @@ module.exports = React.createClass({
       </View>
     );
     return (
-      <View style={[styles.container]}>     
+      <View style={[styles.container]}> 
+        <View style={styles.navBar}>
+          <StatusBar
+            barStyle="default"
+            style="default"
+           />
+          <NavigationBar
+            tintColor='rgba(255,255,255,.1)'
+            title={titleConfig}
+            leftButton={leftButtonConfig} />
+        </View>    
         <View style={[styles.name]}>
           <Text style={styles.title}>New Event</Text>
         </View>
@@ -130,13 +161,9 @@ module.exports = React.createClass({
               </View>
               { this.state.endDatePickerMode == 'visible' ? endDatePicker : <View/> }
             </View>
-            <TouchableHighlight
-              underlayColor={'#619089'}
-              style={ styles.addEventButton }
-              onPress={this.onEventPress}
-              >
-              <Text style={styles.addEvent}>Add Event</Text>
-            </TouchableHighlight>
+            <View style={styles.addEventButton}>
+              <Button text={'Add Event'} onPress={this.onEventPress} />
+            </View>
         </View>
       </View>
     )
@@ -167,7 +194,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 15
+    padding: 15,
   },
   title: {
     fontSize: 32,
@@ -208,11 +235,8 @@ var styles = StyleSheet.create({
     borderColor: 'white',       
   },
   addEventButton: {
-    backgroundColor: '#6AAAA0',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 55,
-    padding: 5,
     marginTop: 15,
     marginBottom: 50
   },
@@ -283,7 +307,13 @@ var styles = StyleSheet.create({
   dateInput: {
     color: 'white',
     fontFamily: 'Avenir-Book',
-  }
+  },
+  navBar: {
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    width: width,
+    margin: -15
+  },
 });
 
 var Heading = React.createClass({

@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Navigator, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import IconTwo from 'react-native-vector-icons/EvilIcons';
+var _ = require('lodash');
 
 var ExpenseItem = React.createClass({
   render: function() {
     return (
-        <View style={[styles.eventItem]}>
+        <View style={styles.eventItem}>
           <View>
-            <Text style={styles.eventName}>{this.props.expense.description}</Text>
-            <Text style={styles.eventGroupName}>{this.props.expense.location}</Text>
+            <Text style={styles.eventName}>{_.capitalize(this.props.expense[0].description)}</Text>
+            <Text style={styles.eventGroupName}>{this.props.expense[2].location}</Text>
           </View>
           <TouchableHighlight
               underlayColor='rgba(255,255,255,0)'
@@ -29,9 +30,9 @@ var ExpenseItem = React.createClass({
       passProps: {
           event: this.props.event,
           group: this.props.group,
-          expenseDescription: this.props.expense.description,
-          expenseLocation: this.props.expense.location,
-          expenseAmount: this.props.expense.price
+          expenseDescription: this.props.expense[0].description,
+          expenseLocation: this.props.expense[2].location,
+          expenseAmount: this.props.expense[1].amount
         }
       })
   }
@@ -48,6 +49,16 @@ var styles = StyleSheet.create({
     borderLeftColor: '#6AAAA0',
     borderLeftWidth: 5,
     backgroundColor: 'rgba(255,255,255,.1)'
+  },
+  eventGroupName: {
+    fontFamily: 'Avenir-book',
+    fontSize: 16,
+    color: 'white'
+  },
+  eventName: {
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 24,
+    color: 'white'
   },
   eventGroupName: {
     fontFamily: 'Avenir-book',
