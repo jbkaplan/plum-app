@@ -9,7 +9,9 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       navigator: this.props.navigator,
-      expenses: []
+      expenses: [],
+      event: this.props.event,
+      group: this.props.group,
     };
   },
   componentDidMount: function(){
@@ -83,23 +85,20 @@ module.exports = React.createClass({
     })
     .then((response) => response.json())
     .then((responseData) => 
-        { console.log(responseData.data.relationships.expenses.data) }
-        // this.setState({
-        //   expenses: this.state.expenses.concat(responseData.data.relationships.expenses.data),
-        // }),
+        this.setState({
+          expenses: this.state.expenses.concat(responseData.data.relationships.expenses.data),
+        }),
     )
     .done();
   },
   showExpenses: function(){
-    var navigator = this.props.navigator
-    var event = this.props.event
-    var group = this.props.group
+      var navigator = this.props.navigator
+      var event = this.props.event
+      var group = this.props.group
     return this.state.expenses.map(function(expense, index) {
-      expense.map(function(expenseArray,index) {
-        return (
-          <ExpenseItem expense={expenseArray} group={group} event={event} navigator={navigator} />
-        );
-      })
+      return (
+        <ExpenseItem expense={expense} group={group} event={event} navigator={navigator} />
+      );
     });
   },
   handleAddExpense: function() {

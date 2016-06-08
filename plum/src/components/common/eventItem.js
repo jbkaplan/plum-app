@@ -41,8 +41,8 @@ var EventItem = React.createClass({
       name: 'eventShow',
       passProps: {
           eventId: this.props.event.id,
-          event: this.props.event.event,
-          group: this.props.event.group,
+          event: this.state.event,
+          group: this.state.group,
         }
       })
   }

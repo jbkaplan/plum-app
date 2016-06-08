@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, StatusBar, MapView, TouchableHighlight } from 'react-native';
 import NavigationBar from 'react-native-navbar';
+var _ = require('lodash');
 
 var InvoiceItem = require('../../common/invoiceItem');
+var Button = require('../../common/button');
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -49,17 +51,20 @@ module.exports = React.createClass({
           <Text style={styles.title}>{this.props.event}</Text>
         </View>
         <View style={[styles.expenseContainer]}>
-          <Text style={styles.label}>Description: {this.props.expenseDescription}</Text>
+          <Text style={styles.label}>Description: {_.capitalize(this.props.expenseDescription)}</Text>
         </View>
         <View style={[styles.expenseContainer]}>
           <Text style={styles.label}>Location: {this.props.expenseLocation}</Text>
-        <MapView 
-          annotations={[this.state.pin]}
-          style={styles.map}>
-        </MapView>
+          <MapView 
+            annotations={[this.state.pin]}
+            style={styles.map}>
+          </MapView>
         </View>
         <View style={[styles.balanceContainer]}>
           <Text style={styles.priceLabel}>Amount: ${this.props.expenseAmount}</Text>
+        </View>
+        <View style={styles.buttonStyle}>
+          <Button text={'Back to event'} onPress={this.onButtonPress} />
         </View>
       </View>
     )
@@ -69,6 +74,9 @@ module.exports = React.createClass({
       borderColor: color,
       borderWidth: 4
     }
+  },
+  onButtonPress: function() {
+    this.props.navigator.pop()
   },
   getExpenseCoordinates: function() {
     var rootUrl = 'https://maps.googleapis.com/maps/api/geocode/json?&address='
@@ -139,12 +147,14 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-heavy',
   }, 
   balanceContainer: {
-    flex: 1
   },
   map: {
     flex: 3,
     marginBottom: 10
   },
+  buttonStyle: {
+    marginBottom: 50
+  }
 });
 
 
