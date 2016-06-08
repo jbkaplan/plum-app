@@ -3,22 +3,18 @@ import { Text, View, StyleSheet, StatusBar, TouchableHighlight, ScrollView, Dime
 import NavigationBar from 'react-native-navbar';
 
 var ExpenseItem = require('../common/expenseItem');
+var Button = require('../common/button');
 
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null,
       navigator: this.props.navigator,
-      expenses: [        
-        {description: 'Gas', location: 'Chicago', price: 44}, 
-        {description: 'Cubs Game', location: 'Chicago', price: 80},
-        {description: 'Dinner', location: 'Des Moines', price: 12},
-        {description: 'Hotel', location: 'Omaha', price: 140},
-      ]
+      expenses: []
     };
   },
-  componentWillMount: function(){
+  componentDidMount: function(){
     // Rails API call to get current user
+    this.getExpenses();
   },
   render: function() {
     const rightButtonConfig = {
@@ -32,9 +28,13 @@ module.exports = React.createClass({
       handler: () => this.props.navigator.pop(),
     };
 
+    const title = this.props.event
+
     const titleConfig = {
-        title: 'Create Group',
+        title: title,
+        tintColor: 'rgba(255,255,255,.9)',
       };      
+
     return (
       <View style={[styles.container]}> 
         <View style={styles.navContainer}>
@@ -45,6 +45,7 @@ module.exports = React.createClass({
              />
             <NavigationBar
               tintColor='rgba(255,255,255,.1)'
+              title={titleConfig}
               leftButton={leftButtonConfig} />
           </View>  
         </View>    
@@ -61,7 +62,10 @@ module.exports = React.createClass({
           </View>
         </View>
         <View style={[styles.balanceContainer]}>
-          <Text style={styles.label}>Your Tentative Balance = ${this.props.balance}</Text>
+          <Text style={styles.priceLabel}>Your Tentative Balance = ${this.props.balance}</Text>
+        </View>
+        <View style={styles.expenseButton}>
+          <Button text={'Add Expense'} onPress={this.handleAddExpense} />  
         </View>
       </View>
     )
@@ -72,17 +76,34 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
+  getExpenses: function() {
+    var id = this.props.eventId
+    fetch(`http://localhost:3000/events/${id}`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) => 
+        { console.log(responseData.data.relationships.expenses.data) }
+        // this.setState({
+        //   expenses: this.state.expenses.concat(responseData.data.relationships.expenses.data),
+        // }),
+    )
+    .done();
+  },
   showExpenses: function(){
     var navigator = this.props.navigator
     var event = this.props.event
+    var group = this.props.group
     return this.state.expenses.map(function(expense, index) {
+      expense.map(function(expenseArray,index) {
         return (
-          <ExpenseItem expense={expense} event={event} navigator={navigator} />
+          <ExpenseItem expense={expenseArray} group={group} event={event} navigator={navigator} />
         );
+      })
     });
   },
-  onExpensePress: function() {
-
+  handleAddExpense: function() {
+    this.props.navigator.push({name: 'newExpense'});
   }
 });
 
@@ -117,22 +138,23 @@ var styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Avenir-Heavy',
   }, 
-  label: {
+  priceLabel: {
     fontSize: 16,
     color: 'white',
-    fontFamily: 'Avenir-Book',
+    fontFamily: 'Avenir-heavy',
   }, 
   expenseLabel: {
     fontSize: 20,
     color: 'white',
     fontFamily: 'Avenir-Heavy',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   name: {
     flex: 1,
     justifyContent: 'center',
     alignSelf: 'center',
-    padding: 5
+    padding: 5,
+    marginTop: 20,
   },
   buttonText: {
     color: 'white',
@@ -145,14 +167,16 @@ var styles = StyleSheet.create({
     margin: -20,
   },
   expenseItems: {
-    margin: -20,
-  },
-  scroller: {
-    height: 300,
+    marginLeft: -20,
+    marginRight: -20,
+    flex: 5,
   },
   balanceContainer: {
-    flex: 1,
-    marginTop: 200
+    marginTop: 30,
+    marginBottom: 10
+  },
+  expenseButton: {
+    marginBottom: 44
   }
 });
 

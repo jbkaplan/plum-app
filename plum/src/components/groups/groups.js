@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 import React, { Component } from 'react';
 import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
-var CookieManager = require('react-native-cookies');
+
 var Button = require('../common/button');
 var GroupItem = require('../common/groupItem');
 
@@ -9,14 +9,11 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       user: this.props.userId,
+      navigator: this.props.navigator,
       groups: []
     };
   },
   componentWillMount: function(){
-    // Rails API call to get current user groups
-  },
-  componentDidMount: function(){
-    // console.log(this.state.user);
     this.getGroups();
   },
   render: function() {
@@ -49,22 +46,24 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
-     fetch("http://localhost:3000/users/3/groups", {
-        method: 'GET'
-      })
-      .then((response) => response.json())
-      .then((responseData) =>
-        this.setState({
-          groups: this.state.groups.concat(responseData.data)
-        })
-        // console.log(responseData.data)
-      )
-      .done();
-    },
+    var id = this.state.user
+    fetch(`http://localhost:3000/users/${id}/groups`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) =>
+      this.setState({
+        groups: this.state.groups.concat(responseData.data),
+      }),
+    )
+    .done();
+  },
   showGroups: function(){
+    var navigator = this.props.navigator
+    var user = this.props.userId
     return this.state.groups.map(function(group, index) {
         return (
-          <GroupItem group={group} />
+          <GroupItem group={group} user={user} navigator={navigator} />
         );
     });
   },

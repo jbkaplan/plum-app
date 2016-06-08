@@ -17,6 +17,7 @@ var IconTwo = require('react-native-vector-icons/EvilIcons');
 var Signin = require('./components/authentication/signin');
 var Signup = require('./components/authentication/signup');
 var Groups = require('./components/groups/groups');
+var GroupShow = require('./components/groups/show');
 var GroupView = require('./components/groups/groupView');
 var NewGroup = require('./components/groups/new');
 var Events = require('./components/events/index');
@@ -39,6 +40,7 @@ ROUTES = {
   // expenses: Expenses,
   expenseShow: ExpenseShow,
   groups: Groups,
+  groupShow: GroupShow,
   groupView: GroupView,
   invoices: Invoices,
   invoiceShow: InvoiceShow,

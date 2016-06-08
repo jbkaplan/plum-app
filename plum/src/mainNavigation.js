@@ -17,6 +17,7 @@ var Signin = require('./components/authentication/signin');
 var Signup = require('./components/authentication/signup');
 var Groups = require('./components/groups/groups');
 var GroupView = require('./components/groups/groupView');
+var GroupShow = require('./components/groups/show');
 var NewGroup = require('./components/groups/new');
 var Events = require('./components/events/index');
 var EventShow = require('./components/events/show');
@@ -37,6 +38,7 @@ ROUTES = {
   // expenses: Expenses,
   expenseShow: ExpenseShow,
   groups: Groups,
+  groupShow: GroupShow,
   groupView: GroupView,
   invoices: Invoices,
   invoiceShow: InvoiceShow,

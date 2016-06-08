@@ -98,7 +98,6 @@ module.exports = React.createClass({
     })
     .then((response) => response.json())
     .then((responseText) => {
-      console.log(responseText)
       this.props.navigator.push({
         name: 'mainNavigation',
         passProps: {

@@ -6,7 +6,6 @@ import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 var AutoComplete = require('react-native-autocomplete');
-// var GroupMembers = [{name: 'Tom'}, {name: 'Jon'}, {name: 'Lisa'}, {name: 'Brad'}];
 var Button = require('../common/button');
 
 const API = ''; // Rails API
@@ -52,7 +51,8 @@ module.exports = React.createClass({
       handler: () => this.props.navigator.pop(),
     };
     const titleConfig = {
-        title: 'Create Group',
+        title: 'New Group',
+        tintColor: 'rgba(255,255,255,.9)',
       };
 
     return (
@@ -64,7 +64,7 @@ module.exports = React.createClass({
            />
           <NavigationBar
             tintColor='rgba(255,255,255,.1)'
-
+            title={titleConfig}
             leftButton={leftButtonConfig} />
         </View>
         <Text style={[styles.header]}>{this.props.userName} Create a Group</Text>

@@ -5,11 +5,11 @@ import IconTwo from 'react-native-vector-icons/EvilIcons';
 
 var ExpenseItem = React.createClass({
   render: function() {
+    console.log(this.props.expense);
     return (
         <View style={[styles.eventItem]}>
           <View>
-            <Text style={styles.eventName}>{this.props.expense.description}</Text>
-            <Text style={styles.eventGroupName}>{this.props.expense.location}</Text>
+
           </View>
           <TouchableHighlight
               underlayColor='rgba(255,255,255,0)'
@@ -22,6 +22,16 @@ var ExpenseItem = React.createClass({
           </TouchableHighlight>
         </View>
     );
+  },
+  showExpenses: function() {
+    return this.props.expenses.map(function(expense, index){
+      return (
+        <View>
+          <Text style={styles.eventName}>{expense[0].description}</Text>
+          <Text style={styles.eventGroupName}>{expense[0].location}</Text>
+        </View>
+      )
+    })
   },
   onPress: function(){
     this.props.navigator.push({

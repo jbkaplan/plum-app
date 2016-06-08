@@ -1,19 +1,7 @@
 import React, { Component, Prototypes } from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  TextInput, 
-  TouchableHighlight, 
-  Dimensions, 
-  View,
-  Platform,
-  Image,
-  TouchableOpacity,
-  PixelRatio,
-  NativeModules,
-  requireNativeComponent,
-  ScrollView
-  } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableHighlight, Dimensions,  View, Platform, Image, TouchableOpacity, PixelRatio, NativeModules, StatusBar, requireNativeComponent, ScrollView } from 'react-native';
+import NavigationBar from 'react-native-navbar';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 var Button = require('../../common/button');
 var FloatingLabel = require('react-native-floating-labels');
@@ -80,9 +68,33 @@ module.exports = React.createClass({
   _onShowUnderlay(){
     this.setState({ pressStatus: true });
   },
-  render: function() {    
+  render: function() {  
+    const rightButtonConfig = {
+      title: 'Next',
+      handler: () => alert('hello!'),
+    };
+
+    const myIcon = (<Icon name="chevron-left" size={50} color="white" />)
+
+    const leftButtonConfig = {
+      title: 'Back',
+      tintColor: 'rgba(255,255,255,.9)',
+      handler: () => this.props.navigator.pop(),
+    };
+    const titleConfig = {
+        title: 'Create Group',
+      };  
     return (
-      <View style={[styles.container]}>    
+      <View style={[styles.container]}> 
+        <View style={styles.navBar}>
+          <StatusBar
+            barStyle="default"
+            style="default"
+           />
+          <NavigationBar
+            tintColor='rgba(255,255,255,.05)'
+            leftButton={leftButtonConfig} />
+        </View>   
         <View style={[styles.name]}>
           <Text style={styles.title}>New Expense</Text>
         </View>
@@ -144,10 +156,10 @@ module.exports = React.createClass({
 var width = Dimensions.get('window').width;
 
 var styles = StyleSheet.create({
+
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 15
+    margin: 20,
   },
   title: {
     fontSize: 32,
@@ -173,7 +185,7 @@ var styles = StyleSheet.create({
   },
   floatingInput: {
     padding: 5,
-    paddingLeft: 20,
+    paddingLeft: 30,
     height: 40,
     borderWidth: 0,
     width: width,
@@ -188,7 +200,7 @@ var styles = StyleSheet.create({
   floatingFormInput: {
     fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5, 
-    borderColor: 'white',       
+    borderColor: 'rgba(255, 255, 255, .1)',       
   },
   photoContainer: {
     marginTop: 10,
@@ -199,8 +211,8 @@ var styles = StyleSheet.create({
     marginBottom: -20,
   },
   photo: {
-    width: 100,
-    height: 100
+    width: width-100,
+    height: 150
   },
   addExpenseButton: {
     backgroundColor: '#6AAAA0',
@@ -221,6 +233,11 @@ var styles = StyleSheet.create({
     flex: 1,
     color: 'white',
     fontSize: 14
+  },
+  navBar: {
+    alignSelf: 'stretch',
+    alignItems: 'stretch',
+    margin: -20,
   }
 });
 

@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
 
@@ -7,22 +8,13 @@ var EventItem = require('../common/eventItem');
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null,
+      user: this.props.userId,
       navigator: this.props.navigator,
-      events: [
-        {event: 'Roadtrip', group: 'Roomates'}, 
-        {event: 'Cubs Game', group: 'Cubs Infield'}, 
-        {event: 'Rent Payment', group: 'Roomates'}, 
-        {event: 'Rent Payment', group: 'Roomates'}, 
-        {event: 'Rent Payment', group: 'Roomates'}, 
-        {event: 'Dinners', group: 'Friends'}
-      ],
+      events: [],
     };
   },
   componentWillMount: function(){
-    // Rails API call to get current user groups
-  },
-  componentDidMount: function(){
+    this.getEvents()
   },
   render: function() {
     return (
@@ -38,7 +30,7 @@ module.exports = React.createClass({
         </View>
         <View style={styles.eventList}>
           <ScrollView style={styles.scroller}>
-              {this.showEvents()}
+            {this.showEvents()}
           </ScrollView>
         </View>
         <View style={styles.newEventButton}>
@@ -54,29 +46,30 @@ module.exports = React.createClass({
     }
   },
   getEvents: function() {
-    // fetch('http://localhost:3000/users/3/groups', {
-    //   method: 'GET'
-    // })
-    // .then((response) => response.json())
-    // .then((responseData) => 
-    //   console.log(responseData.data[0].relationships)    )
-    // .done();
-    // CookieManager.get('http://localhost:3000/users/3/groups', (err, res) => {
-    //   console.log('Got cookies for url', res);
-    //   // Outputs 'user_session=abcdefg; path=/;'
-    // });
-    // CookieManager.getAll((err, res) => {
-    //   console.log('cookies!');
-    //   console.log(err);
-    //   console.log(res);
-    // });
+    var id = this.props.userId
+    fetch(`http://localhost:3000/users/${id}/groups`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) => 
+      this.setState({
+        events: this.state.events.concat(responseData.data),
+      }),
+    )
+    .done();
+  },
+  eventDataExist: function() {
+    event.relationships.events.data[0]
   },
   showEvents: function(){
     var navigator = this.props.navigator
+    var user = this.props.userId
     return this.state.events.map(function(event, index) {
-        return (
-          <EventItem event={event} navigator={navigator} />
-        );
+          if (event.relationships.events.data[0]) {
+          return (
+            <EventItem event={event} user={user} navigator={navigator} />
+          );
+        }
     });
   },
   handleNewEvent: function() {

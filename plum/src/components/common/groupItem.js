@@ -10,11 +10,11 @@ var GroupItem = React.createClass({
             <Text style={styles.groupName}>{this.props.group.attributes.name}</Text>
             <View style={styles.members}>
               <Text style={styles.groupMembers}>Members: </Text>
-              <Text style={styles.groupMembers}>{this.props.group.members}</Text>
+              <View stlye={styles.groupMemberList}>{this.getGroupMembers()}</View>
               <TouchableHighlight
                 underlayColor='rgba(255,255,255,0)'
                 style={styles.arrowButton}
-                onPress={this._onPressArrow}
+                onPress={this.onPressArrow}
                 >
                 <Text style={styles.arrow}><Icon name="chevron-right" size={40} color="white" /></Text>
               </TouchableHighlight>
@@ -23,16 +23,30 @@ var GroupItem = React.createClass({
         </View>
     );
   },
-
+  getGroupMembers: function() {
+    var groupMembers = this.props.group.relationships.members.data
+    var fullName = 'full-name'
+    return groupMembers.map(function(member, index) {
+        return (
+          <Text style={styles.groupMembers}>{Object.values(member[2])}</Text>
+        );
+    });
+  },
   border: function(color) {
     return {
       borderColor: color,
       borderWidth: 4
     }
   },
-  _onPressArrow: function() {
-    // Call to PayPal goes here
-    console.log('Go to group page')
+  onPressArrow: function(){
+    this.props.navigator.push({
+      name: 'groupShow',
+      passProps: {
+          groupName: this.props.group.attributes.name,
+          groupMembers: this.props.group.relationships.members.data,
+          groupId: this.props.group.id
+        }
+      })
   }
 });
 
@@ -57,6 +71,9 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Heavy',
     fontSize: 24,
     color: 'white'
+  },
+  groupMemberList: {
+    flexDirection: 'row'
   },
   members: {
     width: width,

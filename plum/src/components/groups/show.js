@@ -3,21 +3,20 @@ import { Text, View, Dimensions, StatusBar, Linking, ScrollView, StyleSheet, Tou
 import Icon from 'react-native-vector-icons/Entypo';
 import NavigationBar from 'react-native-navbar';
 
-var InvoiceItem = require('../common/invoiceItem');
 var Button = require('../common/button');
+var EventItem = require('../common/eventItem');
 
 module.exports = React.createClass({
   getInitialState: function() {
-    console.log(this.props.price)
     return {
-      user: null,
+      user: this.props.user,
+      navigator: this.props.navigator,
+      groupEvents: []
     };
   },
   componentWillMount: function(){
     // Rails API call to get current user
-  },
-  componentDidMount: function(){
-    console.log(this.props.events)
+    this.getGroupEvents();
   },
   render: function() { 
     var eventName = this.props.event;
@@ -33,12 +32,12 @@ module.exports = React.createClass({
       handler: () => this.props.navigator.pop(),
     };
 
+    const groupTitle = this.props.groupName;
+
     const titleConfig = {
-        title: 'Your Invoice',
+        title: groupTitle,
         tintColor: 'rgba(255,255,255,.9)',
       };
-
-    const textIcon = <Text><Icon style={styles.icon} name="paypal" size={15} color="white" /> Pay with PayPal</Text>
     return (
       <View style={styles.container}>
         <View style={styles.navBar}>
@@ -51,18 +50,20 @@ module.exports = React.createClass({
             title={titleConfig}
             leftButton={leftButtonConfig} />
         </View>
-        <View style={styles.logoText}>
-          <Text style={styles.logo}>plum</Text>
+        <View style={styles.nameContainer}>
+          <Text style={styles.groupTitle}>Group: {this.props.groupName}</Text>
+          <View style={styles.memberTitle}>
+            <Text style={styles.title}>Members:</Text>
+            <View style={styles.groupView}>{this.showGroupMembers()}</View>
+          </View>
         </View>
-        <View style={[styles.nameContainer]}>
-          <Text style={styles.invoiceTitle}>Invoice: {eventName}</Text>
-          <Text style={styles.title}>Group: {this.props.group}</Text>
-        </View>
-        <View style={[styles.priceContainer]}>
-          <Text style={styles.priceTitle}>${this.props.price}</Text>
-        </View>
-        <View style={styles.button}>
-          <Button text={textIcon} onPress={this._onPressButton} />
+        <View style={styles.scrollContainer}>
+          <Text style={styles.title}>Events:</Text>
+          <View style={styles.scrollViewer}>
+            <ScrollView>
+              {this.showGroupEvents()}
+            </ScrollView>
+          </View>
         </View>
       </View>
     )
@@ -73,13 +74,38 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
-  getInvoices: function() {
-    // Get invoices from API CALL
+  showGroupMembers: function(){
+    var groupMembers = this.props.groupMembers
+    var fullName = 'full-name'
+    return groupMembers.map(function(member, index) {
+        return (
+          <Text style={styles.groupMembers}>{Object.values(member[2])}</Text>
+        );
+    });
   },
-  _onPressButton: function() {
-    var url = 'https://www.sandbox.paypal.com/us/cgi_bin/webscr?cmd=_pay-inv&id=INV2-MTJR-D2UY-QTGZ-XZE5'
-    Linking.openURL(url)
+  showGroupEvents: function () {
+    var navigator = this.props.navigator
+    var group = this.props.groupName
+    var thisGroupsEvents = this.state.groupEvents
+    return thisGroupsEvents.map(function(event, index) {
+        return (
+          <EventItem event={event} group={group} navigator={navigator} />
+        );
+    });
   },
+  getGroupEvents: function() {
+    var id = this.props.groupId
+     fetch(`http://localhost:3000/groups/${id}/events`, {
+        method: 'GET'
+      })
+      .then((response) => response.json())
+      .then((responseData) =>
+        this.setState({
+          groupEvents: this.state.groupEvents.concat(responseData.data)
+        })
+      )
+      .done();
+  }
 });
 
 var width = Dimensions.get('window').width;
@@ -90,28 +116,29 @@ var styles = StyleSheet.create({
     margin: 20
   },
   title: {
-    textAlign: 'center',
+    marginTop: 20,
+    textAlign: 'left',
     fontSize: 24,
     color: 'white',
-    fontFamily: 'Avenir-Book',
+    fontFamily: 'Avenir-Heavy',
   },
-  invoiceTitle: {
+  groupTitle: {
+    marginTop: 20,
     textAlign: 'center',
     fontSize: 32,
     color: 'white',
     fontFamily: 'Avenir-Heavy',
   },
   nameContainer: {    
-    flex: 2,
-    justifyContent: 'center',
-    alignSelf: 'center',
+    flex: 1,
     padding: 5,
     marginTop: 20
-  },
-  priceContainer: {
-    justifyContent: 'center',
-    alignSelf: 'center',
-    flex: 2
+  },  
+  scrollContainer: {    
+    flex: 2,
+    padding: 5,
+    marginTop: 20,
+    marginBottom: 50
   },
   button: {
     width: width,
@@ -128,12 +155,6 @@ var styles = StyleSheet.create({
     alignItems: 'stretch',
     margin: -20,
   },
-  priceTitle: {
-    textAlign: 'center',
-    fontSize: 50,
-    color: 'white',
-    fontFamily: 'Avenir-Heavy',
-  },
   logo: {
     justifyContent: 'center',
     textAlign: 'center',
@@ -145,13 +166,31 @@ var styles = StyleSheet.create({
   },
   logoText: {
     marginTop: 50,
-    
     flex: 2,
     width: width - 60,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 20
   },
+  groupMembers: {
+    fontFamily: 'Avenir-book',
+    fontSize: 16,
+    color: 'white',
+  },
+  groupView: {
+    
+  },
+  scrollViewer: {
+    flex: 3,
+    width: width,
+    marginLeft: -25
+  },
+  memberTitle: {
+    justifyContent: 'flex-start',
+    alignSelf: 'flex-start',
+
+
+  }
 });
 
 
