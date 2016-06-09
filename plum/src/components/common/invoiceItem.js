@@ -9,7 +9,7 @@ var InvoiceItem = React.createClass({
         <View style={[styles.invoiceItem]}>
           <View>
             <Text style={styles.invoiceGroupName}>{this.props.invoice.attributes.event}</Text>
-            <Text style={styles.invoiceEventName}>${this.props.invoice.attributes.amount}</Text>
+            {this.showInvoiceAmount()}             
           </View>
           <TouchableHighlight
               underlayColor='rgba(255,255,255,0)'
@@ -23,8 +23,19 @@ var InvoiceItem = React.createClass({
         </View>
     );
   },
+  showInvoiceAmount: function() {
+    var price = this.props.invoice.attributes.amount
+    if (String(price).charAt(0) === '-' ) {
+      return (
+        <Text style={styles.invoiceAmountNegative}>${this.props.invoice.attributes.amount}</Text>
+      );
+    } else {
+      return (
+        <Text style={styles.invoiceAmountPositive}>${this.props.invoice.attributes.amount}</Text>
+      );
+    }
+  },
   onPress: function(){
-    console.log(this.props.invoice)
     this.props.navigator.push({
       name: 'invoiceShow',
       passProps: {
@@ -54,10 +65,20 @@ var styles = StyleSheet.create({
     fontSize: 16,
     color: 'white'
   },
-  invoiceEventName: {
+  invoiceAmount: {
     fontFamily: 'Avenir-Heavy',
     fontSize: 24,
     color: 'white'
+  },
+  invoiceAmountPositive: {
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 24,
+    color: '#6AAAA0'
+  },  
+  invoiceAmountNegative: {
+    fontFamily: 'Avenir-Heavy',
+    fontSize: 24,
+    color: '#E3DABB'
   },
   payPalButton: {
     backgroundColor: 'rgba(0,0,0,0)',
@@ -93,6 +114,7 @@ var styles = StyleSheet.create({
     fontSize: 24,
   },
   payButton: {
+    marginBottom: 10,
     flexDirection: 'row'
   }
 });

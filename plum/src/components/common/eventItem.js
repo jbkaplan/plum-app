@@ -5,23 +5,29 @@ import IconTwo from 'react-native-vector-icons/EvilIcons';
 
 var EventItem = React.createClass({
   getInitialState: function(){
-      if (this.props.group) {
-        return { 
-          group: this.props.group,
-          event: this.props.event.attributes.name,
-          balance: 0
+      // if (this.props.group) {
+      return { 
+        group: this.props.event.attributes.groupname,
+        event: this.props.event.attributes.name,
+        balance: 0,
+        startDate: this.props.event.attributes['start-date'],
+        endDate: this.props.event.attributes['end-date'],
+      }
+  },
+  componentDidMount: function() {
+    var name = this.props.userName
+    this.props.event.relationships.members.data.map(function(member, index){
+      var nameEqualTo = member[2]['full-name'];
+      var theBalance = member[3].tentativebalance;
+      if (nameEqualTo === name) {
+          this.setState({
+            balance: theBalance,
+          })
         }
-      } else {
-        return { 
-          event: this.props.event.relationships.events.data[0][1].name,
-          group: this.props.event.attributes.name,
-          balance: this.props.event.relationships.events.data[0][3].tentativebalance
-        }
-     }
+    }.bind(this))
   },
   render: function() {
-    console.log(this.props.group)
-    console.log(this.props.event)
+    // userName = this.props.userName
     return (
         <View style={[styles.eventItem]}>
           <View>
@@ -44,10 +50,13 @@ var EventItem = React.createClass({
     this.props.navigator.push({
       name: 'eventShow',
       passProps: {
+          user: this.props.user,
           eventId: this.props.event.id,
           eventBalance: this.state.balance,
           event: this.state.event,
           group: this.state.group,
+          startDate: this.state.startDate,
+          endDate: this.state.endDate,
         }
       })
   }

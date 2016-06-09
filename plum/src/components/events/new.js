@@ -30,7 +30,7 @@ module.exports = React.createClass({
   },
   getInitialState: function() {
     return {
-      user: null,
+      user: this.props.userId,
       name: '',
       group: '',
       newEvent: [],
@@ -41,6 +41,13 @@ module.exports = React.createClass({
       timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
       errorMessage: '',
     };
+  },
+  componentWillMount: function() {
+    if (this.props.groupName) {
+      this.setState({
+        group: this.props.groupName
+      })
+    }
   },
   toggleStartDatePicker(){
     var mode = this.state.startDatePickerMode == 'hidden' ? 'visible' : 'hidden';
@@ -63,9 +70,6 @@ module.exports = React.createClass({
     }
     this.setState({timeZoneOffsetInHours: offset});
   },
-  componentWillMount: function(){
-    // Rails API call to get current user
-  },
   render: function() {  
     var eventName = this.props.event;
 
@@ -87,25 +91,25 @@ module.exports = React.createClass({
 
     var startDatePicker = (
       <View style={ styles.datePicker }>
-        <TouchableOpacity onPress={ this.toggleStartDatePicker.bind(this) } style={{ padding: 5, alignItems: 'flex-end' }}>
+        <TouchableOpacity onPress={ this.toggleStartDatePicker } style={{ padding: 5, alignItems: 'flex-end' }}>
           <Text>Done</Text>
         </TouchableOpacity>
         <DatePickerIOS
           date={this.state.startDate}
           mode="date"
-          onDateChange={ this.onStartDateChange.bind(this) }
+          onDateChange={ this.onStartDateChange }
         />
       </View>
     );
     var endDatePicker = (
       <View style={ styles.datePicker }>
-        <TouchableOpacity onPress={ this.toggleEndDatePicker.bind(this) } style={{ padding: 5, alignItems: 'flex-end' }}>
+        <TouchableOpacity onPress={ this.toggleEndDatePicker } style={{ padding: 5, alignItems: 'flex-end' }}>
           <Text>Done</Text>
         </TouchableOpacity>
         <DatePickerIOS
           date={this.state.endDate}
           mode="date"
-          onDateChange={ this.onEndDateChange.bind(this) }
+          onDateChange={ this.onEndDateChange }
         />
       </View>
     );
@@ -142,7 +146,7 @@ module.exports = React.createClass({
             <View style={styles.dateContainer}>
               <View style={{ marginTop: 10, marginBottom: -15 }}>
                 <Text style={styles.dateLabel}>Start Date</Text>
-                <TouchableWithoutFeedback onPress={ this.toggleStartDatePicker.bind(this) }>
+                <TouchableWithoutFeedback onPress={ this.toggleStartDatePicker }>
                   <View style={ styles.input }>
                     <Text style={styles.dateInput}>{ this.state.startDate.getMonth() + 1 }/{ this.state.startDate.getDate() }/{ this.state.startDate.getFullYear() }</Text>
                   </View>
@@ -153,7 +157,7 @@ module.exports = React.createClass({
             <View style={styles.dateContainer}>
               <View style={{ marginTop: 10, marginBottom: -15 }}>
                 <Text style={styles.dateLabel}>End Date</Text>
-                <TouchableWithoutFeedback onPress={ this.toggleEndDatePicker.bind(this) }>
+                <TouchableWithoutFeedback onPress={ this.toggleEndDatePicker }>
                   <View style={ styles.input }>
                     <Text style={styles.dateInput}>{ this.state.endDate.getMonth() + 1 }/{ this.state.endDate.getDate() }/{ this.state.endDate.getFullYear() }</Text>
                   </View>
@@ -177,7 +181,33 @@ module.exports = React.createClass({
       startDate: new Date(),
       endDate: new Date(),
     });
-    AlertIOS.alert('Event:' + this.state.newEvent, alertMessage, [ {text: 'OK', onPress: () => console.log('OK Pressed!')},])
+    // AlertIOS.alert('Event:' + this.state.newEvent, alertMessage, [ {text: 'OK', onPress: () => console.log('OK Pressed!')},])
+    var id = this.props.userId
+    fetch(`http://localhost:3000/users/${id}/events`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        group: this.state.group,
+        start_date: this.state.startDate,
+        end_date: this.state.endDate,
+        user_id: this.props.userId
+      })
+    })
+    .then((response) => response.json())
+    .then((responseText) => {
+      this.props.refreshEvents();
+      this.props.navigator.pop()
+    })
+    .catch((error) => {
+      console.log('here')
+      this.setState({
+        errorMessage: 'Not a valid event'
+      })
+    })
     // this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
   },
   border: function(color) {
@@ -228,17 +258,17 @@ var styles = StyleSheet.create({
   floatingFormInput: {
     fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5, 
-    borderColor: 'white',       
+    borderColor: 'rgba(255,255,255,.1)',       
   },
   floatingDescriptionInput: {
     borderBottomWidth: 1.5, 
-    borderColor: 'white',       
+    borderColor: 'rgba(255,255,255,.1)',       
   },
   addEventButton: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 15,
-    marginBottom: 50
+    marginBottom: 55
   },
   addEvent: {
     alignSelf: 'stretch',

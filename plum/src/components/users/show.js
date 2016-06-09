@@ -16,14 +16,17 @@ module.exports = React.createClass({
         <View style={[styles.name]}>
           <Text style={styles.title}>{this.props.userName}</Text>
         </View>
-        <View style={[styles.container]}>
-          <Text style={styles.label}>Email: {this.props.userEmail}</Text>
+        <View style={[styles.supportContainer]}>
+          <Text style={styles.label}>Email: </Text>
+          <Text style={styles.profileInfo}>{this.props.userEmail}</Text>
         </View>
-        <View style={[styles.container]}>
-          <Text style={styles.label}>Phone: {this.props.userPhone}</Text>
+        <View style={[styles.supportContainer]}>
+          <Text style={styles.label}>Phone: </Text>
+          <Text style={styles.profileInfo}>{this.props.userPhone}</Text>
         </View>
-        <View style={[styles.container]}>
-          <Text style={styles.label}>PayPal Info: $</Text>
+        <View style={[styles.supportContainer]}>
+          <Text style={styles.label}>PayPal Info: </Text>
+          <Text style={styles.profileInfo}>$2555</Text>
         </View>
       </View>
     )
@@ -46,17 +49,34 @@ var styles = StyleSheet.create({
   title: {
     color: 'white',
     fontFamily: 'Avenir-Heavy',
-    fontSize: 32,
+    textAlign: 'center',
+    lineHeight: 65,
+    fontSize: 60,
   },
   name: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignSelf: 'center',
-    padding: 5
+    padding: 5,
+    // marginTop: 35
   },
   label: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: 'Avenir-Heavy',
+    justifyContent: 'flex-start',
+    alignSelf: 'flex-start',
+  },
+  profileInfo: {
+    color: 'white',
+    fontSize: 20,
     fontFamily: 'Avenir-Book',
+    justifyContent: 'flex-start',
+    alignSelf: 'flex-start',
+  },
+  supportContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    marginLeft: 10
   }
 });

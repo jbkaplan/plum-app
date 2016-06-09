@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react';
 import { Text, View, StatusBar, StyleSheet, ScrollView, Navigator, TouchableHighlight } from 'react-native';
-var CookieManager = require('react-native-cookies');
+
 var Button = require('../common/button');
 var GroupItem = require('../common/groupItem');
 
@@ -9,6 +9,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       user: this.props.userId,
+      navigator: this.props.navigator,
       groups: [],
       errorMessage: ''
     };
@@ -51,6 +52,9 @@ module.exports = React.createClass({
     }
   },
   getGroups: function() {
+      this.setState({
+        groups: []
+      })
      fetch(`http://localhost:3000/users/${this.state.user}/groups`, {
         method: 'GET'
       })
@@ -63,23 +67,22 @@ module.exports = React.createClass({
       .done();
     },
   showGroups: function(){
+    var navigator = this.props.navigator
+    var user = this.props.userId
     return this.state.groups.map(function(group, index) {
         return (
-          <GroupItem group={group} key={index} />
+          <GroupItem group={group} key={index} user={user} navigator={navigator} />
         );
     });
   },
   handleNewGroup: function() {
     // Goto New Group Screen => pass current user variable
-    this.setState({
-      groups: []
-    })
     this.props.navigator.push({
      name: 'newGroup',
      passProps: {
-       refreshGroups: this.getGroups
-     },
-   })
+         refreshGroups: this.getGroups
+       },
+     })
   }
 });
 
