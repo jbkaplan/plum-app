@@ -117,7 +117,7 @@ module.exports = React.createClass({
   },
   onSignupPress: function() {
     // call to Rails API to add user to database
-    this.props.navigator.immediatelyResetRouteStack([{name: 'mainNavigation'}]);
+    
   },
   onSigninPress: function() {
     this.props.navigator.pop();

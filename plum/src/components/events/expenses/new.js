@@ -10,7 +10,6 @@ var ImagePickerManager = require('NativeModules').ImagePickerManager;
 module.exports = React.createClass({
   getInitialState: function() {
     return {
-      user: null,
       description: '',
       location: '',
       amount: '',
@@ -81,8 +80,12 @@ module.exports = React.createClass({
       tintColor: 'rgba(255,255,255,.9)',
       handler: () => this.props.navigator.pop(),
     };
+    
+    const title = 'New ' + this.props.event + ' Expense'
+
     const titleConfig = {
-        title: 'Create Group',
+        title: 'New Expense',
+        tintColor: 'rgba(255,255,255,.9)',
       };  
     return (
       <View style={[styles.container]}> 
@@ -93,10 +96,12 @@ module.exports = React.createClass({
            />
           <NavigationBar
             tintColor='rgba(255,255,255,.05)'
+            title={titleConfig}
             leftButton={leftButtonConfig} />
         </View>   
         <View style={[styles.name]}>
-          <Text style={styles.title}>New Expense</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.groupTitle}>Group: {this.props.group}</Text>
         </View>
         <View style={[styles.item]}>
           <FloatingLabel 
@@ -121,13 +126,9 @@ module.exports = React.createClass({
             keyboardType={'numeric'}
             onChangeText={(text) => this.setState({amount: text})}
             >Amount</FloatingLabel>
-            <TouchableHighlight
-              underlayColor={'#619089'}
-              style={ styles.addExpenseButton }
-              onPress={this.onExpensePress}
-              >
-              <Text style={styles.addExpense}>Add Expense</Text>
-            </TouchableHighlight>
+            <View style={styles.addExpenseButton}>
+              <Button text={'New Expense'} onPress={this.handleNewExpense} />  
+            </View>
         </View>
       </View>
     )
@@ -135,6 +136,40 @@ module.exports = React.createClass({
   onExpensePress: function() {
     // Rails api call to check user/password
     this.props.navigator.immediatelyResetRouteStack([{name: 'events'}]);
+  },
+  handleNewExpense: function() {
+    this.setState({
+      description: '',
+      location: '',
+      amount: '',
+    });
+    // AlertIOS.alert('Event:' + this.state.newEvent, alertMessage, [ {text: 'OK', onPress: () => console.log('OK Pressed!')},])
+    // USER ID
+    var id = this.props.user
+    fetch(`http://localhost:3000/events/${id}/expenses`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        description: this.state.description,
+        location: this.state.location,
+        amount: this.state.amount,
+        event_id: this.props.eventId,
+        spender_id: this.props.user
+      })
+    })
+    .then((response) => response.json())
+    .then((responseText) => {
+      this.props.refreshEvents();
+      this.props.navigator.pop()
+    })
+    .catch((error) => {
+      this.setState({
+        errorMessage: 'Not a valid expense'
+      })
+    })
   },
   border: function(color) {
     return {
@@ -154,8 +189,16 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    lineHeight: 34,
     color: 'white',
+    textAlign: 'center',
     fontFamily: 'Avenir-Heavy'
+  },  
+  groupTitle: {
+    fontSize: 24,
+    color: 'white',
+    textAlign: 'center',
+    fontFamily: 'Avenir-Book'
   },
   name: {
     flex: 1,
@@ -189,7 +232,6 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Book'
   },
   floatingFormInput: {
-    fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5, 
     borderColor: 'rgba(255, 255, 255, .1)',       
   },
@@ -206,12 +248,6 @@ var styles = StyleSheet.create({
     height: 150
   },
   addExpenseButton: {
-    backgroundColor: '#6AAAA0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 44,
-    padding: 5,
-    marginTop: 10,
     marginBottom: 44
   },
   addExpense: {

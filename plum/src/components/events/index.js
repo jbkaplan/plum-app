@@ -14,6 +14,8 @@ module.exports = React.createClass({
     };
   },
   componentWillMount: function(){
+  },
+  componentDidMount: function(){
     this.getEvents()
   },
   render: function() {
@@ -46,8 +48,11 @@ module.exports = React.createClass({
     }
   },
   getEvents: function() {
+    this.setState({
+      events: []
+    })
     var id = this.props.userId
-    fetch(`http://localhost:3000/users/${id}/groups`, {
+    fetch(`http://localhost:3000/users/${id}/events`, {
       method: 'GET'
     })
     .then((response) => response.json())
@@ -58,23 +63,25 @@ module.exports = React.createClass({
     )
     .done();
   },
-  eventDataExist: function() {
-    event.relationships.events.data[0]
-  },
   showEvents: function(){
     var navigator = this.props.navigator
     var user = this.props.userId
-    return this.state.events.map(function(event, index) {
-          if (event.relationships.events.data[0]) {
+    var userName=this.props.userName
+      return this.state.events.map(function(event, index) {
           return (
-            <EventItem event={event} user={user} navigator={navigator} />
+            <EventItem event={event} user={user} userName={userName} navigator={navigator} />
           );
-        }
-    });
+      });
   },
   handleNewEvent: function() {
     // Goto New Group Screen => pass current user variable
-   this.props.navigator.push({name: 'newEvent'});
+   this.props.navigator.push({
+      name: 'newEvent',
+      passProps: {
+        user: this.props.userId,
+        refreshEvents: this.getEvents
+      }
+    });
   }
 });
 
@@ -115,7 +122,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: 30
+    marginTop: 44
   },
   eventList: {
     flex: 3

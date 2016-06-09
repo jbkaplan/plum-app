@@ -153,6 +153,7 @@ var styles = StyleSheet.create({
     marginBottom: 10
   },
   buttonStyle: {
+    alignSelf: 'center',
     marginBottom: 50
   }
 });

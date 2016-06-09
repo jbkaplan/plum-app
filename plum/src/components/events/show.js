@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, StatusBar, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
 import NavigationBar from 'react-native-navbar';
+import Moment from 'moment';
 
 var ExpenseItem = require('../common/expenseItem');
 var Button = require('../common/button');
@@ -54,6 +55,7 @@ module.exports = React.createClass({
         <View style={[styles.name]}>
           <Text style={styles.title}>{this.props.event}</Text>
           <Text style={styles.groupTitle}>Group: {this.props.group}</Text>
+          <Text style={styles.dateTitle}>{Moment(this.props.startDate).format('LL')} - {Moment(this.props.endDate).format('LL')}</Text>
         </View>
         <View style={[styles.expenses]}>
           <Text style={styles.expenseLabel}>Expenses:</Text>
@@ -79,6 +81,9 @@ module.exports = React.createClass({
     }
   },
   getExpenses: function() {
+    this.setState({
+      expenses: []
+    })
     var id = this.props.eventId
     fetch(`http://localhost:3000/events/${id}`, {
       method: 'GET'
@@ -102,7 +107,16 @@ module.exports = React.createClass({
     });
   },
   handleAddExpense: function() {
-    this.props.navigator.push({name: 'newExpense'});
+    this.props.navigator.push({
+      name: 'newExpense',
+      passProps: {
+        refreshEvents: this.getExpenses,
+        user: this.props.user,
+        eventId: this.props.eventId,
+        event: this.props.event,
+        group: this.props.group,
+      }
+    });
   }
 });
 
@@ -128,6 +142,12 @@ var styles = StyleSheet.create({
   groupTitle: {
     textAlign: 'center',
     fontSize: 24,
+    color: 'white',
+    fontFamily: 'Avenir-Book',
+  },  
+  dateTitle: {
+    textAlign: 'center',
+    fontSize: 16,
     color: 'white',
     fontFamily: 'Avenir-Book',
   },
@@ -175,7 +195,8 @@ var styles = StyleSheet.create({
     marginBottom: 10
   },
   expenseButton: {
-    marginBottom: 44
+    marginBottom: 50,
+    alignSelf: 'center'
   }
 });
 

@@ -8,16 +8,15 @@ var Button = require('../common/button');
 
 module.exports = React.createClass({
   getInitialState: function() {
-    console.log(this.props.price)
     return {
       user: null,
+      price: this.props.price
     };
   },
   componentWillMount: function(){
     // Rails API call to get current user
   },
   componentDidMount: function(){
-    console.log(this.props.payPalUrl)
   },
   render: function() { 
     var eventName = this.props.event;
@@ -39,9 +38,11 @@ module.exports = React.createClass({
         title: title,
         tintColor: 'rgba(255,255,255,.9)',
       };
+    var price = this.props.price
+
+    String(price).charAt(0)
 
     const textIcon = <Text><Icon style={styles.icon} name="paypal" size={15} color="white" /> Pay with PayPal</Text>
-    console.log("HERE")
     console.log(this.props.payPalUrl)
     return (
       <View style={styles.container}>
@@ -62,12 +63,7 @@ module.exports = React.createClass({
           <Text style={styles.invoiceTitle}>Invoice: {eventName}</Text>
           <Text style={styles.title}>Group: {this.props.group}</Text>
         </View>
-        <View style={[styles.priceContainer]}>
-          <Text style={styles.priceTitle}>${this.props.price}</Text>
-        </View>
-        <View style={styles.button}>
-          <Button text={textIcon} onPress={this._onPressButton} />
-        </View>
+          {this.showPayPalButton()}          
       </View>
     )
   },
@@ -77,11 +73,36 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
+  showPayPalButton: function(){
+    var price = this.props.price
+    const textIcon = <Text><Icon style={styles.icon} name="paypal" size={15} color="white" /> Pay with PayPal</Text>
+    if (String(price).charAt(0) === '-' ) {
+      return (
+        <View style={styles.buttonArea}>
+          <View style={[styles.priceContainer]}>
+            <Text style={styles.priceTitleLoss}>${this.props.price}</Text>
+          </View>
+          <View style={styles.button}>
+            <Button text={textIcon} onPress={this._onPressButton} />
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.profitButtonArea}>
+          <View style={[styles.priceContainer]}>
+            <Text style={styles.title}>Incoming Funds:</Text>
+            <Text style={styles.priceTitleProfit}>${this.props.price}</Text>
+          </View>
+        </View>
+      );
+    }
+  },
   getInvoices: function() {
     // Get invoices from API CALL
   },
   _onPressButton: function() {
-    var url = 'https://www.sandbox.paypal.com/us/cgi_bin/webscr?cmd=_pay-inv&id=INV2-MTJR-D2UY-QTGZ-XZE5'
+    var url = this.props.payPalUrl
     Linking.openURL(url)
   },
 });
@@ -102,6 +123,7 @@ var styles = StyleSheet.create({
   invoiceTitle: {
     textAlign: 'center',
     fontSize: 32,
+    lineHeight: 34,
     color: 'white',
     fontFamily: 'Avenir-Heavy',
   },
@@ -115,15 +137,15 @@ var styles = StyleSheet.create({
   priceContainer: {
     justifyContent: 'center',
     alignSelf: 'center',
-    flex: 2
+    flex: 1
   },
   button: {
     width: width,
     flex: 7,
     marginBottom: 50,
+    marginTop: 30,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    textAlign: 'center',
     flexDirection: 'row',
     alignSelf: 'center'
   },
@@ -138,24 +160,42 @@ var styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Avenir-Heavy',
   },
+  priceTitleLoss: {
+    textAlign: 'center',
+    fontSize: 50,
+    color: '#E3DABB',
+    fontFamily: 'Avenir-Heavy',
+  },
+  priceTitleProfit: {
+    textAlign: 'center',
+    fontSize: 50,
+    color: '#6AAAA0',
+    fontFamily: 'Avenir-Heavy',
+  },
   logo: {
     justifyContent: 'center',
     textAlign: 'center',
     alignItems: 'center',
     fontFamily: 'Lobster 1.3',
     color: 'white',
-    fontSize: 90,
+    fontSize: 120,
     padding: 15,
   },
   logoText: {
-    marginTop: 50,
-    
+    marginTop: 65,
     flex: 2,
     width: width - 60,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 20
   },
+  buttonArea: {
+    flex: 3
+  },
+  profitButtonArea: {
+    flex: 3,
+    marginBottom: 50
+  }
 });
 
 

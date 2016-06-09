@@ -27,8 +27,6 @@ module.exports = React.createClass({
   },
   componentDidMount: function(){
     // Call to Rails API to have current user
-    // console.log("****************", this.props.refreshGroups);
-    // this.props.refreshGroups();
   },
   onTyping: function (text) {
     var members = GroupMembers.filter(function (member) {
@@ -142,7 +140,7 @@ module.exports = React.createClass({
       body: JSON.stringify({
         name: this.state.groupName,
         members: this.state.newGroupArray,
-        userId: this.props.userId
+        user_id: this.props.userId
       })
     })
     .then((response) => response.json())
@@ -152,6 +150,8 @@ module.exports = React.createClass({
     })
     .catch((error) => {
       this.setState({
+        newGroupArray: [],
+        groupName: '',
         errorMessage: 'Not a valid group'
       })
     })

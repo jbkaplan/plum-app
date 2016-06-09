@@ -182,7 +182,6 @@ var styles = StyleSheet.create({
     fontSize: 18
   },
   floatingFormInput: {
-    fontFamily: 'Avenir-Book',
     borderBottomWidth: 1.5,
     borderColor: 'rgba(255,255,255,.1)',
   },
@@ -230,7 +229,6 @@ var styles = StyleSheet.create({
   },
   buttons: {
     alignSelf: 'center',
-    textAlign: 'center',
     marginBottom: 35
   },
   errorMessage: {

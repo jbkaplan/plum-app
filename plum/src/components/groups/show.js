@@ -74,9 +74,18 @@ module.exports = React.createClass({
       borderWidth: 4
     }
   },
+  handleNewEvent: function(){
+   this.props.navigator.push({
+      name: 'newEvent',
+      passProps: {
+        user: this.props.userId,
+        refreshEvents: this.getGroupEvents,
+        groupName: this.props.groupName
+      }
+    });
+  },
   showGroupMembers: function(){
     var groupMembers = this.props.groupMembers
-    var fullName = 'full-name'
     return groupMembers.map(function(member, index) {
         return (
           <Text style={styles.groupMembers}>{Object.values(member[2])}</Text>
@@ -86,14 +95,19 @@ module.exports = React.createClass({
   showGroupEvents: function () {
     var navigator = this.props.navigator
     var group = this.props.groupName
+    var user = this.props.userId
+    var userName=this.props.userName
     var thisGroupsEvents = this.state.groupEvents
     return thisGroupsEvents.map(function(event, index) {
         return (
-          <EventItem event={event} group={group} navigator={navigator} />
+          <EventItem event={event} user={user} userName={userName} navigator={navigator} />
         );
     });
   },
   getGroupEvents: function() {
+    this.setState({
+      groupEvents: []
+    })
     var id = this.props.groupId
      fetch(`http://localhost:3000/groups/${id}/events`, {
         method: 'GET'
@@ -116,7 +130,6 @@ var styles = StyleSheet.create({
     margin: 20
   },
   title: {
-    marginTop: 20,
     textAlign: 'left',
     fontSize: 24,
     color: 'white',
@@ -130,25 +143,13 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Heavy',
   },
   nameContainer: {    
-    flex: 1,
-    padding: 5,
+    flex: 2,
     marginTop: 20
   },  
   scrollContainer: {    
-    flex: 2,
-    padding: 5,
-    marginTop: 30,
-    marginBottom: 50
-  },
-  button: {
-    width: width,
-    flex: 7,
-    marginBottom: 50,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    textAlign: 'center',
-    flexDirection: 'row',
-    alignSelf: 'center'
+    flex: 3,
+    marginTop: 20,
+    marginBottom: 20,
   },
   navBar: {
     alignSelf: 'stretch',
@@ -178,17 +179,21 @@ var styles = StyleSheet.create({
     color: 'white',
   },
   groupView: {
-    
+    flex: 1,
+    marginBottom: 20
   },
   scrollViewer: {
-    flex: 3,
+    flex: 2,
     width: width,
-    marginLeft: -25
+    marginLeft: -20
   },
   memberTitle: {
-    justifyContent: 'flex-start',
-    alignSelf: 'flex-start',
+    flex: 1,
     marginBottom: 20,
+  },
+  buttonArea: {
+    marginBottom: 50,
+    alignSelf: 'center'
   }
 });
 

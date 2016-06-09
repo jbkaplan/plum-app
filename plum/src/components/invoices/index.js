@@ -84,6 +84,7 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+    lineHeight: 34,
     color: 'white',
     textAlign: 'center',
     fontFamily: 'Avenir-Heavy',
@@ -92,7 +93,8 @@ var styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignSelf: 'center',
-    padding: 5
+    padding: 5,
+    marginTop: 40,
   },
   eventList: {
     width: width,
@@ -100,7 +102,6 @@ var styles = StyleSheet.create({
     marginBottom: 50,
     justifyContent: 'center',
     alignItems: 'flex-start',
-    textAlign: 'center',
     flexDirection: 'row',
     alignSelf: 'center'
   }
