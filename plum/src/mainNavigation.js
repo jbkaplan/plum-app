@@ -57,15 +57,9 @@ module.exports = React.createClass({
   componentWillMount: function() {
     // RAILS API CALL
   },
-  // when render => this function called
-  // Navigator => instance of navigator component => (HAS push/pop/immediatelyreplace, etc)
-  // ROUTE => initial route
-  // render component and return it
   renderScene: function(route, navigator) {
     // Access component for route name
     var Component = ROUTES[route.name];
-    // return our component
-    //
     return <Component
       route={route}
       navigator={navigator}

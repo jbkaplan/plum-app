@@ -45,28 +45,22 @@ module.exports = React.createClass({
       </View>
     )
   },
-  border: function(color) {
-    return {
-      borderColor: color,
-      borderWidth: 4
-    }
-  },
   getGroups: function() {
+    this.setState({
+      groups: []
+    })
+   fetch(`http://plumpayments.herokuapp.com/users/${this.state.user}/groups`, {
+      method: 'GET'
+    })
+    .then((response) => response.json())
+    .then((responseData) =>
       this.setState({
-        groups: []
+        groups: this.state.groups.concat(responseData.data)
       })
-     fetch(`http://localhost:3000/users/${this.state.user}/groups`, {
-        method: 'GET'
-      })
-      .then((response) => response.json())
-      .then((responseData) =>
-        this.setState({
-          groups: this.state.groups.concat(responseData.data)
-        })
-      )
-      .done();
-    },
-  showGroups: function(){
+    )
+    .done();
+  },
+  showGroups: function() {
     var navigator = this.props.navigator
     var user = this.props.userId
     return this.state.groups.map(function(group, index) {

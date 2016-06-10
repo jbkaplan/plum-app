@@ -89,7 +89,7 @@ module.exports = React.createClass({
   onSignInPress: function() {
     // Rails api call to check user/password
     // if successfull > Log In
-    fetch("http://localhost:3000/login", {method: "POST",
+    fetch("http://plumpayments.herokuapp.com/login", {method: "POST",
       headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
         body: JSON.stringify({
           email: this.state.email,

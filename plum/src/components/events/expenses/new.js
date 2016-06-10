@@ -146,7 +146,7 @@ module.exports = React.createClass({
     // AlertIOS.alert('Event:' + this.state.newEvent, alertMessage, [ {text: 'OK', onPress: () => console.log('OK Pressed!')},])
     // USER ID
     var id = this.props.user
-    fetch(`http://localhost:3000/events/${id}/expenses`, {
+    fetch(`http://plumpayments.herokuapp.com/events/${id}/expenses`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -170,12 +170,6 @@ module.exports = React.createClass({
         errorMessage: 'Not a valid expense'
       })
     })
-  },
-  border: function(color) {
-    return {
-      borderColor: color,
-      borderWidth: 4
-    }
   },
 });
 

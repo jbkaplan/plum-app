@@ -41,18 +41,12 @@ module.exports = React.createClass({
       </View>
     )
   },
-  border: function(color) {
-    return {
-      borderColor: color,
-      borderWidth: 4
-    }
-  },
   getEvents: function() {
     this.setState({
       events: []
     })
     var id = this.props.userId
-    fetch(`http://localhost:3000/users/${id}/events`, {
+    fetch(`http://plumpayments.herokuapp.com/users/${id}/events`, {
       method: 'GET'
     })
     .then((response) => response.json())

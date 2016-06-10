@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, StatusBar, MapView, TouchableHighlight } from 'react-native';
+import { Text, View, Dimensions, StyleSheet, StatusBar, MapView, TouchableHighlight } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 var _ = require('lodash');
 
@@ -36,6 +36,8 @@ module.exports = React.createClass({
     const titleConfig = {
         title: 'Create Group',
       };  
+    console.log(this.props.expense)
+    console.log('this')
     return (
       <View style={[styles.container]}>  
         <View style={styles.navBar}>
@@ -47,20 +49,20 @@ module.exports = React.createClass({
             tintColor='rgba(255,255,255,.1)'
             leftButton={leftButtonConfig} />
         </View>     
-        <View style={[styles.name]}>
+        <View style={styles.name}>
           <Text style={styles.title}>{this.props.event}</Text>
         </View>
-        <View style={[styles.expenseContainer]}>
+        <View style={styles.expenseContainer}>
           <Text style={styles.label}>Description: {_.capitalize(this.props.expenseDescription)}</Text>
-        </View>
-        <View style={[styles.expenseContainer]}>
           <Text style={styles.label}>Location: {this.props.expenseLocation}</Text>
+        </View>
+        <View style={styles.mapContainer}>
           <MapView 
             annotations={[this.state.pin]}
             style={styles.map}>
           </MapView>
         </View>
-        <View style={[styles.balanceContainer]}>
+        <View style={styles.balanceContainer}>
           <Text style={styles.priceLabel}>Amount: ${this.props.expenseAmount}</Text>
         </View>
         <View style={styles.buttonStyle}>
@@ -68,12 +70,6 @@ module.exports = React.createClass({
         </View>
       </View>
     )
-  },
-  border: function(color) {
-    return {
-      borderColor: color,
-      borderWidth: 4
-    }
   },
   onButtonPress: function() {
     this.props.navigator.pop()
@@ -99,6 +95,8 @@ module.exports = React.createClass({
   },
 });
 
+var width = Dimensions.get('window').width;
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -122,13 +120,14 @@ var styles = StyleSheet.create({
     fontFamily: 'Avenir-Heavy',
   },
   name: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignSelf: 'center',
+    marginTop: 30,
     padding: 5
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'white',
     fontFamily: 'Avenir-Book',
     marginBottom: 10,
@@ -139,18 +138,25 @@ var styles = StyleSheet.create({
     margin: -20,
   },
   expenseContainer: {
-    flex: 1
+    flex: 2,
+    width: width
+  },
+  balanceContainer: {
+    marginTop: 7
   },
   priceLabel: {
     fontSize: 20,
     color: 'white',
     fontFamily: 'Avenir-heavy',
   }, 
-  balanceContainer: {
+  mapContainer: {
+    flex: 5
   },
   map: {
-    flex: 3,
-    marginBottom: 10
+    flex: 7,
+    marginLeft: -20,
+    marginBottom: 10,
+    width: width,
   },
   buttonStyle: {
     alignSelf: 'center',

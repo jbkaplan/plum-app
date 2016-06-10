@@ -15,16 +15,7 @@ var EventItem = React.createClass({
       }
   },
   componentDidMount: function() {
-    var name = this.props.userName
-    this.props.event.relationships.members.data.map(function(member, index){
-      var nameEqualTo = member[2]['full-name'];
-      var theBalance = member[3].tentativebalance;
-      if (nameEqualTo === name) {
-          this.setState({
-            balance: theBalance,
-          })
-        }
-    }.bind(this))
+    this.getBalance();
   },
   render: function() {
     // userName = this.props.userName
@@ -59,6 +50,18 @@ var EventItem = React.createClass({
           endDate: this.state.endDate,
         }
       })
+  },
+  getBalance: function(){
+    var name = this.props.userName
+    this.props.event.relationships.members.data.map(function(member, index){
+      var nameEqualTo = member[2]['full-name'];
+      var theBalance = member[3].tentativebalance;
+      if (nameEqualTo === name) {
+          this.setState({
+            balance: theBalance,
+          })
+        }
+    }.bind(this))
   }
 });
 
