@@ -109,7 +109,7 @@ module.exports = React.createClass({
       groupEvents: []
     })
     var id = this.props.groupId
-     fetch(`http://localhost:3000/groups/${id}/events`, {
+     fetch(`http://plumpayments.herokuapp.com/groups/${id}/events`, {
         method: 'GET'
       })
       .then((response) => response.json())

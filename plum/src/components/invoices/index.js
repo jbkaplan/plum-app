@@ -57,7 +57,7 @@ module.exports = React.createClass({
   getUserInvoices: function() {
     // Get invoices from API CALL
     var id = this.props.userId
-    fetch(`http://localhost:3000/users/${id}/bills`, {
+    fetch(`http://plumpayments.herokuapp.com/users/${id}/bills`, {
       method: 'GET'
     })
     .then((response) => response.json())

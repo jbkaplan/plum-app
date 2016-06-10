@@ -183,7 +183,7 @@ module.exports = React.createClass({
     });
     // AlertIOS.alert('Event:' + this.state.newEvent, alertMessage, [ {text: 'OK', onPress: () => console.log('OK Pressed!')},])
     var id = this.props.userId
-    fetch(`http://localhost:3000/users/${id}/events`, {
+    fetch(`http://plumpayments.herokuapp.com/users/${id}/events`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

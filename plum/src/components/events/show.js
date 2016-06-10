@@ -13,6 +13,7 @@ module.exports = React.createClass({
       expenses: [],
       event: this.props.event,
       group: this.props.group,
+      eventBalance: this.props.eventBalance
     };
   },
   componentDidMount: function(){
@@ -66,7 +67,7 @@ module.exports = React.createClass({
           </View>
         </View>
         <View style={[styles.balanceContainer]}>
-          <Text style={styles.priceLabel}>Your Tentative Balance = ${this.props.eventBalance}</Text>
+          <Text style={styles.priceLabel}>Your Tentative Balance = ${this.state.eventBalance}</Text>
         </View>
         <View style={styles.expenseButton}>
           <Button text={'Add Expense'} onPress={this.handleAddExpense} />  
@@ -74,26 +75,30 @@ module.exports = React.createClass({
       </View>
     )
   },
-  border: function(color) {
-    return {
-      borderColor: color,
-      borderWidth: 4
-    }
-  },
   getExpenses: function() {
     this.setState({
       expenses: []
     })
     var id = this.props.eventId
-    fetch(`http://localhost:3000/events/${id}`, {
+    fetch(`http://plumpayments.herokuapp.com/events/${id}`, {
       method: 'GET'
     })
     .then((response) => response.json())
-    .then((responseData) => 
+    .then((responseData) => {    
         this.setState({
           expenses: this.state.expenses.concat(responseData.data.relationships.expenses.data),
-        }),
-    )
+        });
+        var name = this.props.userName;
+        responseData.data.relationships.members.data.map(function(member, index){
+          var nameEqualTo = member[2]['full-name'];
+          var theBalance = member[3].tentativebalance;
+          if (nameEqualTo === name) {
+              this.setState({
+                eventBalance: theBalance,
+              })
+            }
+        }.bind(this))
+      })
     .done();
   },
   showExpenses: function(){

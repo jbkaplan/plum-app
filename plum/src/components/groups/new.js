@@ -117,12 +117,6 @@ module.exports = React.createClass({
       </View>
     )
   },
-  border: function(color) {
-    return {
-      borderColor: color,
-      borderWidth: 4
-    }
-  },
   addPersonToGroup: function() {
     var newMember = {email: this.state.personName}
     this.setState({
@@ -131,7 +125,7 @@ module.exports = React.createClass({
     });
   },
   onNewGroupPress: function() {
-    fetch('http://localhost:3000/groups', {
+    fetch('http://plumpayments.herokuapp.com/groups', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

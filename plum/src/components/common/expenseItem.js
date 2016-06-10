@@ -30,6 +30,7 @@ var ExpenseItem = React.createClass({
       passProps: {
           event: this.props.event,
           group: this.props.group,
+          expense: this.props.expense,
           expenseDescription: this.props.expense[0].description,
           expenseLocation: this.props.expense[2].location,
           expenseAmount: this.props.expense[1].amount
