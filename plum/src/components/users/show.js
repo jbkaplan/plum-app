@@ -26,7 +26,7 @@ module.exports = React.createClass({
         </View>
         <View style={[styles.supportContainer]}>
           <Text style={styles.label}>PayPal Info: </Text>
-          <Text style={styles.profileInfo}>$2555</Text>
+          <Text style={styles.profileInfo}></Text>
         </View>
       </View>
     )

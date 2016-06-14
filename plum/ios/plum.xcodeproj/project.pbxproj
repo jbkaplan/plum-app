@@ -22,9 +22,6 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		69C5F4B31D03896200AF11A1 /* react-native-autocomplete in Resources */ = {isa = PBXBuildFile; fileRef = 69C5F4B21D03896200AF11A1 /* react-native-autocomplete */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		AB0142BE1D08C2CE00A3960F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0142BD1D08C2CE00A3960F /* SystemConfiguration.framework */; };
-		AB0142C01D08C2D500A3960F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0142BF1D08C2D500A3960F /* libz.tbd */; };
-		AB21F1701D0947560042384B /* libAppHub.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB21F16D1D09471E0042384B /* libAppHub.a */; };
 		AB6013641D0375E20024E399 /* libRCTAutoComplete.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB60135A1D0375AF0024E399 /* libRCTAutoComplete.a */; };
 		AB94C8211D04113E002356E5 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB94C8171D0410FE002356E5 /* libRCTCameraRoll.a */; };
 		AB94C8281D04141D002356E5 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB94C8271D041411002356E5 /* libRNImagePicker.a */; };
@@ -184,8 +181,6 @@
 		69C5F4B21D03896200AF11A1 /* react-native-autocomplete */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "react-native-autocomplete"; path = "../node_modules/react-native-autocomplete"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		AB0142BD1D08C2CE00A3960F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		AB0142BF1D08C2D500A3960F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		AB21F1651D09471E0042384B /* AppHub.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppHub.xcodeproj; path = ../node_modules/apphub/AppHub/AppHub.xcodeproj; sourceTree = "<group>"; };
 		AB6013541D0375AF0024E399 /* RCTAutoComplete.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAutoComplete.xcodeproj; path = "../node_modules/react-native-autocomplete/RCTAutoComplete.xcodeproj"; sourceTree = "<group>"; };
 		AB94C8101D0410FE002356E5 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
@@ -214,9 +209,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB0142C01D08C2D500A3960F /* libz.tbd in Frameworks */,
-				AB0142BE1D08C2CE00A3960F /* SystemConfiguration.framework in Frameworks */,
-				AB21F1701D0947560042384B /* libAppHub.a in Frameworks */,
 				ABB56F3D1D0536BB0036061C /* libRNVectorIcons.a in Frameworks */,
 				AB94C8281D04141D002356E5 /* libRNImagePicker.a in Frameworks */,
 				AB94C8211D04113E002356E5 /* libRCTCameraRoll.a in Frameworks */,
@@ -373,8 +365,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				AB0142BF1D08C2D500A3960F /* libz.tbd */,
-				AB0142BD1D08C2CE00A3960F /* SystemConfiguration.framework */,
 				ABB56F191D05351F0036061C /* Fonts */,
 				13B07FAE1A68108700A75B9A /* plum */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -736,7 +726,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -744,7 +734,7 @@
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
@@ -782,7 +772,6 @@
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -799,7 +788,6 @@
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = plumTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
@@ -843,6 +831,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEAD_CODE_STRIPPING = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -851,6 +840,7 @@
 				);
 				INFOPLIST_FILE = plum/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -880,6 +870,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -927,8 +918,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
