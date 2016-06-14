@@ -12,6 +12,8 @@ plum is a mobile app for making group payments less stressful.
 * Lisa Dannewitz - [ldannewitz](https://github.com/ldannewitz)
 * Tomasz Sok - [tomsapps](https://github.com/tomsapps)
 
+# Video: [Plum Payments](https://www.dropbox.com/s/j2v7wfjnigsgi5u/Final_video.mov?dl=0)
+
 # Screenshots:
 
 ![groups](/screenshots/groups.png "Groups Page")
